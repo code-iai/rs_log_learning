@@ -10,7 +10,7 @@
 using namespace uima;
 
 
-class MyFirstAnnotator : public Annotator
+class SimpleLearnAnnotator : public Annotator
 {
 private:
   float test_param;
@@ -55,4 +55,4 @@ public:
 };
 
 // This macro exports an entry point that is used to create the annotator.
-MAKE_AE(MyFirstAnnotator)
+MAKE_AE(SimpleLearnAnnotator)
