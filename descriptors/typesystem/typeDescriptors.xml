@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns = "http://uima.apache.org/resourceSpecifier">
+  <name>typeSystemDescriptor</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <imports>
+      <import location ="/home/andre/catkin_ws/src/robo_sherlock/iai_rs_cpp/descriptors/typesystem/allTypesDescriptor.xml"/>
+  </imports>
+</typeSystemDescription>
