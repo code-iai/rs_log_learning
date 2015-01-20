@@ -198,6 +198,9 @@
     <delegateAnalysisEngine key="SceneConsumer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/SceneConsumer.xml"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SimpleLearnAnnotator">
+      <import location="../annotators/SimpleLearnAnnotator.xml"/>
+    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="SkinColorAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/SkinColorAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -221,9 +224,6 @@
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="VisualizerAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/VisualizerAnnotator.xml"/>
-    </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="SimpleLearnAnnotator">
-      <import location="../annotators/SimpleLearnAnnotator.xml"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
