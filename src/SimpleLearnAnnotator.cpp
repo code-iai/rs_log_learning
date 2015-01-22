@@ -36,19 +36,28 @@ public:
     return UIMA_ERR_NONE;
   }
 
+  TyErrorId process(CAS &tcas, ResultSpecification const &res_spec)
+  {
+    outInfo("process()");
+    return  UIMA_ERR_NONE;
+  }
+
   TyErrorId processWithLock(CAS &tcas, ResultSpecification const &res_spec)
   {
     outInfo("process start");
-    /*iai_rs::util::StopWatch clock;
+    iai_rs::util::StopWatch clock;
     iai_rs::SceneCas cas(tcas);
     pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGBA>);
-    */
+
     outInfo("Test param =  " << test_param);
 
-    //cas.getPointCloud(*cloud_ptr);
+    cas.getPointCloud(*cloud_ptr);
 
-    //outInfo("Cloud size: " << cloud_ptr->points.size());
-    //outInfo("took: " << clock.getTime() << " ms.");
+    iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
+    gt.global_gt.set("testGTString");
+
+    outInfo("Cloud size: " << cloud_ptr->points.size());
+    outInfo("took: " << clock.getTime() << " ms.");
     return UIMA_ERR_NONE;
   }
 
