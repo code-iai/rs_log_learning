@@ -268,7 +268,7 @@
         <name>camera_config_files</name>
         <value>
           <array>
-            <string>config_mongodb_playback.ini</string>
+            <string>config_mongodb_playback_annotated.ini</string>
           </array>
         </value>
       </nameValuePair>
@@ -281,7 +281,7 @@
       <nameValuePair>
         <name>db</name>
         <value>
-          <string>TestScenes</string>
+          <string>Scenes_simpleLearned</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
