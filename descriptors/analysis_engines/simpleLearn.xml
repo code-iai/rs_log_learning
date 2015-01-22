@@ -227,7 +227,7 @@
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
-    <name>test</name>
+    <name>SimpleLearn</name>
     <description>Simple pipeline for testing</description>
     <version>1.0</version>
     <vendor/>
