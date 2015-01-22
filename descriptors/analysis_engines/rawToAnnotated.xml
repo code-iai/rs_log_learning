@@ -309,11 +309,12 @@
       <node>RegionFilter</node>
       <node>NormalEstimator</node>
       <node>PlaneAnnotator</node>
-      <node>FeatureAnnotator</node>
       <node>PointCloudClusterExtractor</node>
       <node>Cluster3DGeometryAnnotator</node>
       <node>ClusterTFLocationAnnotator</node>
       <node>ClusterColorHistogramCalculator</node>
+      <node>FeatureAnnotator</node>
+      <node>PCLFeatureExtractor</node>
       <node>PrimitiveShapeAnnotator</node>
       <node>SacModelAnnotator</node>
 <!--      <node>ClusterTracker</node>
