@@ -123,9 +123,6 @@
     <delegateAnalysisEngine key="MLNInferencer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNInferencer.xml"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="MongoAnnotator">
-      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/MongoAnnotator.xml"/>
-    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="MopedAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MopedAnnotator.xml"/>
     </delegateAnalysisEngine>
