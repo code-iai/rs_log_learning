@@ -39,6 +39,7 @@ public:
   TyErrorId process(CAS &tcas, ResultSpecification const &res_spec)
   {
     outInfo("process()");
+    this->processWithLock(tcas, res_spec);
     return  UIMA_ERR_NONE;
   }
 
@@ -53,8 +54,17 @@ public:
 
     cas.getPointCloud(*cloud_ptr);
 
-    iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
-    gt.global_gt.set("testGTString");
+    iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
+
+    lrn.test_learn_string.set("testLRNString");
+
+    std::vector<iai_rs::Cluster> clusters;
+    cas.getScene().identifiables.filter(clusters);
+
+    for(int i = 0; i < clusters.size(); ++i)
+    {
+        clusters[i].annotations.append(lrn);
+    }
 
     outInfo("Cloud size: " << cloud_ptr->points.size());
     outInfo("took: " << clock.getTime() << " ms.");
