@@ -14,6 +14,8 @@ class SimpleLearnAnnotator : public Annotator
 {
 private:
   float test_param;
+  std::vector<iai_rs::Learning> allAnnotations;
+  int sceneNo = 0;
 
 public:
 
@@ -61,10 +63,16 @@ public:
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
+
     for(int i = 0; i < clusters.size(); ++i)
     {
+        std::stringstream ssLearn;
+        ssLearn << "testLRNString SceneNo: " << sceneNo << "  ClusterNo: " << i;
+
+        lrn.test_learn_string.set(ssLearn.str());
         clusters[i].annotations.append(lrn);
     }
+    sceneNo++;
 
     outInfo("Cloud size: " << cloud_ptr->points.size());
     outInfo("took: " << clock.getTime() << " ms.");

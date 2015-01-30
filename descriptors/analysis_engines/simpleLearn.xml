@@ -286,6 +286,7 @@
       <fixedFlow>
      <!-- <node>Trigger</node> -->
       <node>CollectionReader</node>
+      <node>ImagePreprocessor</node>
       <node>SimpleLearnAnnotator</node>
       <node>StorageWriter</node>
       </fixedFlow>
