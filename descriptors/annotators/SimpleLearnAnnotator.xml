@@ -15,12 +15,36 @@
         <multiValued>false</multiValued>
         <mandatory>false</mandatory>
       </configurationParameter>
+      <configurationParameter>
+        <name>learningHost</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
+      <configurationParameter>
+        <name>learningDB</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
         <name>test_param</name>
         <value>
           <float>0.01</float>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>learningHost</name>
+        <value>
+          <string>localhost</string>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>learningDB</name>
+        <value>
+          <string>Scenes_simpleLearned</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

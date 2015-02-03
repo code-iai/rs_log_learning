@@ -6,6 +6,8 @@
 #include <iai_rs/scene_cas.h>
 #include <iai_rs/util/time.h>
 #include <iai_rs/DrawingAnnotator.h>
+//RS_LOG_LEARN
+#include <LearnAnnotationStorage.h>
 
 using namespace uima;
 
@@ -17,12 +19,21 @@ private:
   std::vector<iai_rs::Learning> allAnnotations;
   int sceneNo = 0;
 
+  std::string learning_host;
+  std::string learning_db;
+
+  rs_log_learn::LearnAnnotationStorage learnas;
+
 public:
 
   TyErrorId initialize(AnnotatorContext &ctx)
   {
     outInfo("initialize");
     ctx.extractValue("test_param", test_param);
+    ctx.extractValue("learningHost", learning_host);
+    ctx.extractValue("learningDB", learning_db);
+
+    learnas = rs_log_learn::LearnAnnotationStorage(learning_host, learning_db);
     return UIMA_ERR_NONE;
   }
 
@@ -53,6 +64,12 @@ public:
     pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGBA>);
 
     outInfo("Test param =  " << test_param);
+    outInfo("------------------------");
+    outInfo("Learning Host = " << learning_host);
+    outInfo("Learning DB   = " << learning_db);
+    outInfo("------------------------");
+
+    learnas.test_get_stuff();
 
     cas.getPointCloud(*cloud_ptr);
 

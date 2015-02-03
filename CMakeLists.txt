@@ -9,10 +9,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
 
+# find all include dirs
+find_include_dirs(RS_INCLUDE_DIRS_LIST)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
-uima_add_library(rs_simpleLearnAnnotator src/SimpleLearnAnnotator.cpp)
+SET(simpleLearn_SOURCES src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp)
+
+uima_add_library(rs_simpleLearnAnnotator src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -81,7 +86,7 @@ target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+   INCLUDE_DIRS ${RS_INCLUDE_DIRS_LIST} include
 #  LIBRARIES rs_log_learn
 #  CATKIN_DEPENDS iai_rs_cpp roscpp
 #  DEPENDS system_lib
@@ -95,6 +100,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
+  ${RS_INCLUDE_DIRS_LIST}
   ${catkin_INCLUDE_DIRS}
 )
 
