@@ -22,49 +22,103 @@ LearnAnnotationStorage::~LearnAnnotationStorage()
 /*
  * Testing method for now...
  */
-void LearnAnnotationStorage::test_get_stuff()
+void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
 {
     iai_rs::util::StopWatch clock;
 
+    if(!db_loaded)
+    {
+        extractScenes(tcas);
+        extractClusters();
+    }
+    db_loaded = true;
+
+
+
+    for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
+        it != timestampedClusters.end(); ++it)
+    {
+        outInfo("TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
+        for(std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
+            cit != it->second.end(); ++cit)
+        {
+          std::vector<iai_rs::Geometry> geometry;
+          std::vector<iai_rs::Learning> learning;
+          cit->annotations.filter(geometry);
+          cit->annotations.filter(learning);
+
+          outInfo("Geometry size: " << geometry.at(0).size.get());
+          outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
+        }
+    }
+
+
+    outInfo(clock.getTime() << " ms.");
+}
+
+
+// preprocessing:
+// * load from db
+// * extract clusters
+// * save learn strings, ids etc. to save time
+
+void LearnAnnotationStorage::extractScenes(CAS &tcas)
+{
     outInfo("Host: " << learning_host);
     outInfo("DB: " << learning_db);
     storage.getScenes(frames);
 
-    std::stringstream ssLearn;
-
     if(frames.empty())
     {
-        outError("No frames in learned DB");
+        outError("No frames found in learning DB");
     }
 
-    outInfo("Scene IDs size: " << frames.size());
+    outInfo("Frame IDs size: " << frames.size());
+
 
     for(int i = 0; i < frames.size(); ++i)
     {
-        ssLearn << frames[i] << ", ";
+        iai_rs::SceneCas* sc = loadScene(frames[i], tcas);
+        learningScenes.push_back(sc);
     }
-    ssLearn << ";";
-    outInfo("Got frame timestamps from DB: " << ssLearn.str());
+    outInfo("Loaded scenes size: " << learningScenes.size());
+}
 
-    std::vector<CAS> allScenes;
-    for(int i = 0; i < frames.size(); ++i)
+void LearnAnnotationStorage::extractClusters()
+{
+    long cluster_size = 0;
+
+    for(int i = 0; i < learningScenes.size(); ++i)
     {
-        //allScenes.push_back(loadScene(frames[i]));
-    }
-    outInfo("Loaded scenes size: " << allScenes.size());
+        std::vector<iai_rs::Cluster> clusters;
 
-    outInfo(clock.getTime() << " ms.");
+        learningScenes[i]->getScene().identifiables.filter(clusters);
+        uint64_t ts = learningScenes[i]->getScene().timestamp.get();
+
+        outInfo("TimeStamp: " << ts);
+
+        timestampedClusters[ts] = clusters;
+
+        for(std::vector<iai_rs::Cluster>::iterator it = clusters.begin();
+            it != clusters.end(); ++it)
+        {
+            cluster_size += sizeof(*it);
+        }
+    }
+
+    outInfo("SizeOf all clusters: " << cluster_size/1024 << "k");
 }
 
 /*
  * Get scene using an empty cas
  */
-CAS LearnAnnotationStorage::loadScene(uint64_t timestamp) // constcorr
+iai_rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp, CAS &tcas) // constcorr
 {
     // creation of new CAS only possible from AE?
     // other way instead of
     //   engine = uima::Framework::createAnalysisEngine(file.c_str(), errorInfo);
     //   engine->newCAS()
-
-    //return new CAS();
+    storage.loadScene(*tcas.getBaseCas(), timestamp);
+    iai_rs::SceneCas* newcas = new iai_rs::SceneCas(tcas);
+    return newcas;
 }

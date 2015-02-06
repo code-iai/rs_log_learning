@@ -24,11 +24,19 @@ class LearnAnnotationStorage
 private:
   std::vector<iai_rs::Learning> allAnnotations;
   int sceneNo = 0;
+  bool db_loaded = false; // learning db has been loaded once initially
+
+  std::string learning_host;
+  std::string learning_db;
 
   iai_rs::Storage storage;
   std::vector<uint64_t> frames;
-  std::string learning_host;
-  std::string learning_db;
+  std::vector<iai_rs::SceneCas*> learningScenes;
+  std::map<uint64_t, std::vector<iai_rs::Cluster>> timestampedClusters;
+
+  iai_rs::SceneCas* loadScene(uint64_t timestamp, CAS &tcas);
+  void extractScenes(CAS &tcas);
+  void extractClusters();
 
 
 public:
@@ -36,9 +44,7 @@ public:
   LearnAnnotationStorage() {};
   ~LearnAnnotationStorage();
 
-  void test_get_stuff();
-  CAS loadScene(uint64_t timestamp); // TODO: make private
-
+  void test_get_stuff(CAS &tcas);
 };
 
 }
