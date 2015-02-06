@@ -39,6 +39,8 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
     for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
         it != timestampedClusters.end(); ++it)
     {
+        outInfo("Clusters in map size: " << it->second.size());
+
         outInfo("TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
         for(std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
             cit != it->second.end(); ++cit)
@@ -48,8 +50,15 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
           cit->annotations.filter(geometry);
           cit->annotations.filter(learning);
 
-          outInfo("Geometry size: " << geometry.at(0).size.get());
-          outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
+          // as soon as first pipeline run is finished, data in clusters gets cleared :(
+          if(geometry.empty())
+              outError("geometry empty");
+          else
+              outInfo("Geometry size: " << geometry.at(0).size.get());
+          if(learning.empty())
+              outError("learning empty");
+          else
+            outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
         }
     }
 
@@ -125,6 +134,8 @@ iai_rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp, CAS &tca
     // other way instead of
     //   engine = uima::Framework::createAnalysisEngine(file.c_str(), errorInfo);
     //   engine->newCAS()
+
+    // bad, as at least the first CAS processed is overwritten with stuff from the learning db
     storage.loadScene(*tcas.getBaseCas(), timestamp);
     iai_rs::SceneCas* newcas = new iai_rs::SceneCas(tcas);
     return newcas;
