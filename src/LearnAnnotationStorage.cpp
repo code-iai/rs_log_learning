@@ -35,6 +35,7 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
 
 
 
+    // grab a bit of data as an example
     for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
         it != timestampedClusters.end(); ++it)
     {
@@ -52,7 +53,6 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
         }
     }
 
-
     outInfo(clock.getTime() << " ms.");
 }
 
@@ -62,6 +62,10 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
 // * extract clusters
 // * save learn strings, ids etc. to save time
 
+/*
+ * Extract the scenes from the learning db using the extracted
+ * frame timestamps and a dummy CAS
+ */
 void LearnAnnotationStorage::extractScenes(CAS &tcas)
 {
     outInfo("Host: " << learning_host);
@@ -75,7 +79,6 @@ void LearnAnnotationStorage::extractScenes(CAS &tcas)
 
     outInfo("Frame IDs size: " << frames.size());
 
-
     for(int i = 0; i < frames.size(); ++i)
     {
         iai_rs::SceneCas* sc = loadScene(frames[i], tcas);
@@ -84,6 +87,10 @@ void LearnAnnotationStorage::extractScenes(CAS &tcas)
     outInfo("Loaded scenes size: " << learningScenes.size());
 }
 
+/*
+ * Extract a vector of clusters within the scenes.
+ * They are stored in a map together with their corresponding frame timestamp
+ */
 void LearnAnnotationStorage::extractClusters()
 {
     long cluster_size = 0;
@@ -110,7 +117,7 @@ void LearnAnnotationStorage::extractClusters()
 }
 
 /*
- * Get scene using an empty cas
+ * Get scene using an empty/dummy cas
  */
 iai_rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp, CAS &tcas) // constcorr
 {
