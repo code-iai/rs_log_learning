@@ -69,7 +69,7 @@ public:
     outInfo("Learning DB   = " << learning_db);
     outInfo("------------------------");
 
-    learnas.test_get_stuff();
+    learnas.test_get_stuff(tcas);
 
     cas.getPointCloud(*cloud_ptr);
 
