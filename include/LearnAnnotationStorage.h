@@ -34,14 +34,17 @@ private:
   std::string learning_db;
 
   iai_rs::Storage storage;
-  std::vector<uint64_t> frames;
-  std::vector<iai_rs::SceneCas*> learningScenes;
-  std::vector<Geometry> learningGeometry;
-  std::map<uint64_t, std::vector<iai_rs::Cluster>> timestampedClusters;
+  std::vector<uint64_t> frames; // scene timestamps
+  std::vector<iai_rs::SceneCas*> learningScenes; // only used for extraction on first frame
+  std::map<uint64_t, std::vector<iai_rs::Cluster>> timestampedClusters; // only used for extraction on first frame
+  std::vector<Geometry> learningGeometry; // here
+  // TODO: container: own MPIdentifiable that can hold different annotation data between frames + metadata
+
 
   iai_rs::SceneCas* loadScene(uint64_t timestamp, CAS &tcas);
   void extractScenes(CAS &tcas);
   void extractClusters();
+  void saveFeatureStructures();
 
 
 public:
@@ -50,7 +53,6 @@ public:
   ~LearnAnnotationStorage();
 
   void test_get_stuff(CAS &tcas);
-  void save_feature_structures(CAS &tcas);
 };
 
 }

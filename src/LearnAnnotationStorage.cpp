@@ -1,6 +1,5 @@
 #include <LearnAnnotationStorage.h>
 
-
 #define DB_HOST "localhost"
 #define DB_NAME "Scenes"
 
@@ -30,38 +29,20 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
     {
         extractScenes(tcas);
         extractClusters();
+        saveFeatureStructures();
     }
     db_loaded = true;
 
-
-
-    // grab a bit of data as an example
-    for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
-        it != timestampedClusters.end(); ++it)
+    // in all processed frames. see, if we can keep the data saved in memory
+    for(std::vector<Geometry>::iterator git = learningGeometry.begin();
+        git != learningGeometry.end(); ++git)
     {
-        outInfo("Clusters in map size: " << it->second.size());
-
-        outInfo("TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
-        for(std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
-            cit != it->second.end(); ++cit)
-        {
-          std::vector<iai_rs::Geometry> geometry;
-          std::vector<iai_rs::Learning> learning;
-          cit->annotations.filter(geometry);
-          cit->annotations.filter(learning);
-
-          // as soon as first pipeline run is finished, data in clusters gets cleared :(
-          if(geometry.empty())
-              outError("geometry empty");
-          else
-              outInfo("Geometry size: " << geometry.at(0).size.get());
-          if(learning.empty())
-              outError("learning empty");
-          else
-            outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
-        }
+        outInfo("Vector geometry size: " << git->getSize());
+        outInfo("Vector geometry boundingbox w*d*h=v: " << git->getBoundingBoxWidth() << "*"
+        												<< git->getBoundingBoxDepth() << "*"
+														<< git->getBoundingBoxHeight() << "="
+														<< git->getBoundingBoxVolume());
     }
-
     outInfo(clock.getTime() << " ms.");
 }
 
@@ -70,6 +51,44 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
 // * load from db
 // * extract clusters
 // * save learn strings, ids etc. to save time
+
+/*
+ * Save annotations on the first run
+ * ... saving only geometry for now
+ */
+void LearnAnnotationStorage::saveFeatureStructures()
+{
+	// grab a bit of data as an example on the first frame
+	for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
+		it != timestampedClusters.end(); ++it)
+	{
+		outInfo("Clusters in map size: " << it->second.size());
+
+		outInfo("TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
+		for(std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
+			cit != it->second.end(); ++cit)
+		{
+		  std::vector<iai_rs::Geometry> geometry;
+		  std::vector<iai_rs::Learning> learning;
+		  cit->annotations.filter(geometry);
+		  cit->annotations.filter(learning);
+
+		  // as soon as first pipeline run is finished, data in clusters gets cleared :(
+		  if(geometry.empty())
+			  outError("geometry empty");
+		  else
+		  {
+			  iai_rs::Geometry geoCopy(geometry.at(0));
+			  // copy data to own container to not loose it between frames
+			  learningGeometry.push_back(Geometry(geometry.at(0)));
+		  }
+		  if(learning.empty())
+			  outError("learning empty");
+		  else
+			outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
+		}
+	}
+}
 
 /*
  * Extract the scenes from the learning db using the extracted
