@@ -10,6 +10,9 @@
 #include <iai_rs/io/Storage.h>
 #include <iai_rs/util/time.h>
 
+// log_learn includes
+#include <Geometry.h>
+
 using namespace uima;
 
 namespace rs_log_learn
@@ -25,6 +28,7 @@ private:
   std::vector<iai_rs::Learning> allAnnotations;
   int sceneNo = 0;
   bool db_loaded = false; // learning db has been loaded once initially
+  bool first_frame = true; // used for testing
 
   std::string learning_host;
   std::string learning_db;
@@ -32,6 +36,7 @@ private:
   iai_rs::Storage storage;
   std::vector<uint64_t> frames;
   std::vector<iai_rs::SceneCas*> learningScenes;
+  std::vector<Geometry> learningGeometry;
   std::map<uint64_t, std::vector<iai_rs::Cluster>> timestampedClusters;
 
   iai_rs::SceneCas* loadScene(uint64_t timestamp, CAS &tcas);
@@ -45,6 +50,7 @@ public:
   ~LearnAnnotationStorage();
 
   void test_get_stuff(CAS &tcas);
+  void save_feature_structures(CAS &tcas);
 };
 
 }
