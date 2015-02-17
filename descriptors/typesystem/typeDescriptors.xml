@@ -6,5 +6,6 @@
   <vendor/>
   <imports>
       <import location ="/home/andre/catkin_ws/src/robo_sherlock/iai_rs_cpp/descriptors/typesystem/allTypesDescriptor.xml"/>
+      <!-- <import location ="./types/learning.xml"/>-->
   </imports>
 </typeSystemDescription>
