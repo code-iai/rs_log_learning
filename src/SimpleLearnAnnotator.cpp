@@ -14,6 +14,7 @@
 
 
 using namespace uima;
+using namespace rs_log_learn;
 
 
 class SimpleLearnAnnotator : public Annotator
@@ -21,12 +22,9 @@ class SimpleLearnAnnotator : public Annotator
 private:
   float test_param;
   std::vector<iai_rs::Learning> allAnnotations;
-  int sceneNo = 0;
 
   std::string learning_host;
   std::string learning_db;
-
-  rs_log_learn::LearnAnnotationStorage learnas;
 
 public:
 
@@ -37,7 +35,6 @@ public:
     ctx.extractValue("learningHost", learning_host);
     ctx.extractValue("learningDB", learning_db);
 
-    learnas = rs_log_learn::LearnAnnotationStorage(learning_host, learning_db);
     return UIMA_ERR_NONE;
   }
 
@@ -67,37 +64,14 @@ public:
 
     iai_rs::util::StopWatch clock;
 
-    iai_rs::SceneCas cas(tcas);
-    pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGBA>);
+    ConfigParams parameters;
+    parameters.learningHost = learning_host;
+    parameters.learningDB   = learning_db;
 
-    outInfo("------------------------");
-    outInfo("Learning Host = " << learning_host);
-    outInfo("Learning DB   = " << learning_db);
-    outInfo("------------------------");
+    MPCore mp(parameters);
 
-    learnas.test_get_stuff(tcas);
+    mp.process(tcas);
 
-    cas.getPointCloud(*cloud_ptr);
-
-    iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
-
-    lrn.test_learn_string.set("testLRNString");
-
-    std::vector<iai_rs::Cluster> clusters;
-    cas.getScene().identifiables.filter(clusters);
-
-
-    for(int i = 0; i < clusters.size(); ++i)
-    {
-        std::stringstream ssLearn;
-        ssLearn << "testLRNString SceneNo: " << sceneNo << "  ClusterNo: " << i;
-
-        lrn.test_learn_string.set(ssLearn.str());
-        clusters[i].annotations.append(lrn);
-    }
-    sceneNo++;
-
-    outInfo("Cloud size: " << cloud_ptr->points.size());
     outInfo("took: " << clock.getTime() << " ms.");
     return UIMA_ERR_NONE;
   }

@@ -17,7 +17,11 @@ find_include_dirs(RS_INCLUDE_DIRS_LIST)
 
 SET(simpleLearn_SOURCES src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp src/Geometry.cpp)
 
-uima_add_library(rs_simpleLearnAnnotator src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp src/Geometry.cpp)
+uima_add_library(rs_simpleLearnAnnotator
+				 src/MPCore.cpp 
+				 src/SimpleLearnAnnotator.cpp 
+				 src/LearnAnnotationStorage.cpp 
+				 src/Geometry.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
