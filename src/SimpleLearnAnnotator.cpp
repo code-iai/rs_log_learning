@@ -2,12 +2,16 @@
 
 #include <pcl/point_types.h>
 #include <iai_rs/types/all_types.h>
-//RS
+
+// IAI includes
 #include <iai_rs/scene_cas.h>
 #include <iai_rs/util/time.h>
 #include <iai_rs/DrawingAnnotator.h>
-//RS_LOG_LEARN
+
+// MP includes
 #include <LearnAnnotationStorage.h>
+#include <MPCore.h>
+
 
 using namespace uima;
 
@@ -59,11 +63,13 @@ public:
   TyErrorId processWithLock(CAS &tcas, ResultSpecification const &res_spec)
   {
     outInfo("process start");
+    outInfo("creating MPCore");
+
     iai_rs::util::StopWatch clock;
+
     iai_rs::SceneCas cas(tcas);
     pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGBA>);
 
-    outInfo("Test param =  " << test_param);
     outInfo("------------------------");
     outInfo("Learning Host = " << learning_host);
     outInfo("Learning DB   = " << learning_db);

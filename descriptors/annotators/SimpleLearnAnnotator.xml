@@ -30,12 +30,6 @@
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
-        <name>test_param</name>
-        <value>
-          <float>0.01</float>
-        </value>
-      </nameValuePair>
-      <nameValuePair>
         <name>learningHost</name>
         <value>
           <string>localhost</string>
