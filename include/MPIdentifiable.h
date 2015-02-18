@@ -10,6 +10,7 @@
 
 // MP includes
 #include <Geometry.h>
+#include <LearningAnnotation.h>
 
 namespace rs_log_learn
 {
@@ -25,7 +26,10 @@ public:
 
 	uint64_t getFrameTimestamp() const { return frame_timestamp_; }
 	Geometry& getGeometry() { return geometry_; }
+	LearningAnnotation& getLearningAnnotation() { return learningAnnotation_; }
+
 	void setGeometry(const Geometry& geometry) { geometry_ = geometry; }
+	void setLearningAnnotation(const LearningAnnotation& learningAnnotation) { learningAnnotation_ = learningAnnotation; }
 
 private:
 	// meta data
@@ -33,6 +37,7 @@ private:
 
 	// identifiable data extracted from clusters
 	Geometry geometry_;
+	LearningAnnotation learningAnnotation_;
 	// add more:
 	// - LearnAnnotation
 	// - GroundTruth

@@ -36,7 +36,7 @@ void MPCore::process(uima::CAS &tcas)
 	outInfo("------------------------");
 
 	// TODO: decide whether to use learn and/or annotate based on settings
-	annotate(tcas);
+	//annotate(tcas);
 	learn(tcas);
 }
 
@@ -44,6 +44,38 @@ void MPCore::process(uima::CAS &tcas)
  * Learn...
  */
 void MPCore::learn(uima::CAS &tcas)
+{
+	// only load from learning db on first frame.
+	// after this everything will be in memory for the pipeline run
+	// FIXME: still burning the first CAS this way
+	outInfo("learnDBloaded before: " << learnDBloaded);
+	if(!learnDBloaded)
+	{
+		outInfo("============LOAD LEARN DB===================");
+		learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
+		learnDBloaded = true;
+	}
+	outInfo("learnDBloaded after: " << learnDBloaded);
+
+	// testing output
+	for(std::vector<MPIdentifiable>::iterator it = learnIdentifiables_.begin();
+		it != learnIdentifiables_.end(); ++it)
+	{
+		std::string size = it->getGeometry().getSize();
+		double w = it->getGeometry().getBoundingBoxWidth();
+		double d = it->getGeometry().getBoundingBoxDepth();
+		double h = it->getGeometry().getBoundingBoxHeight();
+		double v = it->getGeometry().getBoundingBoxVolume();
+		outInfo("Vector geometry size: " << size);
+		outInfo("Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
+		outInfo("Learning Annotation: " << it->getLearningAnnotation().getLearnedObject());
+	}
+}
+
+/*
+ * Annotate...
+ */
+void MPCore::annotate(uima::CAS &tcas)
 {
 	// set only a test string for now
 	iai_rs::SceneCas cas(tcas);
@@ -69,31 +101,6 @@ void MPCore::learn(uima::CAS &tcas)
 		clusters[i].annotations.append(lrn);
 	}
 	sceneNo++;
-}
-
-/*
- * Annotate...
- */
-void MPCore::annotate(uima::CAS &tcas)
-{
-	//learnAS_.test_get_stuff(tcas);
-	if(!learnDBloaded)
-	{
-		learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
-	}
-
-	// testing output
-    for(std::vector<MPIdentifiable>::iterator it = learnIdentifiables_.begin();
-        it != learnIdentifiables_.end(); ++it)
-    {
-    	std::string size = it->getGeometry().getSize();
-    	double w = it->getGeometry().getBoundingBoxWidth();
-    	double d = it->getGeometry().getBoundingBoxDepth();
-    	double h = it->getGeometry().getBoundingBoxHeight();
-    	double v = it->getGeometry().getBoundingBoxVolume();
-        outInfo("Vector geometry size: " << size);
-        outInfo("Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
-    }
 }
 
 } /* namespace rs_log_learn */

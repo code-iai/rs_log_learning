@@ -45,20 +45,28 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(CA
 			  cit->annotations.filter(geometry);
 			  cit->annotations.filter(learning);
 
+			  MPIdentifiable ident(it->first);
+
 			  // as soon as first pipeline run is finished, data in clusters gets cleared :(
 			  if(geometry.empty())
+			  {
 				  outError("geometry empty");
+			  }
 			  else
 			  {
-				  MPIdentifiable ident(it->first);
 				  ident.setGeometry(Geometry(geometry.at(0)));
 				  // TODO: extract more
-				  result.push_back(ident);
 			  }
 			  if(learning.empty())
+			  {
 				  outError("learning empty");
+			  }
 			  else
-				outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
+			  {
+				  ident.setLearningAnnotation(LearningAnnotation(learning.at(0).test_learn_string.get()));
+			  }
+
+			  result.push_back(ident);
 			}
 		}
 

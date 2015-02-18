@@ -44,6 +44,7 @@ class MPCore
 {
 public:
 	MPCore(ConfigParams params);
+	MPCore() {};
 	virtual ~MPCore();
 
 	const ConfigParams& getConfigParams() const { return configParams_; }

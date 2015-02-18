@@ -23,6 +23,8 @@ private:
   float test_param;
   std::vector<iai_rs::Learning> allAnnotations;
 
+  MPCore mp;
+
   std::string learning_host;
   std::string learning_db;
 
@@ -31,9 +33,14 @@ public:
   TyErrorId initialize(AnnotatorContext &ctx)
   {
     outInfo("initialize");
-    ctx.extractValue("test_param", test_param);
     ctx.extractValue("learningHost", learning_host);
     ctx.extractValue("learningDB", learning_db);
+
+    ConfigParams parameters;
+	parameters.learningHost = learning_host;
+	parameters.learningDB   = learning_db;
+
+    mp.setConfigParams(parameters);
 
     return UIMA_ERR_NONE;
   }
@@ -63,12 +70,6 @@ public:
     outInfo("creating MPCore");
 
     iai_rs::util::StopWatch clock;
-
-    ConfigParams parameters;
-    parameters.learningHost = learning_host;
-    parameters.learningDB   = learning_db;
-
-    MPCore mp(parameters);
 
     mp.process(tcas);
 
