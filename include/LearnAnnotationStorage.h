@@ -45,8 +45,6 @@ private:
   iai_rs::SceneCas* loadScene(uint64_t timestamp, CAS &tcas);
   void extractScenes(CAS &tcas);
   void extractClusters();
-  void saveFeatureStructures();
-
 
 public:
   LearnAnnotationStorage(const std::string host, const std::string db);
