@@ -45,6 +45,7 @@ void MPCore::process(uima::CAS &tcas)
  */
 void MPCore::learn(uima::CAS &tcas)
 {
+	// set only a test string for now
 	iai_rs::SceneCas cas(tcas);
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGBA>);
 	cas.getPointCloud(*cloud_ptr);
@@ -75,7 +76,24 @@ void MPCore::learn(uima::CAS &tcas)
  */
 void MPCore::annotate(uima::CAS &tcas)
 {
-	learnAS_.test_get_stuff(tcas);
+	//learnAS_.test_get_stuff(tcas);
+	if(!learnDBloaded)
+	{
+		learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
+	}
+
+	// testing output
+    for(std::vector<MPIdentifiable>::iterator it = learnIdentifiables_.begin();
+        it != learnIdentifiables_.end(); ++it)
+    {
+    	std::string size = it->getGeometry().getSize();
+    	double w = it->getGeometry().getBoundingBoxWidth();
+    	double d = it->getGeometry().getBoundingBoxDepth();
+    	double h = it->getGeometry().getBoundingBoxHeight();
+    	double v = it->getGeometry().getBoundingBoxVolume();
+        outInfo("Vector geometry size: " << size);
+        outInfo("Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
+    }
 }
 
 } /* namespace rs_log_learn */

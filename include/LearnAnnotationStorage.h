@@ -10,8 +10,9 @@
 #include <iai_rs/io/Storage.h>
 #include <iai_rs/util/time.h>
 
-// log_learn includes
+// MP includes
 #include <Geometry.h>
+#include <MPIdentifiable.h>
 
 using namespace uima;
 
@@ -53,6 +54,7 @@ public:
   ~LearnAnnotationStorage();
 
   void test_get_stuff(CAS &tcas);
+  std::vector<MPIdentifiable> extractLearnIdentifiables(CAS &tcas);
 };
 
 }

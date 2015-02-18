@@ -47,6 +47,52 @@ void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
 }
 
 
+/*
+ * Extract identifiables from learning db
+ */
+std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(CAS &tcas)
+{
+	std::vector<MPIdentifiable> result;
+
+	// load data from db
+	extractScenes(tcas);
+	extractClusters();
+
+	// construct new identifiable objects of gathered data
+	for(std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it=timestampedClusters.begin();
+			it != timestampedClusters.end(); ++it)
+		{
+			outInfo("Clusters in map size: " << it->second.size());
+
+			outInfo("TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
+			for(std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
+				cit != it->second.end(); ++cit)
+			{
+			  std::vector<iai_rs::Geometry> geometry;
+			  std::vector<iai_rs::Learning> learning;
+			  cit->annotations.filter(geometry);
+			  cit->annotations.filter(learning);
+
+			  // as soon as first pipeline run is finished, data in clusters gets cleared :(
+			  if(geometry.empty())
+				  outError("geometry empty");
+			  else
+			  {
+				  MPIdentifiable ident(it->first);
+				  ident.setGeometry(Geometry(geometry.at(0)));
+				  // TODO: extract more
+				  result.push_back(ident);
+			  }
+			  if(learning.empty())
+				  outError("learning empty");
+			  else
+				outInfo("Learn test Str: " << learning.at(0).test_learn_string.get());
+			}
+		}
+
+	return result;
+}
+
 // preprocessing:
 // * load from db
 // * extract clusters

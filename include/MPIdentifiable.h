@@ -24,7 +24,7 @@ public:
 	virtual ~MPIdentifiable();
 
 	uint64_t getFrameTimestamp() const { return frame_timestamp_; }
-	const Geometry& getGeometry() const { return geometry_; }
+	Geometry& getGeometry() { return geometry_; }
 	void setGeometry(const Geometry& geometry) { geometry_ = geometry; }
 
 private:
@@ -33,7 +33,9 @@ private:
 
 	// identifiable data extracted from clusters
 	Geometry geometry_;
-	// add more...
+	// add more:
+	// - LearnAnnotation
+	// - GroundTruth
 };
 
 } /* namespace rs_log_learn */

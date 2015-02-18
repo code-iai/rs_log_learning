@@ -22,6 +22,7 @@
 #include <Geometry.h>
 // MP includes
 #include <LearnAnnotationStorage.h>
+#include <MPIdentifiable.h>
 
 namespace rs_log_learn
 {
@@ -56,7 +57,10 @@ public:
 private:
 	ConfigParams configParams_;
 	LearnAnnotationStorage learnAS_;
+	std::vector<MPIdentifiable> learnIdentifiables_;
+
 	int sceneNo = 0;
+	bool learnDBloaded = false;
 
 	void initialize();
 
