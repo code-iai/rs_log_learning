@@ -19,35 +19,6 @@ LearnAnnotationStorage::~LearnAnnotationStorage()
 
 
 /*
- * Testing method for now...
- */
-void LearnAnnotationStorage::test_get_stuff(CAS &tcas)
-{
-    iai_rs::util::StopWatch clock;
-
-    if(!db_loaded)
-    {
-        extractScenes(tcas);
-        extractClusters();
-        saveFeatureStructures();
-    }
-    db_loaded = true;
-
-    // in all processed frames. see, if we can keep the data saved in memory
-    for(std::vector<Geometry>::iterator git = learningGeometry.begin();
-        git != learningGeometry.end(); ++git)
-    {
-        outInfo("Vector geometry size: " << git->getSize());
-        outInfo("Vector geometry boundingbox w*d*h=v: " << git->getBoundingBoxWidth() << "*"
-        												<< git->getBoundingBoxDepth() << "*"
-														<< git->getBoundingBoxHeight() << "="
-														<< git->getBoundingBoxVolume());
-    }
-    outInfo(clock.getTime() << " ms.");
-}
-
-
-/*
  * Extract identifiables from learning db
  * save annotations of clusters to identifiable structure vector
  */

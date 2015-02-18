@@ -28,8 +28,6 @@ class LearnAnnotationStorage
 private:
   std::vector<iai_rs::Learning> allAnnotations;
   int sceneNo = 0;
-  bool db_loaded = false; // learning db has been loaded once initially
-  bool first_frame = true; // used for testing
 
   std::string learning_host;
   std::string learning_db;
@@ -51,7 +49,6 @@ public:
   LearnAnnotationStorage() {};
   ~LearnAnnotationStorage();
 
-  void test_get_stuff(CAS &tcas);
   std::vector<MPIdentifiable> extractLearnIdentifiables(CAS &tcas);
 };
 
