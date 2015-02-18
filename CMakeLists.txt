@@ -22,7 +22,8 @@ uima_add_library(rs_simpleLearnAnnotator
 				 src/SimpleLearnAnnotator.cpp 
 				 src/LearnAnnotationStorage.cpp
 				 src/MPIdentifiable.cpp 
-				 src/Geometry.cpp)
+				 src/Geometry.cpp
+				 src/LearningAnnotation.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
