@@ -20,7 +20,8 @@ SET(simpleLearn_SOURCES src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.
 uima_add_library(rs_simpleLearnAnnotator
 				 src/MPCore.cpp 
 				 src/SimpleLearnAnnotator.cpp 
-				 src/LearnAnnotationStorage.cpp 
+				 src/LearnAnnotationStorage.cpp
+				 src/MPIdentifiable.cpp 
 				 src/Geometry.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
