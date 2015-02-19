@@ -55,7 +55,6 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(CA
 			  else
 			  {
 				  ident.setGeometry(Geometry(geometry.at(0)));
-				  // TODO: extract more
 			  }
 			  if(learning.empty())
 			  {
@@ -65,6 +64,7 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(CA
 			  {
 				  ident.setLearningAnnotation(LearningAnnotation(learning.at(0).test_learn_string.get()));
 			  }
+			  // TODO: extract more
 
 			  result.push_back(ident);
 			}

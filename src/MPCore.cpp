@@ -36,6 +36,7 @@ void MPCore::process(uima::CAS &tcas)
 	outInfo("------------------------");
 
 	// TODO: decide whether to use learn and/or annotate based on settings
+	// if first cas of engine, dont annotate that one, dbloaded==false
 	//annotate(tcas);
 	learn(tcas);
 }
@@ -48,14 +49,12 @@ void MPCore::learn(uima::CAS &tcas)
 	// only load from learning db on first frame.
 	// after this everything will be in memory for the pipeline run
 	// FIXME: still burning the first CAS this way
-	outInfo("learnDBloaded before: " << learnDBloaded);
 	if(!learnDBloaded)
 	{
-		outInfo("============LOAD LEARN DB===================");
+		outInfo("loading learnDB");
 		learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
 		learnDBloaded = true;
 	}
-	outInfo("learnDBloaded after: " << learnDBloaded);
 
 	// testing output
 	for(std::vector<MPIdentifiable>::iterator it = learnIdentifiables_.begin();

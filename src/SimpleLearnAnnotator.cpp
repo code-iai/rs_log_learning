@@ -20,7 +20,6 @@ using namespace rs_log_learn;
 class SimpleLearnAnnotator : public Annotator
 {
 private:
-  float test_param;
   std::vector<iai_rs::Learning> allAnnotations;
 
   MPCore mp;

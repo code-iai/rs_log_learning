@@ -12,6 +12,15 @@ find_package(catkin REQUIRED COMPONENTS
 # find all include dirs
 find_include_dirs(RS_INCLUDE_DIRS_LIST)
 
+# gtk includes and libs
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTKMM gtkmm-2.4)
+include_directories(${GTKMM_INCLUDE_DIRS})
+
+link_directories(${GTKMM_LIBRARY_DIRS})
+
+MESSAGE( STATUS "GTKMM include debug:     " ${GTKMM_INCLUDE_DIRS} )
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -25,6 +34,11 @@ uima_add_library(rs_simpleLearnAnnotator
 				 src/Geometry.cpp
 				 src/LearningAnnotation.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
+
+uima_add_library(rs_mpGTAnnotator
+				 src/mpGTAnnotator.cpp
+				 src/mpGTui.cpp)
+target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
