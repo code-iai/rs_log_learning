@@ -227,8 +227,8 @@
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
-    <name>SimpleLearn</name>
-    <description>Simple pipeline for testing</description>
+    <name>addGroundTruth</name>
+    <description>Adding Groundtruth to clusters</description>
     <version>1.0</version>
     <vendor/>
     <configurationParameters searchStrategy="none">
@@ -281,7 +281,7 @@
       <nameValuePair>
         <name>db</name>
         <value>
-          <string>Scenes_simpleLearned</string>
+          <string>Scenes_gt_annotated</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
@@ -290,7 +290,7 @@
      <!-- <node>Trigger</node> -->
       <node>CollectionReader</node>
       <node>ImagePreprocessor</node>
-      <node>SimpleLearnAnnotator</node>
+      <node>mpGTAnnotator</node>
       <node>StorageWriter</node>
       </fixedFlow>
     </flowConstraints>
