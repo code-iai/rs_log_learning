@@ -7,6 +7,9 @@ project(rs_log_learn)
 find_package(catkin REQUIRED COMPONENTS
   iai_rs_cpp
   roscpp
+  cv_bridge
+  std_msgs
+  message_generation
 )
 
 # find all include dirs
@@ -36,9 +39,9 @@ uima_add_library(rs_simpleLearnAnnotator
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
 uima_add_library(rs_mpGTAnnotator
-				 src/mpGTAnnotator.cpp
-				 src/mpGTui.cpp)
+				 src/mpGTAnnotator.cpp)
 target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -77,11 +80,10 @@ target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  ImageGTAnnotation.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -91,10 +93,11 @@ target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   std_msgs  # Or other packages containing msgs
+   sensor_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -108,7 +111,7 @@ target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
 catkin_package(
    INCLUDE_DIRS ${RS_INCLUDE_DIRS_LIST} include
 #  LIBRARIES rs_log_learn
-#  CATKIN_DEPENDS iai_rs_cpp roscpp
+  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -135,6 +138,13 @@ update_analysis_engines(descriptors/analysis_engines descriptors/annotators)
 
 ## Declare a cpp executable
 # add_executable(rs_log_learn_node src/rs_log_learn_node.cpp)
+
+add_executable(mpGTui
+			   src/mpGTui.cpp
+			   src/roiDrawingArea.cpp)
+add_dependencies(mpGTui rs_log_learn_generate_messages_cpp sensor_msgs)
+target_link_libraries(mpGTui iai_rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

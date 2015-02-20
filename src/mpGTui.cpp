@@ -11,22 +11,62 @@ namespace rs_log_learn
 {
 
 mpGTui::mpGTui()
-: testbutton("Test")
+: okButton("OK"),
+  layoutTable(4,2,true)
 {
-	testbutton.signal_clicked().connect(sigc::mem_fun(*this,
+	set_border_width(10);
+
+	okButton.signal_clicked().connect(sigc::mem_fun(*this,
 	            &mpGTui::on_testbutton_clicked));
-	add(testbutton);
+
+	lblDescr1.set_text("Learned Descr1:");
+	lblDescr2.set_text("Learned Descr2:");
+	lblLearningString.set_text("lbl1");
+	lblLearningString2.set_text("lbl2");
+
+	layoutTable.attach(lblDescr1, 0, 1, 1, 2);
+	layoutTable.attach(lblDescr2, 0, 1, 2, 3);
+	layoutTable.attach(lblLearningString,  1, 2, 1, 2);
+	layoutTable.attach(lblLearningString2, 1, 2, 2, 3);
+	layoutTable.attach(entryText, 0, 1, 3, 4);
+	layoutTable.attach(okButton, 1, 2, 3, 4);
+
+	add(vBox);
+	//vBox.pack_start(roiImage);
+	vBox.pack_end(layoutTable);
+
+	initRosService();
+
 	show_all_children();
 }
+
 
 mpGTui::~mpGTui()
 {
 }
 
-
-
-void mpGTui::spawnUI()
+bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
+			     		   rs_log_learn::ImageGTAnnotation::Response& res)
 {
+	ROS_INFO("got image from annotator");
+	return true;
+}
+
+void mpGTui::initRosService()
+{
+	gtAnnotationService_ = nh_.advertiseService("image_gt_annotation",
+			&mpGTui::receive_image, this);
+	sigc::slot<bool> spinSlot = sigc::mem_fun(*this, &mpGTui::onTimeout);
+	sigc::connection conn = Glib::signal_timeout().connect(spinSlot,
+	          TIMEOUT_VALUE);
+	ROS_INFO("connected timeout handler");
+}
+
+bool mpGTui::onTimeout()
+{
+	ROS_DEBUG("ros spin...");
+	ros::spinOnce();
+	return true;
 }
 
 void mpGTui::on_testbutton_clicked()
@@ -35,4 +75,25 @@ void mpGTui::on_testbutton_clicked()
 	dialog.run();
 }
 
+
 } /* namespace rs_log_learn */
+
+using namespace rs_log_learn;
+
+int main(int argc, char **argv)
+{
+	ros::init(argc, argv, "mpGTui");
+
+	Gtk::Main kit(argc, argv);
+	mpGTui ui;
+
+	roiDrawingArea roiArea;
+	ui.vBox.add(roiArea);
+	roiArea.show();
+
+	ROS_INFO("init done.");
+
+	Gtk::Main::run(ui);
+
+	return 0;
+}
