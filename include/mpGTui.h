@@ -40,14 +40,19 @@ public:
     bool receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
             rs_log_learn::ImageGTAnnotation::Response& res);
 
+    bool exiting_ = false; // TODO: get windowmanager exit callback to set this to properly quit
+
 protected:
     void on_testbutton_clicked();
+    bool onExit(GdkEventAny* event);
+
     Gtk::Button okButton;
     Gtk::Table layoutTable;
     Gtk::VBox vBox;
 
     roiDrawingArea roiImage;
 
+    Gtk::Label lblInfo;
     Gtk::Label lblDescr1;
     Gtk::Label lblDescr2;
     Gtk::Label lblLearningString;
@@ -58,6 +63,9 @@ private:
     ros::NodeHandle nh_;
     ros::ServiceServer gtAnnotationService_;
     cv_bridge::CvImagePtr cv_bridge_;
+    bool beforeFirstImage_ = true;
+    bool inputFinished_ = false;
+
 
     void initRosService();
     bool onTimeout();

@@ -114,6 +114,7 @@ public:
             if (client.call(srv))
             {
                 outInfo("got annotation back from ui service");
+                outInfo("entered text: " << srv.response.global_gt);
             }
             else
             {

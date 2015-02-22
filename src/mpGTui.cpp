@@ -11,18 +11,21 @@ namespace rs_log_learn
 {
 
 mpGTui::mpGTui() :
-        okButton("OK"), layoutTable(4, 2, true)
+        okButton("OK"), layoutTable(5, 2, true)
 {
     set_border_width(10);
 
     okButton.signal_clicked().connect(
             sigc::mem_fun(*this, &mpGTui::on_testbutton_clicked));
+    signal_delete_event().connect(sigc::mem_fun(this,&mpGTui::onExit));
 
+    lblInfo.set_text("waiting for images...");
     lblDescr1.set_text("Learned name:");
     lblDescr2.set_text("Learned shape:");
     lblLearningString.set_text("lbl1");
     lblLearningString2.set_text("lbl2");
 
+    layoutTable.attach(lblInfo, 0, 2, 0, 1);
     layoutTable.attach(lblDescr1, 0, 1, 1, 2);
     layoutTable.attach(lblDescr2, 0, 1, 2, 3);
     layoutTable.attach(lblLearningString, 1, 2, 1, 2);
@@ -31,8 +34,7 @@ mpGTui::mpGTui() :
     layoutTable.attach(okButton, 1, 2, 3, 4);
 
     add(vBox);
-    //vBox.pack_start(roiImage);
-    vBox.pack_end(roi);
+    vBox.pack_start(roi);
     vBox.pack_end(layoutTable);
 
     initRosService();
@@ -50,6 +52,11 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
     imageReceiveMutex_.lock();
 
     ROS_INFO("got image from annotator");
+    if(beforeFirstImage_)
+    {
+        lblInfo.set_text("");
+        beforeFirstImage_ = false;
+    }
 
     cv_ptr_ = cv_bridge::toCvCopy(req.image,
             sensor_msgs::image_encodings::BGR8);
@@ -57,6 +64,20 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
 
     imageReceiveMutex_.unlock();
     imageDrawDispatcher_.emit();
+    // wait for user input, then return
+    ROS_INFO("waiting for input");
+
+    while (true)
+    {
+        if(inputFinished_) break;
+        if(exiting_) return true;
+        Gtk::Main::iteration();
+    }
+    inputFinished_ = false;
+    ROS_DEBUG("got data from ui");
+    std::cout<< entryText.get_text() << std::endl;
+    res.global_gt = entryText.get_text();
+    entryText.set_text("");
     return true;
 }
 
@@ -79,8 +100,16 @@ bool mpGTui::onTimeout()
 
 void mpGTui::on_testbutton_clicked()
 {
-    Gtk::MessageDialog dialog(*this, "This is a test");
-    dialog.run();
+    //Gtk::MessageDialog dialog(*this, entryText.get_text());
+    ROS_INFO("button clicked, notifying service call thread");
+    inputFinished_ = true; // add mutex
+}
+
+bool mpGTui::onExit(GdkEventAny* event)
+{
+    exiting_ = true;
+    Gtk::Main::quit();
+    return true;
 }
 
 } /* namespace rs_log_learn */
@@ -110,6 +139,8 @@ int main(int argc, char **argv)
     ROS_INFO("init done.");
 
     Gtk::Main::run(ui);
+
+    ui.exiting_ = true; // needs to be set by windowmanager exit callback
 
     return 0;
 }
