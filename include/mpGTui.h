@@ -12,7 +12,9 @@
 #include <cairomm/context.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
 #include <opencv2/opencv.hpp>
+#include <mutex>
 #include "ros/ros.h"
 
 #include <roiDrawingArea.h>
@@ -23,6 +25,12 @@
 namespace rs_log_learn
 {
 
+Glib::Dispatcher imageDrawDispatcher_;
+std::mutex imageReceiveMutex_;
+Gtk::Image roi;
+cv::Mat outImage_;
+cv_bridge::CvImagePtr cv_ptr_;
+
 class mpGTui : public Gtk::Window
 {
 public:
@@ -31,15 +39,14 @@ public:
 
 	bool receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
 					   rs_log_learn::ImageGTAnnotation::Response& res);
-	Gtk::VBox vBox;
 
 protected:
 	void on_testbutton_clicked();
 	Gtk::Button okButton;
 	Gtk::Table layoutTable;
+	Gtk::VBox vBox;
 
-
-	//roiDrawingArea roiImage;
+	roiDrawingArea roiImage;
 
 	Gtk::Label lblDescr1;
 	Gtk::Label lblDescr2;
@@ -51,6 +58,9 @@ private:
 	 ros::NodeHandle nh_;
 	 ros::ServiceServer gtAnnotationService_;
 	 cv_bridge::CvImagePtr cv_bridge_;
+
+
+
 
 	 void initRosService();
 	 bool onTimeout();
