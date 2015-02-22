@@ -31,40 +31,36 @@ Gtk::Image roi;
 cv::Mat outImage_;
 cv_bridge::CvImagePtr cv_ptr_;
 
-class mpGTui : public Gtk::Window
+class mpGTui: public Gtk::Window
 {
 public:
-	mpGTui();
-	virtual ~mpGTui();
+    mpGTui();
+    virtual ~mpGTui();
 
-	bool receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
-					   rs_log_learn::ImageGTAnnotation::Response& res);
+    bool receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
+            rs_log_learn::ImageGTAnnotation::Response& res);
 
 protected:
-	void on_testbutton_clicked();
-	Gtk::Button okButton;
-	Gtk::Table layoutTable;
-	Gtk::VBox vBox;
+    void on_testbutton_clicked();
+    Gtk::Button okButton;
+    Gtk::Table layoutTable;
+    Gtk::VBox vBox;
 
-	roiDrawingArea roiImage;
+    roiDrawingArea roiImage;
 
-	Gtk::Label lblDescr1;
-	Gtk::Label lblDescr2;
-	Gtk::Label lblLearningString;
-	Gtk::Label lblLearningString2;
-	Gtk::Entry entryText;
+    Gtk::Label lblDescr1;
+    Gtk::Label lblDescr2;
+    Gtk::Label lblLearningString;
+    Gtk::Label lblLearningString2;
+    Gtk::Entry entryText;
 
 private:
-	 ros::NodeHandle nh_;
-	 ros::ServiceServer gtAnnotationService_;
-	 cv_bridge::CvImagePtr cv_bridge_;
+    ros::NodeHandle nh_;
+    ros::ServiceServer gtAnnotationService_;
+    cv_bridge::CvImagePtr cv_bridge_;
 
-
-
-
-	 void initRosService();
-	 bool onTimeout();
-
+    void initRosService();
+    bool onTimeout();
 };
 
 } /* namespace rs_log_learn */

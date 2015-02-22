@@ -16,15 +16,24 @@ namespace rs_log_learn
 class LearningAnnotation
 {
 public:
-	LearningAnnotation(std::string learnedObject);
-	LearningAnnotation() {};
-	virtual ~LearningAnnotation();
+    LearningAnnotation(std::string learnedObject);
+    LearningAnnotation()
+    {
+    }
+    ;
+    virtual ~LearningAnnotation();
 
-	std::string& getLearnedObject() { return learnedObject_; }
-	void setLearnedObject(const std::string& learnedObject) { this->learnedObject_ = learnedObject; }
+    std::string& getLearnedObject()
+    {
+        return learnedObject_;
+    }
+    void setLearnedObject(const std::string& learnedObject)
+    {
+        this->learnedObject_ = learnedObject;
+    }
 
 private:
-	std::string learnedObject_;
+    std::string learnedObject_;
 };
 
 } /* namespace rs_log_learn */

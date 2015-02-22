@@ -8,9 +8,9 @@ Geometry::Geometry(iai_rs::Geometry geo)
     iai_rs::BoundingBox3D iai_bb(geo.boundingBox.get());
 
     size = geo.size.get();
-    boundingBox.width  = iai_bb.width.get();
+    boundingBox.width = iai_bb.width.get();
     boundingBox.height = iai_bb.height.get();
-    boundingBox.depth  = iai_bb.depth.get();
+    boundingBox.depth = iai_bb.depth.get();
     boundingBox.volume = iai_bb.volume.get();
 }
 

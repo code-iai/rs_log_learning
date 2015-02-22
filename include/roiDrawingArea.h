@@ -13,15 +13,15 @@
 namespace rs_log_learn
 {
 
-class roiDrawingArea : public Gtk::DrawingArea
+class roiDrawingArea: public Gtk::DrawingArea
 {
 public:
-	roiDrawingArea();
-	virtual ~roiDrawingArea();
-	void exposeTest();
+    roiDrawingArea();
+    virtual ~roiDrawingArea();
+    void exposeTest();
 
 protected:
-	bool on_expose_event(GdkEventExpose* event);
+    bool on_expose_event(GdkEventExpose* event);
 };
 
 } /* namespace rs_log_learn */

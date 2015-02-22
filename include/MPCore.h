@@ -32,10 +32,9 @@ namespace rs_log_learn
  */
 struct ConfigParams
 {
-	std::string learningHost;
-	std::string learningDB;
+    std::string learningHost;
+    std::string learningDB;
 };
-
 
 /*
  * MindPalace core handler
@@ -43,27 +42,36 @@ struct ConfigParams
 class MPCore
 {
 public:
-	MPCore(ConfigParams params);
-	MPCore() {};
-	virtual ~MPCore();
+    MPCore(ConfigParams params);
+    MPCore()
+    {
+    }
+    ;
+    virtual ~MPCore();
 
-	const ConfigParams& getConfigParams() const { return configParams_; }
-	void setConfigParams(const ConfigParams& configParams) { configParams_ = configParams; }
+    const ConfigParams& getConfigParams() const
+    {
+        return configParams_;
+    }
+    void setConfigParams(const ConfigParams& configParams)
+    {
+        configParams_ = configParams;
+    }
 
-	void process(uima::CAS &tcas);
+    void process(uima::CAS &tcas);
 
-	void learn(uima::CAS &tcas);    // write leaning data to db and mem
-	void annotate(uima::CAS &tcas); // annotate cas with learning data
+    void learn(uima::CAS &tcas);    // write leaning data to db and mem
+    void annotate(uima::CAS &tcas); // annotate cas with learning data
 
 private:
-	ConfigParams configParams_;
-	LearnAnnotationStorage learnAS_;
-	std::vector<MPIdentifiable> learnIdentifiables_;
+    ConfigParams configParams_;
+    LearnAnnotationStorage learnAS_;
+    std::vector<MPIdentifiable> learnIdentifiables_;
 
-	int sceneNo = 0;
-	bool learnDBloaded = false;
+    int sceneNo = 0;
+    bool learnDBloaded = false;
 
-	void initialize();
+    void initialize();
 
 };
 

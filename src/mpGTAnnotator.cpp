@@ -15,134 +15,132 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 
-
 using namespace uima;
 using namespace rs_log_learn;
 
-
-class mpGTAnnotator : public Annotator
+class mpGTAnnotator: public Annotator
 {
 private:
 
-
 public:
 
-  TyErrorId initialize(AnnotatorContext &ctx)
-  {
-    outInfo("initialize");
-
-    return UIMA_ERR_NONE;
-  }
-
-  TyErrorId typeSystemInit(TypeSystem const &type_system)
-  {
-    outInfo("typeSystemInit");
-    return UIMA_ERR_NONE;
-  }
-
-  TyErrorId destroy()
-  {
-    outInfo("destroy");
-    return UIMA_ERR_NONE;
-  }
-
-  TyErrorId process(CAS &tcas, ResultSpecification const &res_spec)
-  {
-    outInfo("process()");
-    this->processWithLock(tcas, res_spec);
-    return  UIMA_ERR_NONE;
-  }
-
-  TyErrorId processWithLock(CAS &tcas, ResultSpecification const &res_spec)
-  {
-    outInfo("process start");
-
-    iai_rs::util::StopWatch clock;
-
-    // init service client
-    char *argv[] = {const_cast<char*>("gt_annotation_client"), NULL};
-	int argc = sizeof(argv) / sizeof(char*) - 1;
-	//char** fake_argv = const_cast<char**> (&argv[0]);
-
-	ros::init(argc, argv, "gt_annotation_client");
-	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient<rs_log_learn::ImageGTAnnotation>("image_gt_annotation");
-	rs_log_learn::ImageGTAnnotation srv;
-
-	// grab cluster images
-    iai_rs::SceneCas cas(tcas);
-    iai_rs::SceneWrapper scene(cas.getScene());
-    cv::Mat color;
-    cas.getRGBImageHires(color);
-    std::vector<iai_rs::Cluster> clusters;
-    scene.identifiables.filter(clusters);
-
-    // call the service of the UI with each cluster ROI image to annotate
-    for(int i = 0; i < clusters.size(); ++i)
+    TyErrorId initialize(AnnotatorContext &ctx)
     {
-    	iai_rs::Cluster cluster = clusters.at(i);
-		iai_rs::ImageROI image_rois = cluster.rois.get();
+        outInfo("initialize");
 
-		cv::Mat rgb, mask;
-		cv::Rect roi;
-		iai_rs::conversion::from(image_rois.roi_hires(), roi);
-		iai_rs::conversion::from(image_rois.mask_hires(), mask);
-
-		color(roi).copyTo(rgb, mask);
-
-		// prepare the image for the service call
-		cv_bridge::CvImagePtr cv_ptr;
-		cv_bridge::CvImage srv_msg;
-		if(rgb.type()==CV_8UC1)
-		{
-			outInfo("image from cluster " << i << " is of type CV_8UC1 with size: " << rgb.size);
-			outError("no encoding header for this frame");
-		}
-		else if(rgb.type()==CV_8UC3)
-		{
-			outInfo("image from cluster " << i << " is of type CV_8UC3 with size: " << rgb.size);
-			srv_msg.encoding = sensor_msgs::image_encodings::BGR8;
-		}
-
-		//srv_msg.header.frame_id = sensor_msgs::
-		srv_msg.image = rgb;
-		srv_msg.toImageMsg(srv.request.image);
-		outInfo("converted image from cluster " << i << "is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
-
-		if (client.call(srv))
-		{
-		  outInfo("got annotation back from ui service");
-		}
-		else
-		{
-		  outError("Failed to call annotation service. start mpGTui");
-		}
-
-
-        iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
-        // set string from service
-        //gt.global_gt.set(<string from srv>);
-        clusters[i].annotations.append(gt);
+        return UIMA_ERR_NONE;
     }
 
+    TyErrorId typeSystemInit(TypeSystem const &type_system)
+    {
+        outInfo("typeSystemInit");
+        return UIMA_ERR_NONE;
+    }
 
+    TyErrorId destroy()
+    {
+        outInfo("destroy");
+        return UIMA_ERR_NONE;
+    }
 
+    TyErrorId process(CAS &tcas, ResultSpecification const &res_spec)
+    {
+        outInfo("process()");
+        this->processWithLock(tcas, res_spec);
+        return UIMA_ERR_NONE;
+    }
 
-	/*srv.request.image.data = ;
+    TyErrorId processWithLock(CAS &tcas, ResultSpecification const &res_spec)
+    {
+        outInfo("process start");
 
-	if (client.call(srv))
-	{
-		ROS_INFO("Sum: %ld", (long int)srv.response.global_gt);
-	}
-	else
-	{
-	ROS_ERROR("Failed to call service add_two_ints");
-	return 1;
-	}*/
+        iai_rs::util::StopWatch clock;
 
-    outInfo("took: " << clock.getTime() << " ms.");
-    return UIMA_ERR_NONE;
-  }
+        // init service client
+        char *argv[] =
+        { const_cast<char*>("gt_annotation_client"), NULL };
+        int argc = sizeof(argv) / sizeof(char*) - 1;
+        //char** fake_argv = const_cast<char**> (&argv[0]);
+
+        ros::init(argc, argv, "gt_annotation_client");
+        ros::NodeHandle n;
+        ros::ServiceClient client = n.serviceClient<
+                rs_log_learn::ImageGTAnnotation>("image_gt_annotation");
+        rs_log_learn::ImageGTAnnotation srv;
+
+        // grab cluster images
+        iai_rs::SceneCas cas(tcas);
+        iai_rs::SceneWrapper scene(cas.getScene());
+        cv::Mat color;
+        cas.getRGBImageHires(color);
+        std::vector<iai_rs::Cluster> clusters;
+        scene.identifiables.filter(clusters);
+
+        // call the service of the UI with each cluster ROI image to annotate
+        for (int i = 0; i < clusters.size(); ++i)
+        {
+            iai_rs::Cluster cluster = clusters.at(i);
+            iai_rs::ImageROI image_rois = cluster.rois.get();
+
+            cv::Mat rgb, mask;
+            cv::Rect roi;
+            iai_rs::conversion::from(image_rois.roi_hires(), roi);
+            iai_rs::conversion::from(image_rois.mask_hires(), mask);
+
+            color(roi).copyTo(rgb, mask);
+
+            // prepare the image for the service call
+            cv_bridge::CvImagePtr cv_ptr;
+            cv_bridge::CvImage srv_msg;
+            if (rgb.type() == CV_8UC1)
+            {
+                outInfo(
+                        "image from cluster " << i << " is of type CV_8UC1 with size: " << rgb.size);
+                outError("no encoding header for this frame");
+            }
+            else if (rgb.type() == CV_8UC3)
+            {
+                outInfo(
+                        "image from cluster " << i << " is of type CV_8UC3 with size: " << rgb.size);
+                srv_msg.encoding = sensor_msgs::image_encodings::BGR8;
+            }
+
+            //srv_msg.header.frame_id = sensor_msgs::
+            srv_msg.image = rgb;
+            srv_msg.toImageMsg(srv.request.image);
+            outInfo(
+                    "converted image from cluster " << i << "is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
+
+            if (client.call(srv))
+            {
+                outInfo("got annotation back from ui service");
+            }
+            else
+            {
+                outError("Failed to call annotation service. start mpGTui");
+            }
+
+            iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
+            // set string from service
+            //gt.global_gt.set(<string from srv>);
+            clusters[i].annotations.append(gt);
+        }
+
+        /*srv.request.image.data = ;
+
+         if (client.call(srv))
+         {
+         ROS_INFO("Sum: %ld", (long int)srv.response.global_gt);
+         }
+         else
+         {
+         ROS_ERROR("Failed to call service add_two_ints");
+         return 1;
+         }*/
+
+        outInfo("took: " << clock.getTime() << " ms.");
+        return UIMA_ERR_NONE;
+    }
 
 };
 

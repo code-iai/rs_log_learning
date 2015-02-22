@@ -25,24 +25,42 @@ private:
 
     struct BoundingBox
     {
-    	double width;
-		double depth;
-		double height;
-		double volume;
+        double width;
+        double depth;
+        double height;
+        double volume;
     };
 
     BoundingBox boundingBox;
 
 public:
-  Geometry(iai_rs::Geometry geo);
-  Geometry() {};
-  ~Geometry();
+    Geometry(iai_rs::Geometry geo);
+    Geometry()
+    {
+    }
+    ;
+    ~Geometry();
 
-  std::string getSize() {return size;}
-  double getBoundingBoxWidth() {return boundingBox.width;}
-  double getBoundingBoxHeight(){return boundingBox.height;}
-  double getBoundingBoxDepth() {return boundingBox.depth;}
-  double getBoundingBoxVolume(){return boundingBox.volume;}
+    std::string getSize()
+    {
+        return size;
+    }
+    double getBoundingBoxWidth()
+    {
+        return boundingBox.width;
+    }
+    double getBoundingBoxHeight()
+    {
+        return boundingBox.height;
+    }
+    double getBoundingBoxDepth()
+    {
+        return boundingBox.depth;
+    }
+    double getBoundingBoxVolume()
+    {
+        return boundingBox.volume;
+    }
 };
 
 }

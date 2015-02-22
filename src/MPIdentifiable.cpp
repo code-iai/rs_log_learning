@@ -12,7 +12,7 @@ namespace rs_log_learn
 
 MPIdentifiable::MPIdentifiable(uint64_t frame_timestamp)
 {
-	this->frame_timestamp_ = frame_timestamp;
+    this->frame_timestamp_ = frame_timestamp;
 }
 
 MPIdentifiable::~MPIdentifiable()
