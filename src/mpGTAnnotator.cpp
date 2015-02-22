@@ -77,6 +77,7 @@ public:
     std::vector<iai_rs::Cluster> clusters;
     scene.identifiables.filter(clusters);
 
+    // call the service of the UI with each cluster ROI image to annotate
     for(int i = 0; i < clusters.size(); ++i)
     {
     	iai_rs::Cluster cluster = clusters.at(i);
@@ -89,13 +90,24 @@ public:
 
 		color(roi).copyTo(rgb, mask);
 
-        // send to srv
+		// prepare the image for the service call
 		cv_bridge::CvImagePtr cv_ptr;
 		cv_bridge::CvImage srv_msg;
+		if(rgb.type()==CV_8UC1)
+		{
+			outInfo("image from cluster " << i << " is of type CV_8UC1 with size: " << rgb.size);
+			outError("no encoding header for this frame");
+		}
+		else if(rgb.type()==CV_8UC3)
+		{
+			outInfo("image from cluster " << i << " is of type CV_8UC3 with size: " << rgb.size);
+			srv_msg.encoding = sensor_msgs::image_encodings::BGR8;
+		}
+
 		//srv_msg.header.frame_id = sensor_msgs::
-		srv_msg.encoding = sensor_msgs::image_encodings::TYPE_32FC1; // TODO: find out what the enc is
 		srv_msg.image = rgb;
 		srv_msg.toImageMsg(srv.request.image);
+		outInfo("converted image from cluster " << i << "is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
 
 		if (client.call(srv))
 		{
