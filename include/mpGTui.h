@@ -20,7 +20,7 @@
 #include <roiDrawingArea.h>
 #include "rs_log_learn/ImageGTAnnotation.h"
 
-#define TIMEOUT_VALUE 500 // timer for ros spin
+#define TIMEOUT_VALUE 100 // timer for ros spin
 
 namespace rs_log_learn
 {
@@ -43,7 +43,8 @@ public:
     bool exiting_ = false; // TODO: get windowmanager exit callback to set this to properly quit
 
 protected:
-    void on_testbutton_clicked();
+    void onOkButtonClicked();
+    void onEntryEnterKeyRelease();
     bool onExit(GdkEventAny* event);
 
     Gtk::Button okButton;

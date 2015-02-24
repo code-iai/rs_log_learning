@@ -19,7 +19,9 @@ mpGTui::mpGTui() :
     initTreeModel();
 
     okButton.signal_clicked().connect(
-            sigc::mem_fun(*this, &mpGTui::on_testbutton_clicked));
+            sigc::mem_fun(*this, &mpGTui::onOkButtonClicked));
+    entryTextName.signal_activate().connect(
+            sigc::mem_fun(*this, &mpGTui::onEntryEnterKeyRelease));
     signal_delete_event().connect(sigc::mem_fun(this,&mpGTui::onExit));
 
     lblInfo.set_text("waiting for images...");
@@ -85,7 +87,7 @@ void mpGTui::initTreeModel()
     row[shapeColumns.colName] = "cylinder";
 
     // pack to combobox
-
+    shapeCombo.set_active(0); // "box" is the default shape
     shapeCombo.pack_start(shapeColumns.colId);
     shapeCombo.pack_start(shapeColumns.colName);
 }
@@ -108,24 +110,45 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
 
     cv_ptr_ = cv_bridge::toCvCopy(req.image,
             sensor_msgs::image_encodings::BGR8);
-    ROS_INFO("image converted back to cv image");
+    ROS_DEBUG("image converted back to cv image");
 
     imageReceiveMutex_.unlock();
     imageDrawDispatcher_.emit();
     // wait for user input, then return
-    ROS_INFO("waiting for input");
+    ROS_INFO("waiting for user input");
 
     while (true)
     {
         if(inputFinished_) break;
         if(exiting_) return true;
+        // while we wait for user input, make sure ros doesn't block the ui
         Gtk::Main::iteration();
     }
     inputFinished_ = false;
+
     ROS_DEBUG("got data from ui");
     std::cout<< entryTextName.get_text() << std::endl;
     res.global_gt = entryTextName.get_text();
+
+    Gtk::TreeModel::iterator iter = shapeCombo.get_active();
+    if(iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        if(row)
+        {
+            int id = row[shapeColumns.colId];
+            Glib::ustring name = row[shapeColumns.colName];
+            std::cout << " ID=" << id << ", name=" << name << std::endl;
+            // TODO: set shape
+            // res.shape_gt = name;
+        }
+    }
+    else ROS_ERROR("Invalid combo iter");
+
+    // set the input fields back to the default for the next image
     entryTextName.set_text("");
+    shapeCombo.set_active(0);
+
     return true;
 }
 
@@ -146,23 +169,15 @@ bool mpGTui::onTimeout()
     return true;
 }
 
-void mpGTui::on_testbutton_clicked()
+void mpGTui::onEntryEnterKeyRelease()
+{
+    ROS_DEBUG("enter key released");
+    onOkButtonClicked();
+}
+
+void mpGTui::onOkButtonClicked()
 {
     ROS_INFO("data committed, notifying service call thread");
-    Gtk::TreeModel::iterator iter = shapeCombo.get_active();
-    if(iter)
-    {
-        Gtk::TreeModel::Row row = *iter;
-        if(row)
-        {
-            int id = row[shapeColumns.colId];
-            Glib::ustring name = row[shapeColumns.colName];
-            std::cout << " ID=" << id << ", name=" << name << std::endl;
-        }
-    }
-    else
-        std::cout << "invalid iter" << std::endl;
-
     inputFinished_ = true; // add mutex
 }
 
