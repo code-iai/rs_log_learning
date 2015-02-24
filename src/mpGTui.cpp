@@ -11,9 +11,12 @@ namespace rs_log_learn
 {
 
 mpGTui::mpGTui() :
-        okButton("OK"), layoutTable(5, 2, true)
+        okButton("      OK      "),
+        layoutTableEntry(3, 2, true),
+        layoutTableLearned(3, 2, true)
 {
     set_border_width(10);
+    initTreeModel();
 
     okButton.signal_clicked().connect(
             sigc::mem_fun(*this, &mpGTui::on_testbutton_clicked));
@@ -22,24 +25,69 @@ mpGTui::mpGTui() :
     lblInfo.set_text("waiting for images...");
     lblDescr1.set_text("Learned name:");
     lblDescr2.set_text("Learned shape:");
-    lblLearningString.set_text("lbl1");
-    lblLearningString2.set_text("lbl2");
+    lblLearningStringName.set_text("NamePlaceholder");
+    lblLearningStringShape.set_text("ShapePlacholder");
+    lblEntryNameDescr.set_text("Name:");
+    lblComboDescr.set_text("Shape:");
 
-    layoutTable.attach(lblInfo, 0, 2, 0, 1);
-    layoutTable.attach(lblDescr1, 0, 1, 1, 2);
-    layoutTable.attach(lblDescr2, 0, 1, 2, 3);
-    layoutTable.attach(lblLearningString, 1, 2, 1, 2);
-    layoutTable.attach(lblLearningString2, 1, 2, 2, 3);
-    layoutTable.attach(entryText, 0, 1, 3, 4);
-    layoutTable.attach(okButton, 1, 2, 3, 4);
+    lblEntryNameDescr.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
+    lblDescr1.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
+    lblDescr2.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
+    lblComboDescr.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
+
+    lblEntryNameDescr.set_padding(30, 0);
+    lblDescr1.set_padding(30, 0);
+    lblDescr2.set_padding(30, 0);
+    lblComboDescr.set_padding(30, 0);
+
+    layoutTableLearned.attach(lblDescr1, 0, 1, 0, 1,
+            Gtk::AttachOptions::FILL, Gtk::AttachOptions::FILL,
+            0, 5);
+    layoutTableLearned.attach(lblDescr2, 0, 1, 1, 2);
+    layoutTableLearned.attach(lblLearningStringName, 1, 2, 0, 1);
+    layoutTableLearned.attach(lblLearningStringShape, 1, 2, 1, 2);
+
+    layoutTableEntry.attach(lblEntryNameDescr, 0, 1, 0, 1);
+    layoutTableEntry.attach(entryTextName, 1, 2, 0, 1);
+    layoutTableEntry.attach(lblComboDescr, 0, 1, 1, 2);
+    layoutTableEntry.attach(shapeCombo, 1, 2, 1, 2);
+
+    learnedFrame.set_label("Learned data");
+    entryFrame.set_label("GroundTruth entry");
+    learnedFrame.add(layoutTableLearned);
+    entryFrame.add(layoutTableEntry);
 
     add(vBox);
     vBox.pack_start(roi);
-    vBox.pack_end(layoutTable);
+    vBox.pack_start(lblInfo);
+    vBox.pack_start(hSeparator, Gtk::PackOptions::PACK_EXPAND_WIDGET, 10);
+    vBox.pack_start(learnedFrame);
+    vBox.pack_start(entryFrame);
+    vBox.pack_start(okButton, Gtk::PackOptions::PACK_SHRINK, 10);
 
     initRosService();
 
     show_all_children();
+}
+
+void mpGTui::initTreeModel()
+{
+    // create tree model:
+    shaperefTreeModel = Gtk::ListStore::create(shapeColumns);
+    shapeCombo.set_model(shaperefTreeModel);
+
+    // fill combobox tree:
+    Gtk::TreeModel::Row row = *(shaperefTreeModel->append());
+    row[shapeColumns.colId] = 1;
+    row[shapeColumns.colName] = "box";
+    row = *(shaperefTreeModel->append());
+    row[shapeColumns.colId] = 2;
+    row[shapeColumns.colName] = "cylinder";
+
+    // pack to combobox
+
+    shapeCombo.pack_start(shapeColumns.colId);
+    shapeCombo.pack_start(shapeColumns.colName);
 }
 
 mpGTui::~mpGTui()
@@ -75,9 +123,9 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
     }
     inputFinished_ = false;
     ROS_DEBUG("got data from ui");
-    std::cout<< entryText.get_text() << std::endl;
-    res.global_gt = entryText.get_text();
-    entryText.set_text("");
+    std::cout<< entryTextName.get_text() << std::endl;
+    res.global_gt = entryTextName.get_text();
+    entryTextName.set_text("");
     return true;
 }
 
@@ -100,8 +148,21 @@ bool mpGTui::onTimeout()
 
 void mpGTui::on_testbutton_clicked()
 {
-    //Gtk::MessageDialog dialog(*this, entryText.get_text());
-    ROS_INFO("button clicked, notifying service call thread");
+    ROS_INFO("data committed, notifying service call thread");
+    Gtk::TreeModel::iterator iter = shapeCombo.get_active();
+    if(iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        if(row)
+        {
+            int id = row[shapeColumns.colId];
+            Glib::ustring name = row[shapeColumns.colName];
+            std::cout << " ID=" << id << ", name=" << name << std::endl;
+        }
+    }
+    else
+        std::cout << "invalid iter" << std::endl;
+
     inputFinished_ = true; // add mutex
 }
 
@@ -129,7 +190,7 @@ int main(int argc, char **argv)
     {
         imageReceiveMutex_.lock();
         cv::cvtColor(cv_ptr_->image, outImage_, CV_BGR2RGB);
-        ROS_INFO("outImage is %d %d px", outImage_.cols, outImage_.rows);
+        ROS_INFO("outImage is %d x %d px", outImage_.cols, outImage_.rows);
         roi.set(Gdk::Pixbuf::create_from_data(outImage_.data, Gdk::COLORSPACE_RGB, false, 8,
                         outImage_.cols, outImage_.rows, outImage_.step));
         roi.queue_draw();

@@ -2,6 +2,10 @@
 
 #include <pcl/point_types.h>
 #include <iai_rs/types/all_types.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv2/opencv.hpp>
 
 // IAI includes
 #include <iai_rs/scene_cas.h>
@@ -10,10 +14,7 @@
 #include <iai_rs/DrawingAnnotator.h>
 
 // MP includes
-#include <mpGTui.h>
-#include <roiDrawingArea.h>
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
+#include "rs_log_learn/ImageGTAnnotation.h"
 
 using namespace uima;
 using namespace rs_log_learn;
@@ -57,15 +58,13 @@ public:
         iai_rs::util::StopWatch clock;
 
         // init service client
-        char *argv[] =
-        { const_cast<char*>("gt_annotation_client"), NULL };
+        char *argv[] = { const_cast<char*>("gt_annotation_client"), NULL };
         int argc = sizeof(argv) / sizeof(char*) - 1;
         //char** fake_argv = const_cast<char**> (&argv[0]);
 
         ros::init(argc, argv, "gt_annotation_client");
         ros::NodeHandle n;
-        ros::ServiceClient client = n.serviceClient<
-                rs_log_learn::ImageGTAnnotation>("image_gt_annotation");
+        ros::ServiceClient client = n.serviceClient<rs_log_learn::ImageGTAnnotation>("image_gt_annotation");
         rs_log_learn::ImageGTAnnotation srv;
 
         // grab cluster images
@@ -108,8 +107,7 @@ public:
             //srv_msg.header.frame_id = sensor_msgs::
             srv_msg.image = rgb;
             srv_msg.toImageMsg(srv.request.image);
-            outInfo(
-                    "converted image from cluster " << i << "is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
+            outInfo("converted image from cluster " << i << " is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
 
             if (client.call(srv))
             {
@@ -126,18 +124,6 @@ public:
             //gt.global_gt.set(<string from srv>);
             clusters[i].annotations.append(gt);
         }
-
-        /*srv.request.image.data = ;
-
-         if (client.call(srv))
-         {
-         ROS_INFO("Sum: %ld", (long int)srv.response.global_gt);
-         }
-         else
-         {
-         ROS_ERROR("Failed to call service add_two_ints");
-         return 1;
-         }*/
 
         outInfo("took: " << clock.getTime() << " ms.");
         return UIMA_ERR_NONE;

@@ -47,7 +47,8 @@ protected:
     bool onExit(GdkEventAny* event);
 
     Gtk::Button okButton;
-    Gtk::Table layoutTable;
+    Gtk::Table layoutTableEntry;
+    Gtk::Table layoutTableLearned;
     Gtk::VBox vBox;
 
     roiDrawingArea roiImage;
@@ -55,9 +56,28 @@ protected:
     Gtk::Label lblInfo;
     Gtk::Label lblDescr1;
     Gtk::Label lblDescr2;
-    Gtk::Label lblLearningString;
-    Gtk::Label lblLearningString2;
-    Gtk::Entry entryText;
+    Gtk::Label lblLearningStringName;
+    Gtk::Label lblLearningStringShape;
+    Gtk::Label lblEntryNameDescr;
+    Gtk::Label lblComboDescr;
+    Gtk::Entry entryTextName;
+    Gtk::HSeparator hSeparator;
+    Gtk::Frame learnedFrame;
+    Gtk::Frame entryFrame;
+
+    class ModelColumns : public Gtk::TreeModel::ColumnRecord
+    {
+    public:
+
+        ModelColumns() { add(colId); add(colName); }
+
+        Gtk::TreeModelColumn<int> colId;
+        Gtk::TreeModelColumn<Glib::ustring> colName;
+    };
+
+    ModelColumns shapeColumns;
+    Gtk::ComboBox shapeCombo;
+    Glib::RefPtr<Gtk::ListStore> shaperefTreeModel;
 
 private:
     ros::NodeHandle nh_;
@@ -68,6 +88,7 @@ private:
 
 
     void initRosService();
+    void initTreeModel();
     bool onTimeout();
 };
 
