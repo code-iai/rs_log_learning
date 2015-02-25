@@ -37,8 +37,8 @@ void MPCore::process(uima::CAS &tcas)
 
     // TODO: decide whether to use learn and/or annotate based on settings
     // if first cas of engine, dont annotate that one, dbloaded==false
-    //annotate(tcas);
-    learn(tcas);
+    annotate(tcas);
+    //learn(tcas);
 }
 
 /*
@@ -81,14 +81,15 @@ void MPCore::annotate(uima::CAS &tcas)
 {
     // set only a test string for now
     iai_rs::SceneCas cas(tcas);
-    pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(
-            new pcl::PointCloud<pcl::PointXYZRGBA>);
-    cas.getPointCloud(*cloud_ptr);
-    outInfo("Cloud size: " << cloud_ptr->points.size());
+    //pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(
+    //        new pcl::PointCloud<pcl::PointXYZRGBA>);
+    //cas.getPointCloud(*cloud_ptr);
+    //outInfo("Cloud size: " << cloud_ptr->points.size());
 
     iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
 
-    lrn.test_learn_string.set("testLRNString");
+    //lrn.name.set("testLRNString");
+    //lrn.name.set("Box (test)");
 
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
@@ -98,7 +99,8 @@ void MPCore::annotate(uima::CAS &tcas)
         std::stringstream ssLearn;
         ssLearn << "testLRNString SceneNo: " << sceneNo << "  ClusterNo: " << i;
 
-        lrn.test_learn_string.set(ssLearn.str());
+        lrn.name.set(ssLearn.str());
+        lrn.shape.set("Box (test)");
         clusters[i].annotations.append(lrn);
     }
     sceneNo++;

@@ -63,9 +63,9 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
             }
             else
             {
-                ident.setLearningAnnotation(
-                        LearningAnnotation(
-                                learning.at(0).test_learn_string.get()));
+                LearningAnnotation lrn(learning.at(0).name.get());
+                lrn.setShape(learning.at(0).shape.get());
+                ident.setLearningAnnotation(lrn);
             }
             // TODO: extract more
 
