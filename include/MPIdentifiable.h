@@ -11,6 +11,7 @@
 // MP includes
 #include <containers/Geometry.h>
 #include <containers/LearningAnnotation.h>
+#include <containers/GroundTruth.h>
 
 namespace rs_log_learn
 {
@@ -46,6 +47,16 @@ public:
         learningAnnotation_ = learningAnnotation;
     }
 
+    const GroundTruth& getGroundTruth() const
+    {
+        return groundTruth_;
+    }
+
+    void setGroundTruth(const GroundTruth& groundTruth)
+    {
+        groundTruth_ = groundTruth;
+    }
+
 private:
     // meta data
     uint64_t frame_timestamp_;
@@ -53,9 +64,9 @@ private:
     // identifiable data extracted from clusters
     Geometry geometry_;
     LearningAnnotation learningAnnotation_;
+    GroundTruth groundTruth_;
     // add more:
-    // - LearnAnnotation
-    // - GroundTruth
+    // - color
 };
 
 } /* namespace rs_log_learn */

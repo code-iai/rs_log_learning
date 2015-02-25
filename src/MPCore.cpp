@@ -65,11 +65,12 @@ void MPCore::learn(uima::CAS &tcas)
         double d = it->getGeometry().getBoundingBoxDepth();
         double h = it->getGeometry().getBoundingBoxHeight();
         double v = it->getGeometry().getBoundingBoxVolume();
+        outInfo("GroundTruth - global: " << it->getGroundTruth().getGlobaltGt()
+                << " / shape: " << it->getGroundTruth().getShape());
         outInfo("Vector geometry size: " << size);
-        outInfo(
-                "Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
-        outInfo(
-                "Learning Annotation: " << it->getLearningAnnotation().getLearnedObject());
+        outInfo("Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
+        outInfo("Learning Annotation - name: " << it->getLearningAnnotation().getLearnedName())
+                << " / shape: " << it->getLearningAnnotation().getShape();
     }
 }
 

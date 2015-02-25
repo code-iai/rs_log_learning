@@ -17,6 +17,7 @@ class GroundTruth
 {
 public:
     GroundTruth(std::string globalGt);
+    GroundTruth() {};
     virtual ~GroundTruth();
 
     const std::string& getGlobaltGt() const { return globaltGt_; }

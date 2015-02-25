@@ -12,7 +12,7 @@ namespace rs_log_learn
 
 LearningAnnotation::LearningAnnotation(std::string learnedObject)
 {
-    this->learnedObject_ = learnedObject;
+    this->learnedObjectName_ = learnedObject;
 }
 
 LearningAnnotation::~LearningAnnotation()

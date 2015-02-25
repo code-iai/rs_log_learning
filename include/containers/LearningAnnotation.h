@@ -23,17 +23,15 @@ public:
     ;
     virtual ~LearningAnnotation();
 
-    std::string& getLearnedObject()
-    {
-        return learnedObject_;
-    }
-    void setLearnedObject(const std::string& learnedObject)
-    {
-        this->learnedObject_ = learnedObject;
-    }
+    std::string& getLearnedName(){ return learnedObjectName_; }
+    std::string& getShape() { return shape; }
+
+    void setLearnedName(const std::string& learnedObject) { this->learnedObjectName_ = learnedObject; }
+    void setShape(const std::string& shape) { this->shape = shape; }
 
 private:
-    std::string learnedObject_;
+    std::string learnedObjectName_;
+    std::string shape;
 };
 
 } /* namespace rs_log_learn */
