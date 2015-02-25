@@ -84,7 +84,7 @@ void mpGTui::initTreeModel()
     row[shapeColumns.colName] = "box";
     row = *(shaperefTreeModel->append());
     row[shapeColumns.colId] = 2;
-    row[shapeColumns.colName] = "cylinder";
+    row[shapeColumns.colName] = "round";
 
     // pack to combobox
     shapeCombo.set_active(0); // "box" is the default shape
