@@ -8,6 +8,8 @@
 #ifndef RS_LOG_LEARN_SRC_GROUNDTRUTH_H_
 #define RS_LOG_LEARN_SRC_GROUNDTRUTH_H_
 
+#include <string>
+
 namespace rs_log_learn
 {
 

@@ -18,8 +18,6 @@
 #include <iai_rs/util/time.h>
 #include <iai_rs/DrawingAnnotator.h>
 
-// MP FeatureStructures
-#include <Geometry.h>
 // MP includes
 #include <LearnAnnotationStorage.h>
 #include <MPIdentifiable.h>

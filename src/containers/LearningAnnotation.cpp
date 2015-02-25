@@ -5,7 +5,7 @@
  *      Author: andre
  */
 
-#include "LearningAnnotation.h"
+#include <containers/LearningAnnotation.h>
 
 namespace rs_log_learn
 {

@@ -11,7 +11,7 @@
 #include <iai_rs/util/time.h>
 
 // MP includes
-#include <Geometry.h>
+#include <containers/Geometry.h>
 #include <MPIdentifiable.h>
 
 using namespace uima;

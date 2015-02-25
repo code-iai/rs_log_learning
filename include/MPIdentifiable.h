@@ -9,8 +9,8 @@
 #define RS_LOG_LEARN_SRC_MPIDENTIFIABLE_H_
 
 // MP includes
-#include <Geometry.h>
-#include <LearningAnnotation.h>
+#include <containers/Geometry.h>
+#include <containers/LearningAnnotation.h>
 
 namespace rs_log_learn
 {
