@@ -1,5 +1,6 @@
 sensor_msgs/Image image
-int64 b
+string lrn_name
+string lrn_shape
 ---
 string gt_name
 string gt_shape

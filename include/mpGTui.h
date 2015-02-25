@@ -30,6 +30,10 @@ std::mutex imageReceiveMutex_;
 Gtk::Image roi;
 cv::Mat outImage_;
 cv_bridge::CvImagePtr cv_ptr_;
+std::string learningStringName;
+std::string learningStringShape;
+Gtk::Label lblLearningStringName;
+Gtk::Label lblLearningStringShape;
 
 class mpGTui: public Gtk::Window
 {
@@ -57,8 +61,6 @@ protected:
     Gtk::Label lblInfo;
     Gtk::Label lblDescr1;
     Gtk::Label lblDescr2;
-    Gtk::Label lblLearningStringName;
-    Gtk::Label lblLearningStringShape;
     Gtk::Label lblEntryNameDescr;
     Gtk::Label lblComboDescr;
     Gtk::Entry entryTextName;

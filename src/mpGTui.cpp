@@ -27,8 +27,8 @@ mpGTui::mpGTui() :
     lblInfo.set_text("waiting for images...");
     lblDescr1.set_text("Learned name:");
     lblDescr2.set_text("Learned shape:");
-    lblLearningStringName.set_text("NamePlaceholder");
-    lblLearningStringShape.set_text("ShapePlacholder");
+    lblLearningStringName.set_text("<none>");
+    lblLearningStringShape.set_text("<none>");
     lblEntryNameDescr.set_text("Name:");
     lblComboDescr.set_text("Shape:");
 
@@ -111,6 +111,10 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
     cv_ptr_ = cv_bridge::toCvCopy(req.image,
             sensor_msgs::image_encodings::BGR8);
     ROS_DEBUG("image converted back to cv image");
+
+    // set learning data received from call
+    learningStringName = req.lrn_name;
+    learningStringShape = req.lrn_shape;
 
     imageReceiveMutex_.unlock();
     imageDrawDispatcher_.emit();
@@ -209,6 +213,9 @@ int main(int argc, char **argv)
         roi.set(Gdk::Pixbuf::create_from_data(outImage_.data, Gdk::COLORSPACE_RGB, false, 8,
                         outImage_.cols, outImage_.rows, outImage_.step));
         roi.queue_draw();
+        // set learning strings in ui
+        lblLearningStringName.set_text(learningStringName);
+        lblLearningStringShape.set_text(learningStringShape);
         imageReceiveMutex_.unlock();
     });
 

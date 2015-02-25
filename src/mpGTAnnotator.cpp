@@ -80,6 +80,8 @@ public:
         {
             iai_rs::Cluster cluster = clusters.at(i);
             iai_rs::ImageROI image_rois = cluster.rois.get();
+            std::vector<iai_rs::Learning> learning;
+            clusters[i].annotations.filter(learning);
 
             cv::Mat rgb, mask;
             cv::Rect roi;
@@ -109,6 +111,18 @@ public:
             srv_msg.toImageMsg(srv.request.image);
             outInfo("converted image from cluster " << i << " is " << (int)srv.request.image.width << "x" << (int)srv.request.image.height);
 
+            if(!learning.empty())
+            {
+                srv.request.lrn_name  = learning.at(0).name.get();
+                srv.request.lrn_shape = learning.at(0).shape.get();
+            }
+            else
+            {
+                srv.request.lrn_name  = "<none>";
+                srv.request.lrn_shape = "<none>";
+            }
+
+            // all data set, call the service
             if (client.call(srv))
             {
                 outInfo("got annotation back from ui service");
@@ -120,9 +134,11 @@ public:
                 outError("Failed to call annotation service. start mpGTui");
             }
 
-            iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
             // set strings returned from service
+            iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
             gt.global_gt.set(srv.response.gt_name);
+            gt.shape.set(srv.response.gt_shape);
+
             clusters[i].annotations.append(gt);
         }
 
