@@ -16,12 +16,18 @@ namespace rs_log_learn
 class GroundTruth
 {
 public:
-    GroundTruth();
+    GroundTruth(std::string globalGt);
     virtual ~GroundTruth();
 
+    const std::string& getGlobaltGt() const { return globaltGt_; }
+    const std::string& getShape() const { return shape_; }
+
+    void setGlobaltGt(const std::string& globaltGt) { globaltGt_ = globaltGt; }
+    void setShape(const std::string& shape) { shape_ = shape; }
+
 private:
-    std::string globatGt;
-    std::string shape;
+    std::string globaltGt_;
+    std::string shape_;
 };
 
 } /* namespace rs_log_learn */

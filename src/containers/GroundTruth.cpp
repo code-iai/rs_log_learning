@@ -10,15 +10,13 @@
 namespace rs_log_learn
 {
 
-GroundTruth::GroundTruth()
+GroundTruth::GroundTruth(std::string globalGt)
 {
-    // TODO Auto-generated constructor stub
-
+    globaltGt_ = globalGt;
 }
 
 GroundTruth::~GroundTruth()
 {
-    // TODO Auto-generated destructor stub
 }
 
 } /* namespace rs_log_learn */
