@@ -127,8 +127,8 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
     inputFinished_ = false;
 
     ROS_DEBUG("got data from ui");
-    std::cout<< entryTextName.get_text() << std::endl;
-    res.global_gt = entryTextName.get_text();
+
+    res.gt_name = entryTextName.get_text();
 
     Gtk::TreeModel::iterator iter = shapeCombo.get_active();
     if(iter)
@@ -138,9 +138,9 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
         {
             int id = row[shapeColumns.colId];
             Glib::ustring name = row[shapeColumns.colName];
-            std::cout << " ID=" << id << ", name=" << name << std::endl;
+            ROS_INFO(" Entered - name: %s / shape: %d-%s", entryTextName.get_text().c_str(), id, name.c_str());
             // TODO: set shape
-            // res.shape_gt = name;
+            res.gt_shape = name;
         }
     }
     else ROS_ERROR("Invalid combo iter");
@@ -177,7 +177,7 @@ void mpGTui::onEntryEnterKeyRelease()
 
 void mpGTui::onOkButtonClicked()
 {
-    ROS_INFO("data committed, notifying service call thread");
+    ROS_INFO("data committed, notifying caller");
     inputFinished_ = true; // add mutex
 }
 

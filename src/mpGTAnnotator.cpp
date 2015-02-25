@@ -112,7 +112,8 @@ public:
             if (client.call(srv))
             {
                 outInfo("got annotation back from ui service");
-                outInfo("entered text: " << srv.response.global_gt);
+                outInfo("entered - name: " << srv.response.gt_name
+                        << " shape: " << srv.response.gt_shape);
             }
             else
             {
@@ -120,8 +121,8 @@ public:
             }
 
             iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
-            // set string from service
-            //gt.global_gt.set(<string from srv>);
+            // set strings returned from service
+            gt.global_gt.set(srv.response.gt_name);
             clusters[i].annotations.append(gt);
         }
 
