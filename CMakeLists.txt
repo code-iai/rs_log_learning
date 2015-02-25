@@ -35,6 +35,7 @@ uima_add_library(rs_simpleLearnAnnotator
 				 src/LearnAnnotationStorage.cpp
 				 src/MPIdentifiable.cpp 
 				 src/Geometry.cpp
+				 src/GroundTruth.cpp
 				 src/LearningAnnotation.cpp)
 target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
 
