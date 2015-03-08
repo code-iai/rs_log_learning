@@ -21,6 +21,7 @@
 // MP includes
 #include <LearnAnnotationStorage.h>
 #include <MPIdentifiable.h>
+#include <algorithms/NearestNeighborAlgorithm.h>
 
 namespace rs_log_learn
 {
@@ -42,10 +43,7 @@ class MPCore
 {
 public:
     MPCore(ConfigParams params);
-    MPCore()
-    {
-    }
-    ;
+    MPCore() {};
     virtual ~MPCore();
 
     const ConfigParams& getConfigParams() const
@@ -66,6 +64,8 @@ private:
     ConfigParams configParams_;
     LearnAnnotationStorage learnAS_;
     std::vector<MPIdentifiable> learnIdentifiables_;
+
+    MPIdentifiable extractIdentifiableFromCluster(iai_rs::Cluster cluster);
 
     int sceneNo = 0;
     bool learnDBloaded = false;

@@ -80,33 +80,69 @@ void MPCore::learn(uima::CAS &tcas)
  */
 void MPCore::annotate(uima::CAS &tcas)
 {
-    // set only a test string for now
     iai_rs::SceneCas cas(tcas);
-    //pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_ptr(
-    //        new pcl::PointCloud<pcl::PointXYZRGBA>);
-    //cas.getPointCloud(*cloud_ptr);
-    //outInfo("Cloud size: " << cloud_ptr->points.size());
 
     iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
-
-    //lrn.name.set("testLRNString");
-    //lrn.name.set("Box (test)");
 
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
-    // mlpack test here
+    // load data from db
+    if (!learnDBloaded)
+    {
+        outInfo("loading learnDB");
+        learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
+        learnDBloaded = true;
+    }
 
+    // mlpack k-NN initialization
+
+    // put learnIdentifiables geom data into mlpack matrix
+
+
+    // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)
     {
         std::stringstream ssLearn;
         ssLearn << "testLRNString SceneNo: " << sceneNo << "  ClusterNo: " << i;
+
+
+
+        // switch based on config
+        NearestNeighborAlgorithm knn;
+        MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
+        knn.process(learnIdentifiables_, queryIdentifiable);
+
+
+
 
         lrn.name.set(ssLearn.str());
         lrn.shape.set("Box (test)");
         clusters[i].annotations.append(lrn);
     }
     sceneNo++;
+}
+
+/**
+ * Extract an MPIdentifiable structure from a given cluster
+ */
+MPIdentifiable MPCore::extractIdentifiableFromCluster(iai_rs::Cluster cluster)
+{
+    MPIdentifiable queryIdentifiable(0); // dummy timestamp. not needed
+
+    std::vector<iai_rs::Geometry> geometry;
+    cluster.annotations.filter(geometry);
+
+    if (geometry.empty())
+    {
+        outError("geometry empty");
+    }
+    else
+    {
+        queryIdentifiable.setGeometry(Geometry(geometry.at(0)));
+    }
+
+    return queryIdentifiable;
 }
 
 } /* namespace rs_log_learn */

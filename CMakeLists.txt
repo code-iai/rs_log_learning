@@ -12,6 +12,13 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
+# include mlpack
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/rs_log_learn/CMake")
+find_package(mlpack REQUIRED)
+include_directories(${mlpack_INCLUDE_DIRS})
+include_directories(${SDK_DIR}/usr/include/libxml2) # mlpack references just libxml
+set(LIBS ${LIBS} ${mlpack_LIBRARIES})
+
 # find all include dirs
 find_include_dirs(RS_INCLUDE_DIRS_LIST)
 
@@ -27,8 +34,6 @@ MESSAGE( STATUS "GTKMM include debug:     " ${GTKMM_INCLUDE_DIRS} )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
-SET(simpleLearn_SOURCES src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp src/Geometry.cpp)
-
 uima_add_library(rs_mindPalaceAnnotator
 				 src/MPCore.cpp 
 				 src/MindPalaceAnnotator.cpp 
@@ -36,8 +41,10 @@ uima_add_library(rs_mindPalaceAnnotator
 				 src/MPIdentifiable.cpp 
 				 src/containers/Geometry.cpp
 				 src/containers/GroundTruth.cpp
-				 src/containers/LearningAnnotation.cpp)
-target_link_libraries(rs_mindPalaceAnnotator iai_rs_core)
+				 src/containers/LearningAnnotation.cpp
+				 src/algorithms/mpAlgorithm.cpp
+				 src/algorithms/NearestNeighborAlgorithm.cpp)
+target_link_libraries(rs_mindPalaceAnnotator iai_rs_core armadillo)
 
 uima_add_library(rs_mpGTAnnotator
 				 src/mpGTAnnotator.cpp)
