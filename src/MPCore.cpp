@@ -94,6 +94,8 @@ void MPCore::annotate(uima::CAS &tcas)
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
+    // mlpack test here
+
     for (int i = 0; i < clusters.size(); ++i)
     {
         std::stringstream ssLearn;

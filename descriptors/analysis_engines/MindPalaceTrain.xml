@@ -123,6 +123,9 @@
     <delegateAnalysisEngine key="MLNInferencer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNInferencer.xml"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MindPalaceAnnotator">
+      <import location="../annotators/MindPalaceAnnotator.xml"/>
+    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="MopedAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MopedAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -195,9 +198,6 @@
     <delegateAnalysisEngine key="SceneConsumer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/SceneConsumer.xml"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="SimpleLearnAnnotator">
-      <import location="../annotators/SimpleLearnAnnotator.xml"/>
-    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="SkinColorAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/SkinColorAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -227,8 +227,8 @@
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
-    <name>SimpleLearn</name>
-    <description>Simple pipeline for testing</description>
+    <name>MindPalaceTrain</name>
+    <description>MindPalace pipeline for training</description>
     <version>1.0</version>
     <vendor/>
     <configurationParameters searchStrategy="none">
@@ -281,7 +281,7 @@
       <nameValuePair>
         <name>db</name>
         <value>
-          <string>Scenes_simpleLearned</string>
+          <string>Scenes_learned</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
@@ -290,7 +290,7 @@
      <!-- <node>Trigger</node> -->
       <node>CollectionReader</node>
       <node>ImagePreprocessor</node>
-      <node>SimpleLearnAnnotator</node>
+      <node>MindPalaceAnnotator</node>
       <node>StorageWriter</node>
       </fixedFlow>
     </flowConstraints>

@@ -2,9 +2,9 @@
 <taeDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.cpp</frameworkImplementation>
   <primitive>true</primitive>
-  <annotatorImplementationName>rs_simpleLearnAnnotator</annotatorImplementationName>
+  <annotatorImplementationName>rs_mindPalaceAnnotator</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>SimpleLearnAnnotator</name>
+    <name>MindPalaceAnnotator</name>
     <description/>
     <version>1.0</version>
     <vendor/>
@@ -38,7 +38,7 @@
       <nameValuePair>
         <name>learningDB</name>
         <value>
-          <string>Scenes_simpleLearned</string>
+          <string>Scenes_learned</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

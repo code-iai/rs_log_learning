@@ -29,15 +29,15 @@ MESSAGE( STATUS "GTKMM include debug:     " ${GTKMM_INCLUDE_DIRS} )
 
 SET(simpleLearn_SOURCES src/SimpleLearnAnnotator.cpp src/LearnAnnotationStorage.cpp src/Geometry.cpp)
 
-uima_add_library(rs_simpleLearnAnnotator
+uima_add_library(rs_mindPalaceAnnotator
 				 src/MPCore.cpp 
-				 src/SimpleLearnAnnotator.cpp 
+				 src/MindPalaceAnnotator.cpp 
 				 src/LearnAnnotationStorage.cpp
 				 src/MPIdentifiable.cpp 
 				 src/containers/Geometry.cpp
 				 src/containers/GroundTruth.cpp
 				 src/containers/LearningAnnotation.cpp)
-target_link_libraries(rs_simpleLearnAnnotator iai_rs_core)
+target_link_libraries(rs_mindPalaceAnnotator iai_rs_core)
 
 uima_add_library(rs_mpGTAnnotator
 				 src/mpGTAnnotator.cpp)

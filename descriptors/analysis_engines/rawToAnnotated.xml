@@ -123,6 +123,9 @@
     <delegateAnalysisEngine key="MLNInferencer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNInferencer.xml"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MindPalaceAnnotator">
+      <import location="../annotators/MindPalaceAnnotator.xml"/>
+    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="MopedAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MopedAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -194,9 +197,6 @@
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="SceneConsumer">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/SceneConsumer.xml"/>
-    </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="SimpleLearnAnnotator">
-      <import location="../annotators/SimpleLearnAnnotator.xml"/>
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="SkinColorAnnotator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/SkinColorAnnotator.xml"/>

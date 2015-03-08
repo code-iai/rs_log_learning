@@ -15,7 +15,7 @@
 using namespace uima;
 using namespace rs_log_learn;
 
-class SimpleLearnAnnotator: public Annotator
+class MindPalaceAnnotator: public Annotator
 {
 private:
     std::vector<iai_rs::Learning> allAnnotations;
@@ -77,4 +77,4 @@ public:
 };
 
 // This macro exports an entry point that is used to create the annotator.
-MAKE_AE(SimpleLearnAnnotator)
+MAKE_AE(MindPalaceAnnotator)
