@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taeDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.cpp</frameworkImplementation>
+  <primitive>false</primitive>
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="BlortAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/detection/BlortAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BlurDetectorAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/BlurDetectorAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BoardDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/BoardDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BodyPartsToCircleAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/BodyPartsToCircleAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ChangeDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ChangeDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="Cluster3DGeometryAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/Cluster3DGeometryAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ClusterColorHistogramCalculator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/ClusterColorHistogramCalculator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ClusterGogglesAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/ClusterGogglesAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ClusterMaskPNGWriter">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ClusterMaskPNGWriter.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ClusterTFLocationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/ClusterTFLocationAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ClusterTracker">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ClusterTracker.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="CollectionReader">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/io/CollectionReader.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="CorrespondenceGrouping">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/CorrespondenceGrouping.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="DASPAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/DASPAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="DASPColorSegmentation">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/DASPColorSegmentation.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="DASPSkinColorAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/DASPSkinColorAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="DepthContour">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/DepthContour.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FORTHSkeletonDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/FORTHSkeletonDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FaceDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/FaceDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FaceTracker">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/FaceTracker.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FeatureAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/FeatureAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FeatureClassificationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/FeatureClassificationAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FlatObjectAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/FlatObjectAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="FrameGrabber">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/FrameGrabber.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="GazeboInterface">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/GazeboInterface.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="GraphSegmentationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/GraphSegmentationAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="GraspAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/GraspAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="GroundTruthAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/GroundTruthAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="HaarCascadeDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/HaarCascadeDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="HandleAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/HandleAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ImagePreprocessor">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/io/ImagePreprocessor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ImageSegmentationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ImageSegmentationAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ImageViewer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ImageViewer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="IntentionAnalyzer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/IntentionAnalyzer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="JointHistoryAnalyzer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/JointHistoryAnalzer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="KNNClassifier">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/KNNClassifier.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="KeypointMatcher">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/KeypointMatcher.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="LinemodAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/detection/LinemodAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MLNAtomsGenerator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNAtomsGenerator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MLNInferencer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNInferencer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MindPalaceAnnotator">
+      <import location="../annotators/MindPalaceAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="MopedAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MopedAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="NiTrackerAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/NiTrackerAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="NormalEstimator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/NormalEstimator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ObjectIdentityResolution">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ObjectIdentityResolution.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="OrganizedSegmentationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/OrganizedSegmentationAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PCABodyPartAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/PCABodyPartAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PCLFeatureExtractor">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PCLFeatureExtractor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PCLSkinDetector">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/PCLSkinDetector.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PeopleDetectionAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/PeopleDetectionAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PlaneAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PlaneAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PlaneEstimationAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PlaneEstimatorAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointCloudClusterExtractor">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/segmentation/PointCloudClusterExtractor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointCloudColorSegmentation">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PointCloudColorSegmentation.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointCloudDownsampler">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PointCloudDownsampler.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointCloudFilter">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PointCloudFilter.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointCloudProducer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/PointCloudProducer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PointingAnalyzer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/PointingAnalzer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="PrimitiveShapeAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/PrimitiveShapeAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="RFClassifier">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/RFClassifier.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ROSBagBridge">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ROSBagBridge.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="RegionFilter">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/RegionFilter.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ResultAdvertiser">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ResultAdvertiser.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SacModelAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/SacModelAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SceneConsumer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/SceneConsumer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SkinColorAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/SkinColorAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SkinColorConsumer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/SkinColorConsumer.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="StorageWriter">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/StorageWriter.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SupervoxelAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/SupervoxelAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="TFBroadcaster">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/TFBroadcaster.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="Trigger">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/Trigger.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="URDFRegionFilter">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/URDFRegionFilter.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="VisualizerAnnotator">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/VisualizerAnnotator.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="mpGTAnnotator">
+      <import location="../annotators/mpGTAnnotator.xml"/>
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+  <analysisEngineMetaData>
+    <name>MindPalaceTrain</name>
+    <description>MindPalace pipeline for training</description>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters searchStrategy="none">
+      <configurationParameter>
+        <name>camera_config_files</name>
+        <description>path to config file that holds info about camera topics and tf frame names</description>
+        <type>String</type>
+        <multiValued>true</multiValued>
+        <mandatory>true</mandatory>
+        <overrides>
+          <parameter>CollectionReader/camera_config_files</parameter>
+        </overrides>
+      </configurationParameter>
+      <configurationParameter>
+        <name>clearStorageOnStart</name>
+        <description/>
+        <type>Boolean</type>
+        <multiValued>false</multiValued>
+        <mandatory>false</mandatory>
+        <overrides>
+          <parameter>StorageWriter/clearStorageOnStart</parameter>
+        </overrides>
+      </configurationParameter>
+      <configurationParameter>
+        <name>db</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>false</mandatory>
+ 	<overrides>
+          <parameter>StorageWriter/db</parameter>
+ 	</overrides>
+      </configurationParameter>
+      <configurationParameter>
+        <name>mode</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+ 		<overrides>
+          <parameter>MindPalaceAnnotator/mode</parameter>
+ 		</overrides>
+      </configurationParameter>
+
+    </configurationParameters>
+    <configurationParameterSettings>
+      <nameValuePair>
+        <name>camera_config_files</name>
+        <value>
+          <array>
+            <string>config_mongodb_playback_annotated.ini</string>
+          </array>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>clearStorageOnStart</name>
+        <value>
+          <boolean>false</boolean>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>db</name>
+        <value>
+          <string>Scenes_learned</string>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>mode</name>
+        <value>
+          <string>learn</string>
+        </value>
+      </nameValuePair>
+    </configurationParameterSettings>
+    <flowConstraints>
+      <fixedFlow>
+     <!-- <node>Trigger</node> -->
+      <node>CollectionReader</node>
+      <node>ImagePreprocessor</node>
+      <node>MindPalaceAnnotator</node>
+      <node>StorageWriter</node>
+      </fixedFlow>
+    </flowConstraints>
+    <typePriorities/>
+    <fsIndexCollection>
+      <fsIndexes>
+        <fsIndexDescription>
+          <label>ClusterIndex</label>
+          <typeName>iai_rs.pcl.PointIndices</typeName>
+          <kind>bag</kind>
+        </fsIndexDescription>
+        <fsIndexDescription>
+          <label>CloudIndex</label>
+          <typeName>iai_rs.pcl.PointCloud</typeName>
+          <kind>bag</kind>
+        </fsIndexDescription>
+        <fsIndexDescription>
+          <label>general</label>
+          <typeName>uima.cas.TOP</typeName>
+          <kind>bag</kind>
+        </fsIndexDescription>
+      </fsIndexes>
+    </fsIndexCollection>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs/>
+        <languagesSupported>
+          <language>x-unspecified</language>
+        </languagesSupported>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+</taeDescription>
