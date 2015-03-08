@@ -33,10 +33,11 @@ void MPCore::process(uima::CAS &tcas)
     outInfo("------------------------");
     outInfo("Learning Host = " << this->configParams_.learningHost);
     outInfo("Learning DB   = " << this->configParams_.learningDB);
+    outInfo("Annotator in mode = " << this->configParams_.mode);
     outInfo("------------------------");
 
-    // TODO: decide whether to use learn and/or annotate based on settings
     // if first cas of engine, dont annotate that one, dbloaded==false
+    // decide based on mode
     annotate(tcas);
     //learn(tcas);
 }

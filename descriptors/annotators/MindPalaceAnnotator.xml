@@ -27,6 +27,12 @@
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
       </configurationParameter>
+      <configurationParameter>
+        <name>mode</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
@@ -39,6 +45,12 @@
         <name>learningDB</name>
         <value>
           <string>Scenes_learned</string>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>mode</name>
+        <value>
+          <string>train</string> <!-- or "learn", "evaluate" -->
         </value>
       </nameValuePair>
     </configurationParameterSettings>

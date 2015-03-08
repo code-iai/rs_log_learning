@@ -261,6 +261,15 @@
           <parameter>StorageWriter/db</parameter>
  	</overrides>
       </configurationParameter>
+      <configurationParameter>
+        <name>mode</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+ 		<overrides>
+          <parameter>MindPalaceAnnotator/mode</parameter>
+ 		</overrides>
+      </configurationParameter>
 
     </configurationParameters>
     <configurationParameterSettings>
@@ -282,6 +291,12 @@
         <name>db</name>
         <value>
           <string>Scenes_learned</string>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>mode</name>
+        <value>
+          <string>train</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

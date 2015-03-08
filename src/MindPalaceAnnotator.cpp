@@ -24,6 +24,7 @@ private:
 
     std::string learning_host;
     std::string learning_db;
+    std::string mode;
 
 public:
 
@@ -32,10 +33,12 @@ public:
         outInfo("initialize");
         ctx.extractValue("learningHost", learning_host);
         ctx.extractValue("learningDB", learning_db);
+        ctx.extractValue("mode", mode);
 
         ConfigParams parameters;
         parameters.learningHost = learning_host;
         parameters.learningDB = learning_db;
+        parameters.mode = mode;
 
         mp.setConfigParams(parameters);
 
