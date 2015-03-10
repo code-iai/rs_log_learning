@@ -114,7 +114,7 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
         LearningAnnotation lrn;
         lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
         lrn.setShape(referenceSet[resultingNeighbors[i]].getGroundTruth().getShape());
-        lrn.setConfidence(1 - resultingDistances[i] * 5); // find a better value
+        lrn.setConfidence(1 - resultingDistances[i] * 10); // multiply with a fixed constant for now
 
         query.setLearningAnnotation(lrn);
     }
