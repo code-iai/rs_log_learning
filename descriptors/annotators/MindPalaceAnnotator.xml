@@ -44,7 +44,7 @@
       <nameValuePair>
         <name>learningDB</name>
         <value>
-          <string>Scenes_learned</string>
+          <string>Scenes_gt_annotated</string>
         </value>
       </nameValuePair>
       <nameValuePair>

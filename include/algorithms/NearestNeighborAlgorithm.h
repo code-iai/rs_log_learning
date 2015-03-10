@@ -11,8 +11,14 @@
 #include <algorithms/mpAlgorithm.h>
 #include <iai_rs/util/time.h>
 
+#include <mlpack/core.hpp>
+#include <mlpack/methods/neighbor_search/neighbor_search.hpp>
+
 namespace rs_log_learn
 {
+
+using namespace mlpack;
+using namespace mlpack::neighbor; // NeighborSearch and NearestNeighborSort
 
 class NearestNeighborAlgorithm: public mpAlgorithm
 {

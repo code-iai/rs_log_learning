@@ -42,8 +42,10 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
                 cit != it->second.end(); ++cit)
         {
             std::vector<iai_rs::Geometry> geometry;
+            std::vector<iai_rs::GroundTruth> groundTruth;
             std::vector<iai_rs::Learning> learning;
             cit->annotations.filter(geometry);
+            cit->annotations.filter(groundTruth);
             cit->annotations.filter(learning);
 
             MPIdentifiable ident(it->first);
@@ -66,6 +68,16 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
                 LearningAnnotation lrn(learning.at(0).name.get());
                 lrn.setShape(learning.at(0).shape.get());
                 ident.setLearningAnnotation(lrn);
+            }
+            if (groundTruth.empty())
+            {
+                outError("groundTruth empty");
+            }
+            else
+            {
+                GroundTruth gt(groundTruth.at(0).global_gt.get());
+                gt.setShape(groundTruth.at(0).shape.get());
+                ident.setGroundTruth(gt);
             }
             // TODO: extract more
 
