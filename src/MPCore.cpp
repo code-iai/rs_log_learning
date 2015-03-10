@@ -103,18 +103,14 @@ void MPCore::annotate(uima::CAS &tcas)
     {
         iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
 
-
-
         // switch based on config
         NearestNeighborAlgorithm knn;
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
         MPIdentifiable resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
 
-
-
-
         lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
         lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());
+        lrn.confidence.set(resultIdentifiable.getLearningAnnotation().getConfidence());
         outInfo("lrn data to append: " << lrn.name.get());
         clusters[i].annotations.append(lrn);
     }

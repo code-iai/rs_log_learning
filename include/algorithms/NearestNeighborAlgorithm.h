@@ -26,6 +26,9 @@ public:
     NearestNeighborAlgorithm();
     virtual ~NearestNeighborAlgorithm();
     MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
+
+private:
+    float computeVectorLength(arma::mat matrix, size_t i);
 };
 
 } /* namespace rs_log_learn */

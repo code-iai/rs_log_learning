@@ -115,11 +115,13 @@ public:
             {
                 srv.request.lrn_name  = learning.at(0).name.get();
                 srv.request.lrn_shape = learning.at(0).shape.get();
+                srv.request.lrn_confidence = learning.at(0).confidence.get();
             }
             else
             {
                 srv.request.lrn_name  = "<none>";
                 srv.request.lrn_shape = "<none>";
+                srv.request.lrn_confidence = 0;
             }
 
             // all data set, call the service

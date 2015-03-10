@@ -1,6 +1,7 @@
 sensor_msgs/Image image
 string lrn_name
 string lrn_shape
+float64 lrn_confidence
 ---
 string gt_name
 string gt_shape

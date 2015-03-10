@@ -27,27 +27,33 @@ mpGTui::mpGTui() :
     lblInfo.set_text("waiting for images...");
     lblDescr1.set_text("Learned name:");
     lblDescr2.set_text("Learned shape:");
+    lblDescr3.set_text("Confidence:");
     lblLearningStringName.set_text("<none>");
     lblLearningStringShape.set_text("<none>");
+    lblLearningStringConfidence.set_text("0");
     lblEntryNameDescr.set_text("Name:");
     lblComboDescr.set_text("Shape:");
 
     lblEntryNameDescr.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
     lblDescr1.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
     lblDescr2.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
+    lblDescr3.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
     lblComboDescr.set_alignment(Gtk::AlignmentEnum::ALIGN_RIGHT);
 
     lblEntryNameDescr.set_padding(30, 0);
     lblDescr1.set_padding(30, 0);
     lblDescr2.set_padding(30, 0);
+    lblDescr3.set_padding(30, 0);
     lblComboDescr.set_padding(30, 0);
 
     layoutTableLearned.attach(lblDescr1, 0, 1, 0, 1,
             Gtk::AttachOptions::FILL, Gtk::AttachOptions::FILL,
             0, 5);
     layoutTableLearned.attach(lblDescr2, 0, 1, 1, 2);
+    layoutTableLearned.attach(lblDescr3, 0, 1, 2, 3);
     layoutTableLearned.attach(lblLearningStringName, 1, 2, 0, 1);
     layoutTableLearned.attach(lblLearningStringShape, 1, 2, 1, 2);
+    layoutTableLearned.attach(lblLearningStringConfidence, 1, 2, 2, 3);
 
     layoutTableEntry.attach(lblEntryNameDescr, 0, 1, 0, 1);
     layoutTableEntry.attach(entryTextName, 1, 2, 0, 1);
@@ -115,6 +121,7 @@ bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
     // set learning data received from call
     learningStringName = req.lrn_name;
     learningStringShape = req.lrn_shape;
+    learningStringConfidence = std::to_string(req.lrn_confidence);
 
     imageReceiveMutex_.unlock();
     imageDrawDispatcher_.emit();
@@ -216,6 +223,7 @@ int main(int argc, char **argv)
         // set learning strings in ui
         lblLearningStringName.set_text(learningStringName);
         lblLearningStringShape.set_text(learningStringShape);
+        lblLearningStringConfidence.set_text(learningStringConfidence);
         imageReceiveMutex_.unlock();
     });
 

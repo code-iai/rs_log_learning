@@ -17,21 +17,21 @@ class LearningAnnotation
 {
 public:
     LearningAnnotation(std::string learnedObject);
-    LearningAnnotation()
-    {
-    }
-    ;
+    LearningAnnotation() {};
     virtual ~LearningAnnotation();
 
     std::string& getLearnedName(){ return learnedObjectName_; }
-    std::string& getShape() { return shape; }
+    std::string& getShape() { return shape_; }
+    float getConfidence() { return confidence_; }
 
     void setLearnedName(const std::string& learnedObject) { this->learnedObjectName_ = learnedObject; }
-    void setShape(const std::string& shape) { this->shape = shape; }
+    void setShape(const std::string& shape) { this->shape_ = shape; }
+    void setConfidence(float confidence) { this->confidence_ = confidence; }
 
 private:
     std::string learnedObjectName_;
-    std::string shape;
+    std::string shape_;
+    float confidence_;
 };
 
 } /* namespace rs_log_learn */

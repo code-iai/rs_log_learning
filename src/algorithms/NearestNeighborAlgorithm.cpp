@@ -114,12 +114,25 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
         LearningAnnotation lrn;
         lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
         lrn.setShape(referenceSet[resultingNeighbors[i]].getGroundTruth().getShape());
+        lrn.setConfidence(1 - resultingDistances[i] * 5); // find a better value
+
         query.setLearningAnnotation(lrn);
     }
 
     outInfo("took: " << clock.getTime() << " ms.");
     outInfo("learned name for query: " << query.getLearningAnnotation().getLearnedName());
     return query;
+}
+
+// compute the length of an object vector
+float NearestNeighborAlgorithm::computeVectorLength(arma::mat matrix, size_t i)
+{
+    float referencePow = 0;
+    for(size_t j = 0; j < 10; ++j)
+    {
+        referencePow += pow(matrix(j,i), 2);
+    }
+    return sqrt(referencePow);
 }
 
 } /* namespace rs_log_learn */
