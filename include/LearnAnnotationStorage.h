@@ -12,6 +12,9 @@
 
 // MP includes
 #include <containers/Geometry.h>
+#include <containers/GroundTruth.h>
+#include <containers/SemanticColor.h>
+#include <containers/LearningAnnotation.h>
 #include <MPIdentifiable.h>
 
 using namespace uima;

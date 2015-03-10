@@ -128,16 +128,26 @@ MPIdentifiable MPCore::extractIdentifiableFromCluster(iai_rs::Cluster cluster)
 {
     MPIdentifiable queryIdentifiable(0); // dummy timestamp. not needed
 
-    std::vector<iai_rs::Geometry> geometry;
-    cluster.annotations.filter(geometry);
+    std::vector<iai_rs::Geometry> iaiGeometry;
+    std::vector<iai_rs::SemanticColor> iaiSemanticColor;
+    cluster.annotations.filter(iaiGeometry);
+    cluster.annotations.filter(iaiSemanticColor);
 
-    if (geometry.empty())
+    if (iaiGeometry.empty())
     {
         outError("geometry empty");
     }
     else
     {
-        queryIdentifiable.setGeometry(Geometry(geometry.at(0)));
+        queryIdentifiable.setGeometry(Geometry(iaiGeometry.at(0)));
+    }
+    if (iaiSemanticColor.empty())
+    {
+        outError("semanticColor empty");
+    }
+    else
+    {
+        queryIdentifiable.setSemColor(SemanticColor(iaiSemanticColor.at(0)));
     }
 
     return queryIdentifiable;

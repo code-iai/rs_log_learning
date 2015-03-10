@@ -42,6 +42,7 @@ uima_add_library(rs_mindPalaceAnnotator
 				 src/containers/Geometry.cpp
 				 src/containers/GroundTruth.cpp
 				 src/containers/LearningAnnotation.cpp
+				 src/containers/SemanticColor.cpp
 				 src/algorithms/mpAlgorithm.cpp
 				 src/algorithms/NearestNeighborAlgorithm.cpp)
 target_link_libraries(rs_mindPalaceAnnotator iai_rs_core mlpack armadillo)

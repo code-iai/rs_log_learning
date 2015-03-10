@@ -42,9 +42,11 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
                 cit != it->second.end(); ++cit)
         {
             std::vector<iai_rs::Geometry> geometry;
+            std::vector<iai_rs::SemanticColor> semColor;
             std::vector<iai_rs::GroundTruth> groundTruth;
             std::vector<iai_rs::Learning> learning;
             cit->annotations.filter(geometry);
+            cit->annotations.filter(semColor);
             cit->annotations.filter(groundTruth);
             cit->annotations.filter(learning);
 
@@ -79,7 +81,15 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
                 gt.setShape(groundTruth.at(0).shape.get());
                 ident.setGroundTruth(gt);
             }
-            // TODO: extract more
+            if (semColor.empty())
+            {
+                outError("semanticColor empty");
+            }
+            else
+            {
+                SemanticColor sc(semColor.at(0));
+                ident.setSemColor(sc);
+            }
 
             result.push_back(ident);
         }

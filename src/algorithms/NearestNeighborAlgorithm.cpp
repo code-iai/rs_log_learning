@@ -23,21 +23,60 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
     iai_rs::util::StopWatch clock;
 
     outInfo("Query Ident size:  " << query.getGeometry().getSize());
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["white"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["yellow"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["red"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["black"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["grey"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["blue"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["green"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["magenta"]);
+    outInfo("Query color  " << query.getSemColor().getColorMapping()["cyan"]);
+
     for(std::vector<MPIdentifiable>::iterator it = referenceSet.begin(); it != referenceSet.end(); ++it)
     {
-        outInfo("MPident geom size:  " << it->getGeometry().getSize());
+        if(!it->getSemColor().getColorMapping().empty())
+        {
+            std::map<std::string, float> semColorMap = it->getSemColor().getColorMapping();
+            float whiteRatio = semColorMap["white"];
+            outInfo("MPident white value:  " << whiteRatio);
+        }
+        else
+        {
+            outError("No SemColorMap in this reference identifiable");
+        }
         outInfo("MPident GT:  " << it->getGroundTruth().getGlobaltGt() << "  gt shape: " << it->getGroundTruth().getShape());
     }
 
-    arma::mat queryData(1, 1, arma::fill::zeros);
-    arma::mat referenceData(1, 1, arma::fill::zeros);
+    arma::mat queryData(10, 1, arma::fill::zeros);
+    arma::mat referenceData(10, 1, arma::fill::zeros);
 
     queryData(0,0) = query.getGeometry().getBoundingBoxVolume();
-    int i = 1;
-    for(i = 1; i <= referenceSet.size(); ++i)
+    queryData(1,0) = query.getSemColor().getColorMapping()["white"];
+    queryData(2,0) = query.getSemColor().getColorMapping()["yellow"];
+    queryData(3,0) = query.getSemColor().getColorMapping()["red"];
+    queryData(4,0) = query.getSemColor().getColorMapping()["black"];
+    queryData(5,0) = query.getSemColor().getColorMapping()["grey"];
+    queryData(6,0) = query.getSemColor().getColorMapping()["blue"];
+    queryData(7,0) = query.getSemColor().getColorMapping()["green"];
+    queryData(8,0) = query.getSemColor().getColorMapping()["magenta"];
+    queryData(9,0) = query.getSemColor().getColorMapping()["cyan"];
+
+    // add geometry and color data to referenceData matrix
+    int i = 0;
+    for(i = 0; i < referenceSet.size(); ++i)
     {
-        referenceData.resize(1,i);
-        referenceData(0,i-1) = referenceSet[i].getGeometry().getBoundingBoxVolume();
+        referenceData.resize(10,i+1);
+        referenceData(0,i) = referenceSet[i].getGeometry().getBoundingBoxVolume();
+        referenceData(1,i) = referenceSet[i].getSemColor().getColorMapping()["white"];
+        referenceData(2,i) = referenceSet[i].getSemColor().getColorMapping()["yellow"];
+        referenceData(3,i) = referenceSet[i].getSemColor().getColorMapping()["red"];
+        referenceData(4,i) = referenceSet[i].getSemColor().getColorMapping()["black"];
+        referenceData(5,i) = referenceSet[i].getSemColor().getColorMapping()["grez"];
+        referenceData(6,i) = referenceSet[i].getSemColor().getColorMapping()["blue"];
+        referenceData(7,i) = referenceSet[i].getSemColor().getColorMapping()["green"];
+        referenceData(8,i) = referenceSet[i].getSemColor().getColorMapping()["magenta"];
+        referenceData(9,i) = referenceSet[i].getSemColor().getColorMapping()["cyan"];
     }
     std::cout << "set " << i-1 << "reference objects" << std::endl;
     std::cout << "before knn search" << std::endl;

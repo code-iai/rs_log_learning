@@ -11,6 +11,7 @@
 // MP includes
 #include <containers/Geometry.h>
 #include <containers/LearningAnnotation.h>
+#include <containers/SemanticColor.h>
 #include <containers/GroundTruth.h>
 
 namespace rs_log_learn
@@ -38,6 +39,16 @@ public:
         return learningAnnotation_;
     }
 
+    const GroundTruth& getGroundTruth() const
+    {
+        return groundTruth_;
+    }
+
+    SemanticColor& getSemColor()
+    {
+        return semColor_;
+    }
+
     void setGeometry(const Geometry& geometry)
     {
         geometry_ = geometry;
@@ -47,14 +58,14 @@ public:
         learningAnnotation_ = learningAnnotation;
     }
 
-    const GroundTruth& getGroundTruth() const
-    {
-        return groundTruth_;
-    }
-
     void setGroundTruth(const GroundTruth& groundTruth)
     {
         groundTruth_ = groundTruth;
+    }
+
+    void setSemColor(const SemanticColor& semColor)
+    {
+        semColor_ = semColor;
     }
 
 private:
@@ -63,10 +74,9 @@ private:
 
     // identifiable data extracted from clusters
     Geometry geometry_;
+    SemanticColor semColor_;
     LearningAnnotation learningAnnotation_;
     GroundTruth groundTruth_;
-    // add more:
-    // - color
 };
 
 } /* namespace rs_log_learn */
