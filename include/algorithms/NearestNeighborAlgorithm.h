@@ -25,7 +25,7 @@ class NearestNeighborAlgorithm: public mpAlgorithm
 public:
     NearestNeighborAlgorithm();
     virtual ~NearestNeighborAlgorithm();
-    void process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
+    MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
 };
 
 } /* namespace rs_log_learn */

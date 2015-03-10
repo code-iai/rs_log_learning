@@ -18,7 +18,7 @@ NearestNeighborAlgorithm::~NearestNeighborAlgorithm()
 {
 }
 
-void NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
+MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
 {
     iai_rs::util::StopWatch clock;
 
@@ -33,7 +33,8 @@ void NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet,
     arma::mat referenceData(1, 1, arma::fill::zeros);
 
     queryData(0,0) = query.getGeometry().getBoundingBoxVolume();
-    for(int i = 1; i <= referenceSet.size(); ++i)
+    int i = 1;
+    for(i = 1; i <= referenceSet.size(); ++i)
     {
         referenceData.resize(1,i);
         referenceData(0,i-1) = referenceSet[i].getGeometry().getBoundingBoxVolume();
@@ -61,9 +62,15 @@ void NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet,
                 << resultingNeighbors[i] << " and the distance is " << resultingDistances[i] << std::endl;
         std::cout << "GT of matched reference is: " <<
                 referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt() << std::endl;
+        LearningAnnotation lrn;
+        lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
+        lrn.setShape(referenceSet[resultingNeighbors[i]].getGroundTruth().getShape());
+        query.setLearningAnnotation(lrn);
     }
 
     outInfo("took: " << clock.getTime() << " ms.");
+    outInfo("query lrn: " << query.getLearningAnnotation().getLearnedName());
+    return query;
 }
 
 } /* namespace rs_log_learn */

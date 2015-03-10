@@ -82,8 +82,6 @@ void MPCore::annotate(uima::CAS &tcas)
 {
     iai_rs::SceneCas cas(tcas);
 
-    iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
-
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
@@ -103,21 +101,21 @@ void MPCore::annotate(uima::CAS &tcas)
     // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)
     {
-        std::stringstream ssLearn;
-        ssLearn << "testLRNString SceneNo: " << sceneNo << "  ClusterNo: " << i;
+        iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
 
 
 
         // switch based on config
         NearestNeighborAlgorithm knn;
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
-        knn.process(learnIdentifiables_, queryIdentifiable);
+        MPIdentifiable resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
 
 
 
 
-        lrn.name.set(ssLearn.str());
-        lrn.shape.set("Box (test)");
+        lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
+        lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());
+        outInfo("lrn data to append: " << lrn.name.get());
         clusters[i].annotations.append(lrn);
     }
     sceneNo++;

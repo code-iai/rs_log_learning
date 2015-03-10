@@ -277,7 +277,7 @@
         <name>camera_config_files</name>
         <value>
           <array>
-            <string>config_mongodb_playback_annotated.ini</string>
+            <string>config_mongodb_playback_learned.ini</string>
           </array>
         </value>
       </nameValuePair>
@@ -290,7 +290,7 @@
       <nameValuePair>
         <name>db</name>
         <value>
-          <string>Scenes_learned</string>
+          <string>Scenes_evaluated</string>
         </value>
       </nameValuePair>
       <nameValuePair>
@@ -305,7 +305,7 @@
      <!-- <node>Trigger</node> -->
       <node>CollectionReader</node>
       <node>ImagePreprocessor</node>
-      <node>MindPalaceAnnotator</node>
+      <node>mpGTAnnotator</node>
       <node>StorageWriter</node>
       </fixedFlow>
     </flowConstraints>

@@ -17,7 +17,7 @@ class mpAlgorithm
 {
 public:
     virtual ~mpAlgorithm();
-    virtual void process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query) = 0;
+    virtual MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query) = 0;
 };
 
 } /* namespace rs_log_learn */
