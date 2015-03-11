@@ -120,9 +120,6 @@
     <delegateAnalysisEngine key="MLNAtomsGenerator">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNAtomsGenerator.xml"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="MLNInferencer">
-      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/annotation/MLNInferencer.xml"/>
-    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="MindPalaceAnnotator">
       <import location="../annotators/MindPalaceAnnotator.xml"/>
     </delegateAnalysisEngine>
@@ -185,6 +182,9 @@
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="ROSBagBridge">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/ROSBagBridge.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ReachForAnalyzer">
+      <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/people/ReachForAnalyzer.xml"/>
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="RegionFilter">
       <import location="../../../robo_sherlock/iai_rs_cpp/descriptors/annotators/RegionFilter.xml"/>
@@ -270,6 +270,15 @@
           <parameter>MindPalaceAnnotator/mode</parameter>
  		</overrides>
       </configurationParameter>
+      <configurationParameter>
+        <name>learningDB</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+ 		<overrides>
+          <parameter>MindPalaceAnnotator/learningDB</parameter>
+ 		</overrides>
+      </configurationParameter>
 
     </configurationParameters>
     <configurationParameterSettings>
@@ -290,7 +299,13 @@
       <nameValuePair>
         <name>db</name>
         <value>
-          <string>Scenes_learned</string>
+          <string>Scenes_kitchenmess_learned</string>
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>learningDB</name>
+        <value>
+          <string>Scenes_kitchenmess_learned</string>
         </value>
       </nameValuePair>
       <nameValuePair>
