@@ -9,6 +9,12 @@
     <version>1.0</version>
     <vendor/>
     <configurationParameters>
+    	<configurationParameter>
+        	<name>mode</name>
+        	<type>String</type>
+        	<multiValued>false</multiValued>
+        	<mandatory>false</mandatory>
+      </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
     </configurationParameterSettings>

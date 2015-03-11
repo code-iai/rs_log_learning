@@ -22,12 +22,19 @@ using namespace rs_log_learn;
 class mpGTAnnotator: public Annotator
 {
 private:
+    std::string mode;
+
+    void writeToCsv()
+    {
+        outInfo("writing evaluation results to .csv");
+    }
 
 public:
 
     TyErrorId initialize(AnnotatorContext &ctx)
     {
         outInfo("initialize");
+        ctx.extractValue("mode", mode);
 
         return UIMA_ERR_NONE;
     }
@@ -142,6 +149,11 @@ public:
             gt.shape.set(srv.response.gt_shape);
 
             clusters[i].annotations.append(gt);
+
+            if(mode.compare("evaluate") == 0)
+            {
+                writeToCsv();
+            }
         }
 
         outInfo("took: " << clock.getTime() << " ms.");

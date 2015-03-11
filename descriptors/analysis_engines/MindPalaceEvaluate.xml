@@ -267,16 +267,7 @@
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
  		<overrides>
-          <parameter>MindPalaceAnnotator/mode</parameter>
- 		</overrides>
-      </configurationParameter>
-      <configurationParameter>
-        <name>learningDB</name>
-        <type>String</type>
-        <multiValued>false</multiValued>
-        <mandatory>true</mandatory>
- 		<overrides>
-          <parameter>MindPalaceAnnotator/learningDB</parameter>
+          <parameter>MPGTAnnotator/mode</parameter>
  		</overrides>
       </configurationParameter>
 
@@ -300,12 +291,6 @@
         <name>db</name>
         <value>
           <string>Scenes_kitchenmess_evaluated</string>
-        </value>
-      </nameValuePair>
-      <nameValuePair>
-        <name>learningDB</name>
-        <value>
-          <string>Scenes_kitchenmess_learned</string>
         </value>
       </nameValuePair>
       <nameValuePair>
