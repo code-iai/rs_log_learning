@@ -17,7 +17,6 @@ MPCore::MPCore(ConfigParams params)
 
 MPCore::~MPCore()
 {
-    // TODO Auto-generated destructor stub
 }
 
 void MPCore::initialize()
@@ -34,6 +33,7 @@ void MPCore::process(uima::CAS &tcas)
     outInfo("Learning Host = " << this->configParams_.learningHost);
     outInfo("Learning DB   = " << this->configParams_.learningDB);
     outInfo("Annotator in mode = " << this->configParams_.mode);
+    outInfo("Annotator using algorithm = " << this->configParams_.algorithm);
     outInfo("------------------------");
 
     // if first cas of engine, dont annotate that one, dbloaded==false
@@ -91,22 +91,33 @@ void MPCore::annotate(uima::CAS &tcas)
         outInfo("loading learnDB");
         learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
         learnDBloaded = true;
+        outInfo("db loaded.");
     }
-
-    // mlpack k-NN initialization
-
-    // put learnIdentifiables geom data into mlpack matrix
-
 
     // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)
     {
         iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
 
-        // switch based on config
-        NearestNeighborAlgorithm knn;
+        outInfo("creating queryident");
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
-        MPIdentifiable resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
+        MPIdentifiable resultIdentifiable(0);
+
+        // switch based on learning algo config
+        if(configParams_.algorithm.compare("knn") == 0)
+        {
+            NearestNeighborAlgorithm knn;
+            resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
+        }
+        else if(configParams_.algorithm.compare("dt") == 0)
+        {
+            outError("Not implemented yet...");
+        }
+        else
+        {
+            outError("Algorithm " << configParams_.algorithm << " unknown!");
+            return;
+        }
 
         lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
         lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());

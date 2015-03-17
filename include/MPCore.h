@@ -34,6 +34,7 @@ struct ConfigParams
     std::string learningHost;
     std::string learningDB;
     std::string mode; // switch to an enum
+    std::string algorithm;
 };
 
 /*

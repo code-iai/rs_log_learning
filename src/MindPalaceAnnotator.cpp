@@ -25,6 +25,7 @@ private:
     std::string learning_host;
     std::string learning_db;
     std::string mode;
+    std::string algorithm;
 
 public:
 
@@ -34,11 +35,13 @@ public:
         ctx.extractValue("learningHost", learning_host);
         ctx.extractValue("learningDB", learning_db);
         ctx.extractValue("mode", mode);
+        ctx.extractValue("algorithm", algorithm);
 
         ConfigParams parameters;
         parameters.learningHost = learning_host;
         parameters.learningDB = learning_db;
         parameters.mode = mode;
+        parameters.algorithm = algorithm;
 
         mp.setConfigParams(parameters);
 

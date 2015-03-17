@@ -33,6 +33,12 @@
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
       </configurationParameter>
+      <configurationParameter>
+        <name>algorithm</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
@@ -51,6 +57,12 @@
         <name>mode</name>
         <value>
           <string>train</string> <!-- or "learn", "evaluate" -->
+        </value>
+      </nameValuePair>
+      <nameValuePair>
+        <name>algorithm</name>
+        <value>
+          <string>knn</string> <!-- or "knn" for k-Nearest Neighbors or "dt" for decision trees  -->
         </value>
       </nameValuePair>
     </configurationParameterSettings>
