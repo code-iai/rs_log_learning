@@ -62,7 +62,7 @@
       <nameValuePair>
         <name>algorithm</name>
         <value>
-          <string>knn</string> <!-- or "knn" for k-Nearest Neighbors or "dt" for decision trees  -->
+          <string>dt</string> <!-- or "knn" for k-Nearest Neighbors or "dt" for decision trees  -->
         </value>
       </nameValuePair>
     </configurationParameterSettings>

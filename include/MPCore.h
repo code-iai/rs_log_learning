@@ -22,6 +22,7 @@
 #include <LearnAnnotationStorage.h>
 #include <MPIdentifiable.h>
 #include <algorithms/NearestNeighborAlgorithm.h>
+#include <algorithms/DecisionTreeAlgorithm.h>
 
 namespace rs_log_learn
 {

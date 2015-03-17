@@ -44,7 +44,8 @@ uima_add_library(rs_mindPalaceAnnotator
 				 src/containers/LearningAnnotation.cpp
 				 src/containers/SemanticColor.cpp
 				 src/algorithms/mpAlgorithm.cpp
-				 src/algorithms/NearestNeighborAlgorithm.cpp)
+				 src/algorithms/NearestNeighborAlgorithm.cpp
+				 src/algorithms/DecisionTreeAlgorithm.cpp)
 target_link_libraries(rs_mindPalaceAnnotator iai_rs_core mlpack armadillo)
 
 uima_add_library(rs_mpGTAnnotator
