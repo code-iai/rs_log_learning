@@ -88,8 +88,18 @@ MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> refere
     size_t resultIndex = (size_t)round(resultValue);
 
     LearningAnnotation lrn;
-    lrn.setLearnedName(referenceSet[resultIndex].getGroundTruth().getGlobaltGt());
-    lrn.setShape(referenceSet[resultIndex].getGroundTruth().getShape());
+
+    if(referenceSet[resultIndex].getGroundTruth().getGlobaltGt().empty())
+    {
+        lrn.setLearnedName(referenceSet[resultIndex].getLearningAnnotation().getLearnedName());
+        lrn.setShape(referenceSet[resultIndex].getLearningAnnotation().getShape());
+    }
+    else
+    {
+        lrn.setLearnedName(referenceSet[resultIndex].getGroundTruth().getGlobaltGt());
+        lrn.setShape(referenceSet[resultIndex].getGroundTruth().getShape());
+    }
+
     lrn.setConfidence(confidence); // TODO: get value
 
     query.setLearningAnnotation(lrn);
@@ -111,16 +121,25 @@ cv::Mat DecisionTreeAlgorithm::labelData(std::vector<MPIdentifiable> &referenceS
 {
     outInfo("labeling referenceData");
     // group the same ground truth data in the map
+    if(referenceSet[0].getGroundTruth().getGlobaltGt().empty())
+    {
+        outInfo("no gt available for all clusters, adding learning data to reference set");
+    }
     for(int i = 0; i < referenceSet.size(); ++i)
     {
         NameShape ns;
         if(referenceSet[i].getGroundTruth().getGlobaltGt().empty())
         {
-            outError("no GT available");
-            // add learned data instead
+            mixedLearn = true;
+            ns.name = referenceSet[i].getLearningAnnotation().getLearnedName();
+            ns.shape = referenceSet[i].getLearningAnnotation().getShape();
         }
-        ns.name = referenceSet[i].getGroundTruth().getGlobaltGt();
-        ns.shape = referenceSet[i].getGroundTruth().getShape();
+        else
+        {
+            // gt data is available
+            ns.name = referenceSet[i].getGroundTruth().getGlobaltGt();
+            ns.shape = referenceSet[i].getGroundTruth().getShape();
+        }
         indexToAnnotationData[i] = ns;
     }
     outInfo("classification map size: " << indexToAnnotationData.size());
@@ -161,7 +180,7 @@ float DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& traini
                           0,    // regression N/A
                           true, // compute surrogate split for missing data
                           15,   // max number of categories
-                          1,    // number of cross validation folds
+                          1,    // def: 10 number of cross validation folds
                           true, // 1SE rule -> smaller tree
                           true, // throw away pruned tree branches
                           0));  // no priors

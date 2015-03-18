@@ -36,6 +36,7 @@ private:
     };
     std::map<int, NameShape> indexToAnnotationData;
     int mm;
+    bool mixedLearn = false;
 
 };
 
