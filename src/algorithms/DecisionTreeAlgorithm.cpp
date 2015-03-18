@@ -12,7 +12,7 @@ namespace rs_log_learn
 
 DecisionTreeAlgorithm::DecisionTreeAlgorithm()
 {
-
+    mm = 10;
 }
 
 DecisionTreeAlgorithm::~DecisionTreeAlgorithm()
@@ -66,8 +66,20 @@ MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> refere
         outError("No SemColorMap in this reference identifiable");
     }
 
+    float *X10trainingData = new float[10*10*referenceSet.size()]; // data for training
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData);
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 1*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 2*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 3*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 4*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 5*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 6*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 7*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 8*10*referenceSet.size());
+    std::copy(trainingData, trainingData + 10*referenceSet.size(), X10trainingData + 9*10*referenceSet.size());
+
     cv::Mat testMat(1, 10, CV_32FC1, testData);
-    cv::Mat trainingMat(referenceSet.size(), 10, CV_32FC1, trainingData);
+    cv::Mat trainingMat(10*referenceSet.size(), 10, CV_32FC1, X10trainingData);
 
     std::cout << "TrainingData: " << trainingMat << std::endl;
     std::cout << "testData: " << testMat << std::endl;
@@ -121,10 +133,19 @@ cv::Mat DecisionTreeAlgorithm::labelData(std::vector<MPIdentifiable> &referenceS
     outInfo("classification map size: " << indexToAnnotationData.size());
 
     int labelIndex = 0;
-    cv::Mat labels(indexToAnnotationData.size(), 1, CV_32FC1);
+    cv::Mat labels(indexToAnnotationData.size()*10, 1, CV_32FC1);
     for(std::map<int,NameShape>::iterator it = indexToAnnotationData.begin(); it != indexToAnnotationData.end(); ++it)
     {
         labels.at<float>(labelIndex, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 1, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 2, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 3, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 4, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 5, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 6, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 7, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 8, 0) = (float)it->first;
+        labels.at<float>(labelIndex + indexToAnnotationData.size() * 9, 0) = (float)it->first;
         ++labelIndex;
     }
 

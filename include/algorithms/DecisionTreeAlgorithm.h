@@ -35,6 +35,8 @@ private:
         std::string shape;
     };
     std::map<int, NameShape> indexToAnnotationData;
+    int mm;
+
 };
 
 } /* namespace rs_log_learn */
