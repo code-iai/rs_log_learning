@@ -74,7 +74,6 @@ private:
 
     void initialize();
     void loadDB(uima::CAS &tcas);
-    void appendLearningData(MPIdentifiable result);
 
 };
 
