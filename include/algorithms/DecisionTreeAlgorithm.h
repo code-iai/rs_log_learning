@@ -22,11 +22,19 @@ public:
     virtual ~DecisionTreeAlgorithm();
 
     MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
-    cv::Mat labelData(cv::Mat points, int equation);
+    cv::Mat labelData(std::vector<MPIdentifiable> &referenceSet);
 
-    void decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses, cv::Mat& testData, cv::Mat& testClasses);
+    float decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses, cv::Mat& testData, cv::Mat& testClasses);
     int f(float x, float y, int equation);
     float evaluate(cv::Mat& predicted, cv::Mat& actual);
+
+private:
+    struct NameShape
+    {
+        std::string name;
+        std::string shape;
+    };
+    std::map<int, NameShape> indexToAnnotationData;
 };
 
 } /* namespace rs_log_learn */

@@ -22,46 +22,116 @@ DecisionTreeAlgorithm::~DecisionTreeAlgorithm()
 MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
 {
     iai_rs::util::StopWatch clock;
+    outInfo("========================== dt start ====================");
 
-    cv::Mat trainingData(10, 10, CV_32FC1);
-    cv::Mat testData(10, 10, CV_32FC1);
+    float *trainingData = new float[10*referenceSet.size()]; // data for training
+    float *testData = new float[10]; // query data
 
     for(int i = 0; i < referenceSet.size(); ++i)
     {
-
+        trainingData[i*10] = (float)referenceSet[i].getGeometry().getBoundingBoxVolume();
+        if(!referenceSet[i].getSemColor().getColorMapping().empty())
+        {
+            trainingData[i*10 + 1] = referenceSet[i].getSemColor().getColorMapping()["white"];
+            trainingData[i*10 + 2] = referenceSet[i].getSemColor().getColorMapping()["yellow"];
+            trainingData[i*10 + 3] = referenceSet[i].getSemColor().getColorMapping()["red"];
+            trainingData[i*10 + 4] = referenceSet[i].getSemColor().getColorMapping()["black"];
+            trainingData[i*10 + 5] = referenceSet[i].getSemColor().getColorMapping()["grey"];
+            trainingData[i*10 + 6] = referenceSet[i].getSemColor().getColorMapping()["blue"];
+            trainingData[i*10 + 7] = referenceSet[i].getSemColor().getColorMapping()["green"];
+            trainingData[i*10 + 8] = referenceSet[i].getSemColor().getColorMapping()["magenta"];
+            trainingData[i*10 + 9] = referenceSet[i].getSemColor().getColorMapping()["cyan"];
+        }
+        else
+        {
+            outError("No SemColorMap in this reference identifiable");
+        }
     }
 
-    cv::randu(trainingData,0,10);
-    cv::randu(testData,0,10);
+    testData[0] = (float)query.getGeometry().getBoundingBoxVolume();
+    if(!query.getSemColor().getColorMapping().empty())
+    {
+        testData[1] = query.getSemColor().getColorMapping()["white"];
+        testData[2] = query.getSemColor().getColorMapping()["yellow"];
+        testData[3] = query.getSemColor().getColorMapping()["red"];
+        testData[4] = query.getSemColor().getColorMapping()["black"];
+        testData[5] = query.getSemColor().getColorMapping()["grey"];
+        testData[6] = query.getSemColor().getColorMapping()["blue"];
+        testData[7] = query.getSemColor().getColorMapping()["green"];
+        testData[8] = query.getSemColor().getColorMapping()["magenta"];
+        testData[9] = query.getSemColor().getColorMapping()["cyan"];
+    }
+    else
+    {
+        outError("No SemColorMap in this reference identifiable");
+    }
 
-    std::cout << "TrainingData: " << trainingData << std::endl;
-    std::cout << "testData: " << testData << std::endl;
+    cv::Mat testMat(1, 10, CV_32FC1, testData);
+    cv::Mat trainingMat(referenceSet.size(), 10, CV_32FC1, trainingData);
 
-    int eq = 0;
+    std::cout << "TrainingData: " << trainingMat << std::endl;
+    std::cout << "testData: " << testMat << std::endl;
 
-    cv::Mat trainingClasses = labelData(trainingData, eq);
-    cv::Mat testClasses = labelData(testData, eq);
+    outInfo("before trainingClasses");
+    cv::Mat trainingClasses = labelData(referenceSet);
+    cv::Mat testClasses = labelData(referenceSet); // TODO: not needed, get just the prediction
 
-    decisiontree(trainingData, trainingClasses, testData, testClasses);
+    std::cout << "trainingClasses: " << trainingClasses << std::endl;
 
+    float resultValue = decisiontree(trainingMat, trainingClasses, testMat, testClasses);
+    float confidence = 1 - abs(resultValue - (size_t)round(resultValue));
+    size_t resultIndex = (size_t)round(resultValue);
+
+    LearningAnnotation lrn;
+    lrn.setLearnedName(referenceSet[resultIndex].getGroundTruth().getGlobaltGt());
+    lrn.setShape(referenceSet[resultIndex].getGroundTruth().getShape());
+    lrn.setConfidence(confidence); // TODO: get value
+
+    query.setLearningAnnotation(lrn);
 
     outInfo("took: " << clock.getTime() << " ms.");
     outInfo("learned name for query: " << query.getLearningAnnotation().getLearnedName());
+
+    delete[] trainingData;
+    delete[] testData;
+
     return query;
 }
 
-cv::Mat DecisionTreeAlgorithm::labelData(cv::Mat points, int equation)
+/*
+ * construct the classification labels from the reference set
+ * matching the labels from the identifiables to a set of numeric values for dtree processing
+ */
+cv::Mat DecisionTreeAlgorithm::labelData(std::vector<MPIdentifiable> &referenceSet)
 {
-    cv::Mat labels(points.rows, 1, CV_32FC1);
-    for(int i = 0; i < points.rows; i++) {
-             float x = points.at<float>(i,0);
-             float y = points.at<float>(i,1);
-             labels.at<float>(i, 0) = f(x, y, equation);
+    outInfo("labeling referenceData");
+    // group the same ground truth data in the map
+    for(int i = 0; i < referenceSet.size(); ++i)
+    {
+        NameShape ns;
+        if(referenceSet[i].getGroundTruth().getGlobaltGt().empty())
+        {
+            outError("no GT available");
+            // add learned data instead
         }
+        ns.name = referenceSet[i].getGroundTruth().getGlobaltGt();
+        ns.shape = referenceSet[i].getGroundTruth().getShape();
+        indexToAnnotationData[i] = ns;
+    }
+    outInfo("classification map size: " << indexToAnnotationData.size());
+
+    int labelIndex = 0;
+    cv::Mat labels(indexToAnnotationData.size(), 1, CV_32FC1);
+    for(std::map<int,NameShape>::iterator it = indexToAnnotationData.begin(); it != indexToAnnotationData.end(); ++it)
+    {
+        labels.at<float>(labelIndex, 0) = (float)it->first;
+        ++labelIndex;
+    }
+
     return labels;
 }
 
-void DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses, cv::Mat& testData, cv::Mat& testClasses)
+float DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses, cv::Mat& testData, cv::Mat& testClasses)
 {
     CvDTree dtree;
 
@@ -72,8 +142,6 @@ void DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& trainin
     }
 
     cv::Mat var_type(11, 1, CV_8UC1, data);
-
-    std::cout << "Mat: " << var_type << std::endl;
 
     outInfo("starting dtree");
 
@@ -88,8 +156,10 @@ void DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& trainin
                           true, // 1SE rule -> smaller tree
                           true, // throw away pruned tree branches
                           0));  // no priors
-    cv::Mat predicted(testClasses.rows, 1, CV_32F);
-    for (int i = 0; i < testData.rows; i++) {
+    cv::Mat predicted(testClasses.rows, 1, CV_32F); // zu gross....
+    predicted.zeros(testClasses.rows, 1, CV_32F);
+    for (int i = 0; i < testData.rows; i++)
+    {
         const cv::Mat sample = testData.row(i);
         CvDTreeNode* prediction = dtree.predict(sample);
         predicted.at<float> (i, 0) = prediction->value;
@@ -97,10 +167,13 @@ void DecisionTreeAlgorithm::decisiontree(cv::Mat& trainingData, cv::Mat& trainin
 
     std::cout << "testClasses = " << testClasses << std::endl;
     std::cout << "predicted = " << predicted << std::endl;
-    std::cout << "Accuracy_{TREE} = " << evaluate(predicted, testClasses) << std::endl;
+    //std::cout << "Accuracy_{TREE} = " << evaluate(predicted, testClasses) << std::endl;
     std::cout << "Var importance mat = " << dtree.getVarImportance() << std::endl;
 
+    outInfo("prediction value: " <<  predicted.at<float>(0,0));
     delete[] data;
+
+    return predicted.at<float>(0,0);
 }
 
 int DecisionTreeAlgorithm::f(float x, float y, int equation)

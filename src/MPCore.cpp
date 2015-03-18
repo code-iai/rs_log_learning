@@ -120,10 +120,10 @@ void MPCore::annotate(uima::CAS &tcas)
             return;
         }
 
-        //lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
-        //lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());
-        //lrn.confidence.set(resultIdentifiable.getLearningAnnotation().getConfidence());
-        //outInfo("lrn data to append: " << lrn.name.get());
+        lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
+        lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());
+        lrn.confidence.set(resultIdentifiable.getLearningAnnotation().getConfidence());
+        outInfo("lrn data to append: " << lrn.name.get());
         clusters[i].annotations.append(lrn);
     }
     sceneNo++;
