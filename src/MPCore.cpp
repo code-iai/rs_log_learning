@@ -36,55 +36,32 @@ void MPCore::process(uima::CAS &tcas)
     outInfo("Annotator using algorithm = " << this->configParams_.algorithm);
     outInfo("------------------------");
 
-    // if first cas of engine, dont annotate that one, dbloaded==false
-    // decide based on mode
-    annotate(tcas);
-    //learn(tcas);
+    // decide strategy based on mode
+    if(configParams_.mode.compare("train") == 0)
+    {
+        train(tcas);
+    }
+    else if(configParams_.mode.compare("learn") == 0)
+    {
+        learn(tcas);
+    }
+    else
+    {
+        outError("wrong mode. check pipeline configuration");
+    }
 }
 
-/*
- * Learn...
- */
-void MPCore::learn(uima::CAS &tcas)
+
+void MPCore::loadDB(uima::CAS &tcas)
 {
     // only load from learning db on first frame.
     // after this everything will be in memory for the pipeline run
-    // FIXME: still burning the first CAS this way
-    if (!learnDBloaded)
-    {
-        outInfo("loading learnDB");
-        learnIdentifiables_ = learnAS_.extractLearnIdentifiables(tcas);
-        learnDBloaded = true;
-    }
-
-    // testing output
-    for (std::vector<MPIdentifiable>::iterator it = learnIdentifiables_.begin();
-            it != learnIdentifiables_.end(); ++it)
-    {
-        std::string size = it->getGeometry().getSize();
-        double w = it->getGeometry().getBoundingBoxWidth();
-        double d = it->getGeometry().getBoundingBoxDepth();
-        double h = it->getGeometry().getBoundingBoxHeight();
-        double v = it->getGeometry().getBoundingBoxVolume();
-        outInfo("GroundTruth - global: " << it->getGroundTruth().getGlobaltGt()
-                << " / shape: " << it->getGroundTruth().getShape());
-        outInfo("Vector geometry size: " << size);
-        outInfo("Vector geometry boundingbox w*d*h=v: " << w << "*" << d << "*" << h << "=" << v);
-        outInfo("Learning Annotation - name: " << it->getLearningAnnotation().getLearnedName())
-                << " / shape: " << it->getLearningAnnotation().getShape();
-    }
-}
-
-/*
- * Annotate...
- */
-void MPCore::annotate(uima::CAS &tcas)
-{
     iai_rs::SceneCas cas(tcas);
 
     std::vector<iai_rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
+    // FIXME: still burning the first CAS this way
     // load data from db
     if (!learnDBloaded)
     {
@@ -93,6 +70,71 @@ void MPCore::annotate(uima::CAS &tcas)
         learnDBloaded = true;
         outInfo("db loaded.");
     }
+}
+/*
+ * Continuous learning
+ */
+void MPCore::learn(uima::CAS &tcas)
+{
+    iai_rs::SceneCas cas(tcas);
+
+    std::vector<iai_rs::Cluster> clusters;
+    cas.getScene().identifiables.filter(clusters);
+
+    // load data from db
+    loadDB(tcas);
+
+    // process clusters of the current CAS and match against loaded data
+    // add learned data to reference identifiables after each run
+    for (int i = 0; i < clusters.size(); ++i)
+    {
+        iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
+
+        outInfo("creating queryident");
+        MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
+        MPIdentifiable resultIdentifiable(0);
+
+        // switch based on learning algo config
+        if(configParams_.algorithm.compare("knn") == 0)
+        {
+            NearestNeighborAlgorithm knn;
+            resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
+            learnIdentifiables_.push_back(resultIdentifiable);
+        }
+        else if(configParams_.algorithm.compare("dt") == 0)
+        {
+            DecisionTreeAlgorithm dt;
+            resultIdentifiable = dt.process(learnIdentifiables_, queryIdentifiable);
+            learnIdentifiables_.push_back(resultIdentifiable);
+        }
+        else
+        {
+            outError("Algorithm " << configParams_.algorithm << " unknown!");
+            return;
+        }
+
+        lrn.name.set(resultIdentifiable.getLearningAnnotation().getLearnedName());
+        lrn.shape.set(resultIdentifiable.getLearningAnnotation().getShape());
+        lrn.confidence.set(resultIdentifiable.getLearningAnnotation().getConfidence());
+        outInfo("lrn data to append: " << lrn.name.get());
+        clusters[i].annotations.append(lrn);
+    }
+    sceneNo++;
+
+}
+
+/*
+ * Just learn from available data non continuously
+ */
+void MPCore::train(uima::CAS &tcas)
+{
+    iai_rs::SceneCas cas(tcas);
+
+    std::vector<iai_rs::Cluster> clusters;
+    cas.getScene().identifiables.filter(clusters);
+
+    // load data from db
+    loadDB(tcas);
 
     // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)

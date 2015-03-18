@@ -60,7 +60,7 @@ public:
     void process(uima::CAS &tcas);
 
     void learn(uima::CAS &tcas);    // write leaning data to db and mem
-    void annotate(uima::CAS &tcas); // annotate cas with learning data
+    void train(uima::CAS &tcas); // annotate cas with learning data
 
 private:
     ConfigParams configParams_;
@@ -73,6 +73,8 @@ private:
     bool learnDBloaded = false;
 
     void initialize();
+    void loadDB(uima::CAS &tcas);
+    void appendLearningData(MPIdentifiable result);
 
 };
 
