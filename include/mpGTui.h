@@ -36,6 +36,8 @@ std::string learningStringConfidence;
 Gtk::Label lblLearningStringName;
 Gtk::Label lblLearningStringShape;
 Gtk::Label lblLearningStringConfidence;
+Gtk::Entry entryTextName;
+Gtk::ComboBox shapeCombo;
 
 class mpGTui: public Gtk::Window
 {
@@ -66,7 +68,6 @@ protected:
     Gtk::Label lblDescr3;
     Gtk::Label lblEntryNameDescr;
     Gtk::Label lblComboDescr;
-    Gtk::Entry entryTextName;
     Gtk::HSeparator hSeparator;
     Gtk::Frame learnedFrame;
     Gtk::Frame entryFrame;
@@ -82,7 +83,6 @@ protected:
     };
 
     ModelColumns shapeColumns;
-    Gtk::ComboBox shapeCombo;
     Glib::RefPtr<Gtk::ListStore> shaperefTreeModel;
 
 private:

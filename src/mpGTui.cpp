@@ -168,8 +168,7 @@ void mpGTui::initRosService()
     gtAnnotationService_ = nh_.advertiseService("image_gt_annotation",
             &mpGTui::receive_image, this);
     sigc::slot<bool> spinSlot = sigc::mem_fun(*this, &mpGTui::onTimeout);
-    sigc::connection conn = Glib::signal_timeout().connect(spinSlot,
-    TIMEOUT_VALUE);
+    sigc::connection conn = Glib::signal_timeout().connect(spinSlot, TIMEOUT_VALUE);
     ROS_INFO("connected timeout handler");
 }
 
@@ -224,6 +223,25 @@ int main(int argc, char **argv)
         lblLearningStringName.set_text(learningStringName);
         lblLearningStringShape.set_text(learningStringShape);
         lblLearningStringConfidence.set_text(learningStringConfidence);
+        // assume learning data is correct. set data in gt field as a suggestion
+        if(learningStringName.compare("<none>") != 0)
+        {
+            entryTextName.set_text(learningStringName);
+            entryTextName.select_region(0, -1); // select text to give hint that this is a suggestion
+            if(learningStringShape.compare("box") == 0)
+            {
+                shapeCombo.set_active(0);
+            }
+            else // dirty
+            {
+                shapeCombo.set_active(1);
+            }
+        }
+        else
+        {
+            entryTextName.set_text("");
+            shapeCombo.set_active(0);
+        }
         imageReceiveMutex_.unlock();
     });
 
