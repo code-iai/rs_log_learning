@@ -109,12 +109,22 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
     {
         outInfo("Nearest neighbor of object " << i << " is object "
                 << resultingNeighbors[i] << " and the distance is " << resultingDistances[i]);
-        outInfo("GT of matched reference is: " <<
-                referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
+
         LearningAnnotation lrn;
-        lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
-        lrn.setShape(referenceSet[resultingNeighbors[i]].getGroundTruth().getShape());
-        // TODO: if GT not available, take lrn data instead
+        if(!referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt().empty())
+        {
+            outInfo("GT of matched reference is: " <<
+                    referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
+            lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getGroundTruth().getGlobaltGt());
+            lrn.setShape(referenceSet[resultingNeighbors[i]].getGroundTruth().getShape());
+        }
+        else
+        {
+            outInfo("GT N/A. Learned name of matched reference is: " <<
+                    referenceSet[resultingNeighbors[i]].getLearningAnnotation().getLearnedName());
+            lrn.setLearnedName(referenceSet[resultingNeighbors[i]].getLearningAnnotation().getLearnedName());
+            lrn.setShape(referenceSet[resultingNeighbors[i]].getLearningAnnotation().getShape());
+        }
         lrn.setConfidence(1 - resultingDistances[i] * 10); // multiply with a fixed constant for now
 
         query.setLearningAnnotation(lrn);

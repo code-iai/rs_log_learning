@@ -27,6 +27,7 @@
 namespace rs_log_learn
 {
 
+#define CONFIDENCE_THRESHOLD 0.5
 /*
  * Configuration Parameters set on initialization
  */

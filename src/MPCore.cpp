@@ -99,7 +99,11 @@ void MPCore::learn(uima::CAS &tcas)
         {
             NearestNeighborAlgorithm knn;
             resultIdentifiable = knn.process(learnIdentifiables_, queryIdentifiable);
-            learnIdentifiables_.push_back(resultIdentifiable);
+            // only add the result, if the confidence is high enough to prevent bad data
+            if(resultIdentifiable.getLearningAnnotation().getConfidence() > CONFIDENCE_THRESHOLD)
+            {
+                learnIdentifiables_.push_back(resultIdentifiable);
+            }
         }
         else if(configParams_.algorithm.compare("dt") == 0)
         {

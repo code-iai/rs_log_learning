@@ -24,9 +24,24 @@ class mpGTAnnotator: public Annotator
 private:
     std::string mode;
 
-    void writeToCsv()
+    void writeToCsv(std::string gtName, std::string gtShape, std::string lrnName,
+            std::string lrnShape, float confidence)
     {
         outInfo("writing evaluation results to .csv");
+        ofstream csv;
+        std::string path(getenv("HOME"));
+        path += "/evaluation.csv";
+        outInfo("saving to " << path);
+
+        csv.open(path, std::ofstream::out | std::ofstream::app);
+        // write stuff
+        csv << gtName << ",";
+        csv << gtShape << ",";
+        csv << lrnName << ",";
+        csv << lrnShape << ",";
+        csv << confidence << ",";
+        csv << std::boolalpha << (gtName.compare(lrnName) == 0) << std::noboolalpha << "\n";
+        csv.close();
     }
 
 public:
@@ -152,7 +167,9 @@ public:
 
             if(mode.compare("evaluate") == 0)
             {
-                writeToCsv();
+                writeToCsv(srv.response.gt_name, srv.response.gt_shape,
+                           srv.request.lrn_name, srv.request.lrn_shape,
+                           srv.request.lrn_confidence);
             }
         }
 
