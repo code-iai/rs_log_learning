@@ -39,7 +39,15 @@ private:
         csv << gtShape << ",";
         csv << lrnName << ",";
         csv << lrnShape << ",";
-        csv << confidence << ",";
+        if(confidence < 0) // prevent less than 0 value
+        {
+            csv << 0 << ",";
+        }
+        else
+        {
+            csv << confidence << ",";
+        }
+
         csv << std::boolalpha << (gtName.compare(lrnName) == 0) << std::noboolalpha << "\n";
         csv.close();
     }
