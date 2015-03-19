@@ -84,6 +84,24 @@ void MPCore::learn(uima::CAS &tcas)
     // load data from db
     loadDB(tcas);
 
+    // only take the most recent learned data into account
+    while(delete_next_turn != 0)
+    {
+        outInfo("deleting in this turn");
+        learnIdentifiables_.pop_back();
+        --delete_next_turn;
+    }
+
+    if(additionalsAvailable)
+    {
+        outInfo("adding additional learned dt idents");
+        learnIdentifiables_.insert(learnIdentifiables_.end(), additionalDTIdentifiables_.begin(), additionalDTIdentifiables_.end());
+        additionalDTIdentifiables_.clear();
+        additionalsAvailable = false;
+    }
+
+    delete_next_turn = pushed_back_idents;
+    pushed_back_idents = 0;
     // process clusters of the current CAS and match against loaded data
     // add learned data to reference identifiables after each run
     for (int i = 0; i < clusters.size(); ++i)
@@ -109,7 +127,10 @@ void MPCore::learn(uima::CAS &tcas)
         {
             DecisionTreeAlgorithm dt;
             resultIdentifiable = dt.process(learnIdentifiables_, queryIdentifiable);
-            learnIdentifiables_.push_back(resultIdentifiable);
+            additionalDTIdentifiables_.push_back(resultIdentifiable);
+
+            additionalsAvailable = true;
+            ++pushed_back_idents;
         }
         else
         {
@@ -123,8 +144,8 @@ void MPCore::learn(uima::CAS &tcas)
         outInfo("lrn data to append: " << lrn.name.get());
         clusters[i].annotations.append(lrn);
     }
-    sceneNo++;
 
+    sceneNo++;
 }
 
 /*

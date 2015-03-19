@@ -67,6 +67,7 @@ private:
     ConfigParams configParams_;
     LearnAnnotationStorage learnAS_;
     std::vector<MPIdentifiable> learnIdentifiables_;
+    std::vector<MPIdentifiable> additionalDTIdentifiables_;
 
     MPIdentifiable extractIdentifiableFromCluster(iai_rs::Cluster cluster);
 
@@ -75,6 +76,10 @@ private:
 
     void initialize();
     void loadDB(uima::CAS &tcas);
+
+    int pushed_back_idents = 0;
+    int delete_next_turn = 0;
+    bool additionalsAvailable = false;
 
 };
 

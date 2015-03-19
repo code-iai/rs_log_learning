@@ -26,6 +26,9 @@ MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> refere
     float *initialTrainingData = new float[10*referenceSet.size()]; // data for training
     float *testData = new float[10]; // query data
 
+    mm = (int)round((float)20 / referenceSet.size() * 10); // normalize
+    outInfo("mm: " << mm);
+
     for(int i = 0; i < referenceSet.size(); ++i)
     {
         initialTrainingData[i*10] = (float)referenceSet[i].getGeometry().getBoundingBoxVolume();
@@ -72,14 +75,13 @@ MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> refere
     }
 
     cv::Mat testMat(1, 10, CV_32FC1, testData);
-    cv::Mat trainingMat(10*referenceSet.size(), 10, CV_32FC1, trainingData);
+    cv::Mat trainingMat(mm*referenceSet.size(), 10, CV_32FC1, trainingData);
 
     //std::cout << "TrainingData: " << trainingMat << std::endl;
     //std::cout << "testData: " << testMat << std::endl;
 
-    outInfo("before trainingClasses");
     cv::Mat trainingClasses = labelData(referenceSet);
-    cv::Mat testClasses = labelData(referenceSet); // TODO: not needed, get just the prediction
+    cv::Mat testClasses = labelData(referenceSet);
 
     //std::cout << "trainingClasses: " << trainingClasses << std::endl;
 
@@ -100,7 +102,7 @@ MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> refere
         lrn.setShape(referenceSet[resultIndex].getGroundTruth().getShape());
     }
 
-    lrn.setConfidence(confidence); // TODO: get value
+    lrn.setConfidence(confidence);
 
     query.setLearningAnnotation(lrn);
 
@@ -145,7 +147,7 @@ cv::Mat DecisionTreeAlgorithm::labelData(std::vector<MPIdentifiable> &referenceS
     outInfo("classification map size: " << indexToAnnotationData.size());
 
     int labelIndex = 0;
-    cv::Mat labels(indexToAnnotationData.size()*10, 1, CV_32FC1);
+    cv::Mat labels(indexToAnnotationData.size()*mm, 1, CV_32FC1);
     for(std::map<int,NameShape>::iterator it = indexToAnnotationData.begin(); it != indexToAnnotationData.end(); ++it)
     {
         labels.at<float>(labelIndex, 0) = (float)it->first;
