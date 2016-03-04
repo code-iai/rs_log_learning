@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 # include mlpack
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/rs_log_learn/CMake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/rs_log_learn/cmake")
 find_package(mlpack REQUIRED)
 include_directories(${mlpack_INCLUDE_DIRS})
 include_directories(${SDK_DIR}/usr/include/libxml2) # mlpack references just libxml
