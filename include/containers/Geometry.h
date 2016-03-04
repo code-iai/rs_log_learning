@@ -34,7 +34,7 @@ private:
     BoundingBox boundingBox;
 
 public:
-    Geometry(iai_rs::Geometry geo);
+    Geometry(rs::Geometry geo);
     Geometry()
     {
     }

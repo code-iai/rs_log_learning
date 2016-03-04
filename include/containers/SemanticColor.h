@@ -24,7 +24,7 @@ private:
     std::map<std::string, float> sColorMapping;
 
 public:
-    SemanticColor(iai_rs::SemanticColor sColor);
+    SemanticColor(rs::SemanticColor sColor);
     SemanticColor() {};
     ~SemanticColor();
 

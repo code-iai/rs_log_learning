@@ -69,7 +69,7 @@ private:
     std::vector<MPIdentifiable> learnIdentifiables_;
     std::vector<MPIdentifiable> additionalDTIdentifiables_;
 
-    MPIdentifiable extractIdentifiableFromCluster(iai_rs::Cluster cluster);
+    MPIdentifiable extractIdentifiableFromCluster(rs::Cluster cluster);
 
     int sceneNo = 0;
     bool learnDBloaded = false;

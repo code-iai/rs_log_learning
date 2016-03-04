@@ -10,7 +10,7 @@ LearnAnnotationStorage::LearnAnnotationStorage(const std::string host,
         const std::string db) :
         learning_host(host), learning_db(db)
 {
-    storage = iai_rs::Storage(learning_host, learning_db);
+    storage = rs::Storage(learning_host, learning_db);
 }
 
 LearnAnnotationStorage::~LearnAnnotationStorage()
@@ -31,20 +31,20 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
     extractClusters();
 
     // construct new identifiable objects of gathered data
-    for (std::map<uint64_t, std::vector<iai_rs::Cluster>>::iterator it =
+    for (std::map<uint64_t, std::vector<rs::Cluster>>::iterator it =
             timestampedClusters.begin(); it != timestampedClusters.end(); ++it)
     {
         outInfo("Clusters in map size: " << it->second.size());
 
         outInfo(
                 "TimeStamp: " << it->first << "  No of clusters: " << it->second.size());
-        for (std::vector<iai_rs::Cluster>::iterator cit = it->second.begin();
+        for (std::vector<rs::Cluster>::iterator cit = it->second.begin();
                 cit != it->second.end(); ++cit)
         {
-            std::vector<iai_rs::Geometry> geometry;
-            std::vector<iai_rs::SemanticColor> semColor;
-            std::vector<iai_rs::GroundTruth> groundTruth;
-            std::vector<iai_rs::Learning> learning;
+            std::vector<rs::Geometry> geometry;
+            std::vector<rs::SemanticColor> semColor;
+            std::vector<rs::GroundTruth> groundTruth;
+            std::vector<rs::Learning> learning;
             cit->annotations.filter(geometry);
             cit->annotations.filter(semColor);
             cit->annotations.filter(groundTruth);
@@ -122,7 +122,7 @@ void LearnAnnotationStorage::extractScenes(CAS &tcas)
 
     for (int i = 0; i < frames.size(); ++i)
     {
-        iai_rs::SceneCas* sc = loadScene(frames[i], tcas);
+        rs::SceneCas* sc = loadScene(frames[i], tcas);
         learningScenes.push_back(sc);
     }
     outInfo("Loaded scenes size: " << learningScenes.size());
@@ -138,7 +138,7 @@ void LearnAnnotationStorage::extractClusters()
 
     for (int i = 0; i < learningScenes.size(); ++i)
     {
-        std::vector<iai_rs::Cluster> clusters;
+        std::vector<rs::Cluster> clusters;
 
         learningScenes[i]->getScene().identifiables.filter(clusters);
         uint64_t ts = learningScenes[i]->getScene().timestamp.get();
@@ -147,7 +147,7 @@ void LearnAnnotationStorage::extractClusters()
 
         timestampedClusters[ts] = clusters;
 
-        for (std::vector<iai_rs::Cluster>::iterator it = clusters.begin();
+        for (std::vector<rs::Cluster>::iterator it = clusters.begin();
                 it != clusters.end(); ++it)
         {
             cluster_size += sizeof(*it);
@@ -160,7 +160,7 @@ void LearnAnnotationStorage::extractClusters()
 /*
  * Get scene using an empty/dummy cas
  */
-iai_rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp,
+rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp,
         CAS &tcas) // constcorr
 {
     // creation of new CAS only possible from AE?
@@ -170,6 +170,6 @@ iai_rs::SceneCas* LearnAnnotationStorage::loadScene(uint64_t timestamp,
 
     // bad, as at least the first CAS processed is overwritten with stuff from the learning db
     storage.loadScene(*tcas.getBaseCas(), timestamp);
-    iai_rs::SceneCas* newcas = new iai_rs::SceneCas(tcas);
+    rs::SceneCas* newcas = new rs::SceneCas(tcas);
     return newcas;
 }

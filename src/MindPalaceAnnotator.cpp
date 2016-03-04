@@ -18,7 +18,7 @@ using namespace rs_log_learn;
 class MindPalaceAnnotator: public Annotator
 {
 private:
-    std::vector<iai_rs::Learning> allAnnotations;
+    std::vector<rs::Learning> allAnnotations;
 
     MPCore mp;
 
@@ -72,7 +72,7 @@ public:
         outInfo("process start");
         outInfo("creating MPCore");
 
-        iai_rs::util::StopWatch clock;
+        rs::util::StopWatch clock;
 
         mp.process(tcas);
 

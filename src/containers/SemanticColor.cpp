@@ -3,7 +3,7 @@
 using namespace uima;
 using namespace rs_log_learn;
 
-SemanticColor::SemanticColor(iai_rs::SemanticColor sColor)
+SemanticColor::SemanticColor(rs::SemanticColor sColor)
 {
     std::vector<std::string> colors = sColor.color.get();
     std::vector<float> ratios = sColor.ratio.get();

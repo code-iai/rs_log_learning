@@ -24,7 +24,7 @@ NearestNeighborAlgorithm::~NearestNeighborAlgorithm()
  */
 MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
 {
-    iai_rs::util::StopWatch clock;
+    rs::util::StopWatch clock;
 
     outInfo("Query Ident size:  " << query.getGeometry().getSize());
     outInfo("Query color white ratio: " << query.getSemColor().getColorMapping()["white"]);

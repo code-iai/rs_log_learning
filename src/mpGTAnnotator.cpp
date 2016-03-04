@@ -85,7 +85,7 @@ public:
     {
         outInfo("process start");
 
-        iai_rs::util::StopWatch clock;
+        rs::util::StopWatch clock;
 
         // init service client
         char *argv[] = { const_cast<char*>("gt_annotation_client"), NULL };
@@ -98,25 +98,25 @@ public:
         rs_log_learn::ImageGTAnnotation srv;
 
         // grab cluster images
-        iai_rs::SceneCas cas(tcas);
-        iai_rs::SceneWrapper scene(cas.getScene());
+        rs::SceneCas cas(tcas);
+        rs::SceneWrapper scene(cas.getScene());
         cv::Mat color;
         cas.getRGBImageHires(color);
-        std::vector<iai_rs::Cluster> clusters;
+        std::vector<rs::Cluster> clusters;
         scene.identifiables.filter(clusters);
 
         // call the service of the UI with each cluster ROI image to annotate
         for (int i = 0; i < clusters.size(); ++i)
         {
-            iai_rs::Cluster cluster = clusters.at(i);
-            iai_rs::ImageROI image_rois = cluster.rois.get();
-            std::vector<iai_rs::Learning> learning;
+            rs::Cluster cluster = clusters.at(i);
+            rs::ImageROI image_rois = cluster.rois.get();
+            std::vector<rs::Learning> learning;
             clusters[i].annotations.filter(learning);
 
             cv::Mat rgb, mask;
             cv::Rect roi;
-            iai_rs::conversion::from(image_rois.roi_hires(), roi);
-            iai_rs::conversion::from(image_rois.mask_hires(), mask);
+            rs::conversion::from(image_rois.roi_hires(), roi);
+            rs::conversion::from(image_rois.mask_hires(), mask);
 
             color(roi).copyTo(rgb, mask);
 
@@ -167,7 +167,7 @@ public:
             }
 
             // set strings returned from service
-            iai_rs::GroundTruth gt = iai_rs::create<iai_rs::GroundTruth>(tcas);
+            rs::GroundTruth gt = rs::create<rs::GroundTruth>(tcas);
             gt.global_gt.set(srv.response.gt_name);
             gt.shape.set(srv.response.gt_shape);
 

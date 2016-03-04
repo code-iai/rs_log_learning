@@ -56,9 +56,9 @@ void MPCore::loadDB(uima::CAS &tcas)
 {
     // only load from learning db on first frame.
     // after this everything will be in memory for the pipeline run
-    iai_rs::SceneCas cas(tcas);
+    rs::SceneCas cas(tcas);
 
-    std::vector<iai_rs::Cluster> clusters;
+    std::vector<rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
     // FIXME: still burning the first CAS this way
@@ -76,9 +76,9 @@ void MPCore::loadDB(uima::CAS &tcas)
  */
 void MPCore::learn(uima::CAS &tcas)
 {
-    iai_rs::SceneCas cas(tcas);
+    rs::SceneCas cas(tcas);
 
-    std::vector<iai_rs::Cluster> clusters;
+    std::vector<rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
     // load data from db
@@ -106,7 +106,7 @@ void MPCore::learn(uima::CAS &tcas)
     // add learned data to reference identifiables after each run
     for (int i = 0; i < clusters.size(); ++i)
     {
-        iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
+        rs::Learning lrn = rs::create<rs::Learning>(tcas);
 
         outInfo("creating queryident");
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
@@ -153,9 +153,9 @@ void MPCore::learn(uima::CAS &tcas)
  */
 void MPCore::train(uima::CAS &tcas)
 {
-    iai_rs::SceneCas cas(tcas);
+    rs::SceneCas cas(tcas);
 
-    std::vector<iai_rs::Cluster> clusters;
+    std::vector<rs::Cluster> clusters;
     cas.getScene().identifiables.filter(clusters);
 
     // load data from db
@@ -164,7 +164,7 @@ void MPCore::train(uima::CAS &tcas)
     // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)
     {
-        iai_rs::Learning lrn = iai_rs::create<iai_rs::Learning>(tcas);
+        rs::Learning lrn = rs::create<rs::Learning>(tcas);
 
         outInfo("creating queryident");
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
@@ -199,12 +199,12 @@ void MPCore::train(uima::CAS &tcas)
 /**
  * Extract an MPIdentifiable structure from a given cluster
  */
-MPIdentifiable MPCore::extractIdentifiableFromCluster(iai_rs::Cluster cluster)
+MPIdentifiable MPCore::extractIdentifiableFromCluster(rs::Cluster cluster)
 {
     MPIdentifiable queryIdentifiable(0); // dummy timestamp. not needed
 
-    std::vector<iai_rs::Geometry> iaiGeometry;
-    std::vector<iai_rs::SemanticColor> iaiSemanticColor;
+    std::vector<rs::Geometry> iaiGeometry;
+    std::vector<rs::SemanticColor> iaiSemanticColor;
     cluster.annotations.filter(iaiGeometry);
     cluster.annotations.filter(iaiSemanticColor);
 
