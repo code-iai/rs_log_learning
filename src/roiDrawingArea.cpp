@@ -8,9 +8,9 @@
 #include "roiDrawingArea.h"
 #include <cairomm/context.h>
 #include <uima/api.hpp>
-#include <iai_rs/scene_cas.h>
-#include <iai_rs/util/time.h>
-#include <iai_rs/DrawingAnnotator.h>
+#include <rs/scene_cas.h>
+#include <rs/utils/time.h>
+#include <rs/DrawingAnnotator.h>
 
 namespace rs_log_learn
 {

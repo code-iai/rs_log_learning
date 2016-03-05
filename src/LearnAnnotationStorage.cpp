@@ -44,7 +44,7 @@ std::vector<MPIdentifiable> LearnAnnotationStorage::extractLearnIdentifiables(
             std::vector<rs::Geometry> geometry;
             std::vector<rs::SemanticColor> semColor;
             std::vector<rs::GroundTruth> groundTruth;
-            std::vector<rs::Learning> learning;
+            std::vector<rs_log_learning::Learning> learning;
             cit->annotations.filter(geometry);
             cit->annotations.filter(semColor);
             cit->annotations.filter(groundTruth);

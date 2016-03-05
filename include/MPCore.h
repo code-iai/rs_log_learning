@@ -11,12 +11,12 @@
 #include <uima/api.hpp>
 
 #include <pcl/point_types.h>
-#include <iai_rs/types/all_types.h>
-
+#include <rs/types/all_types.h>
+#include <rs_log_learning/types/all_types.h>
 // IAI includes
-#include <iai_rs/scene_cas.h>
-#include <iai_rs/util/time.h>
-#include <iai_rs/DrawingAnnotator.h>
+#include <rs/scene_cas.h>
+#include <rs/utils/time.h>
+#include <rs/DrawingAnnotator.h>
 
 // MP includes
 #include <LearnAnnotationStorage.h>

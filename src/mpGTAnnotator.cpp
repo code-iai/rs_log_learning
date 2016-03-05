@@ -1,17 +1,16 @@
 #include <uima/api.hpp>
 
 #include <pcl/point_types.h>
-#include <iai_rs/types/all_types.h>
+#include <rs_log_learning/types/all_types.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/opencv.hpp>
 
 // IAI includes
-#include <iai_rs/scene_cas.h>
-#include <iai_rs/util/wrapper.h>
-#include <iai_rs/util/time.h>
-#include <iai_rs/DrawingAnnotator.h>
+#include <rs/scene_cas.h>
+#include <rs/utils/time.h>
+#include <rs/DrawingAnnotator.h>
 
 // MP includes
 #include "rs_log_learn/ImageGTAnnotation.h"
@@ -85,7 +84,7 @@ public:
     {
         outInfo("process start");
 
-        rs::util::StopWatch clock;
+        rs::StopWatch clock;
 
         // init service client
         char *argv[] = { const_cast<char*>("gt_annotation_client"), NULL };
@@ -99,9 +98,9 @@ public:
 
         // grab cluster images
         rs::SceneCas cas(tcas);
-        rs::SceneWrapper scene(cas.getScene());
+        rs::Scene scene = cas.getScene();
         cv::Mat color;
-        cas.getRGBImageHires(color);
+        cas.get(VIEW_COLOR_IMAGE_HD,color);
         std::vector<rs::Cluster> clusters;
         scene.identifiables.filter(clusters);
 
@@ -110,7 +109,7 @@ public:
         {
             rs::Cluster cluster = clusters.at(i);
             rs::ImageROI image_rois = cluster.rois.get();
-            std::vector<rs::Learning> learning;
+            std::vector<rs_log_learning::Learning> learning;
             clusters[i].annotations.filter(learning);
 
             cv::Mat rgb, mask;

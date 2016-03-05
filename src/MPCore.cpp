@@ -106,7 +106,7 @@ void MPCore::learn(uima::CAS &tcas)
     // add learned data to reference identifiables after each run
     for (int i = 0; i < clusters.size(); ++i)
     {
-        rs::Learning lrn = rs::create<rs::Learning>(tcas);
+        rs_log_learning::Learning lrn = rs::create<rs_log_learning::Learning>(tcas);
 
         outInfo("creating queryident");
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);
@@ -164,7 +164,7 @@ void MPCore::train(uima::CAS &tcas)
     // process clusters of the current CAS and match against loaded data
     for (int i = 0; i < clusters.size(); ++i)
     {
-        rs::Learning lrn = rs::create<rs::Learning>(tcas);
+        rs_log_learning::Learning lrn = rs::create<rs_log_learning::Learning>(tcas);
 
         outInfo("creating queryident");
         MPIdentifiable queryIdentifiable = extractIdentifiableFromCluster(clusters[i]);

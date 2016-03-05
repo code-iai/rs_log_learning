@@ -4,11 +4,12 @@
 #include <uima/api.hpp>
 
 #include <pcl/point_types.h>
-#include <iai_rs/types/all_types.h>
+#include <rs/types/all_types.h>
+#include <rs_log_learning/types/all_types.h>
 //RS
-#include <iai_rs/scene_cas.h>
-#include <iai_rs/io/Storage.h>
-#include <iai_rs/util/time.h>
+#include <rs/scene_cas.h>
+#include <rs/io/Storage.h>
+#include <rs/utils/time.h>
 
 // MP includes
 #include <containers/Geometry.h>
@@ -29,7 +30,7 @@ namespace rs_log_learn
 class LearnAnnotationStorage
 {
 private:
-    std::vector<rs::Learning> allAnnotations;
+    std::vector<rs_log_learning::Learning> allAnnotations;
     int sceneNo = 0;
 
     std::string learning_host;

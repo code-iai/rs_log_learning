@@ -24,7 +24,7 @@ NearestNeighborAlgorithm::~NearestNeighborAlgorithm()
  */
 MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
 {
-    rs::util::StopWatch clock;
+    rs::StopWatch clock;
 
     outInfo("Query Ident size:  " << query.getGeometry().getSize());
     outInfo("Query color white ratio: " << query.getSemColor().getColorMapping()["white"]);
@@ -91,7 +91,8 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
     }
     outInfo("set " << i+1 << " reference objects");
 
-    AllkNN a(referenceData, queryData);
+//    AllkNN a(referenceData, queryData);
+    AllkNN a(referenceData);
 
     //std::cout << "input:" << std::endl;
     //referenceData.print();
@@ -102,7 +103,7 @@ MPIdentifiable NearestNeighborAlgorithm::process(std::vector<MPIdentifiable> ref
     arma::Mat<size_t> resultingNeighbors;
     arma::mat resultingDistances;
 
-    a.Search(1, resultingNeighbors, resultingDistances);
+    a.Search(queryData,1, resultingNeighbors, resultingDistances);
 
     // get the nearest neighbor and set the learning data on the result
     for (size_t i = 0; i < resultingNeighbors.n_elem; ++i)

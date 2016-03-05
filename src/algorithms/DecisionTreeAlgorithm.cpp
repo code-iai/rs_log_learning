@@ -21,7 +21,7 @@ DecisionTreeAlgorithm::~DecisionTreeAlgorithm()
 
 MPIdentifiable DecisionTreeAlgorithm::process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query)
 {
-    rs::util::StopWatch clock;
+    rs::StopWatch clock;
 
     float *initialTrainingData = new float[10*referenceSet.size()]; // data for training
     float *testData = new float[10]; // query data

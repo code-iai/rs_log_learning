@@ -9,7 +9,7 @@
 #define RS_LOG_LEARN_SRC_ALGORITHMS_NEARESTNEIGHBORALGORITHM_H_
 
 #include <algorithms/mpAlgorithm.h>
-#include <iai_rs/util/time.h>
+#include <rs/utils/time.h>
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/neighbor_search/neighbor_search.hpp>

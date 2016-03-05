@@ -1,19 +1,27 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rs_log_learn)
-
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  iai_rs_cpp
-  roscpp
-  cv_bridge
-  std_msgs
-  message_generation
+find_package(catkin REQUIRED COMPONENTS robosherlock roscpp cv_bridge
+  std_msgs message_generation
 )
+################################################################################
+## Constants for project                                                      ##
+################################################################################
+set(NAMESPACE rs_log_learning)
+set(TYPESYSTEM_CPP_PATH ${PROJECT_SOURCE_DIR}/include/rs_log_learning/types)
+set(TYPESYSTEM_XML_PATH ${PROJECT_SOURCE_DIR}/descriptors/typesystem)
+set(ANNOTATOR_PATH      ${PROJECT_SOURCE_DIR}/descriptors/annotators)
+set(ENGINE_PATH         ${PROJECT_SOURCE_DIR}/descriptors/analysis_engines)
+set(CMAKE_MODULE_PATH   ${PROJECT_SOURCE_DIR}/cmake)
+################################################################################
+## Configure project configuration files                                      ##
+################################################################################
+configure_file(${RS_PROJECT_CONFIG} ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}_config.cmake @ONLY)
+################################################################################
+## Find all include directories                                               ##
+################################################################################
+find_include_dirs(RS_INCLUDE_DIRS_LIST)
 
 # include mlpack
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/rs_log_learn/cmake")
 find_package(mlpack REQUIRED)
 include_directories(${mlpack_INCLUDE_DIRS})
 include_directories(${SDK_DIR}/usr/include/libxml2) # mlpack references just libxml
@@ -25,190 +33,65 @@ find_include_dirs(RS_INCLUDE_DIRS_LIST)
 # gtk includes and libs
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM gtkmm-2.4)
-include_directories(${GTKMM_INCLUDE_DIRS})
 
+include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-MESSAGE( STATUS "GTKMM include debug:     " ${GTKMM_INCLUDE_DIRS} )
+MESSAGE(STATUS "GTKMM include debug:  " ${GTKMM_INCLUDE_DIRS})
 
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
-uima_add_library(rs_mindPalaceAnnotator
-				 src/MPCore.cpp 
-				 src/MindPalaceAnnotator.cpp 
-				 src/LearnAnnotationStorage.cpp
-				 src/MPIdentifiable.cpp 
-				 src/containers/Geometry.cpp
-				 src/containers/GroundTruth.cpp
-				 src/containers/LearningAnnotation.cpp
-				 src/containers/SemanticColor.cpp
-				 src/algorithms/mpAlgorithm.cpp
-				 src/algorithms/NearestNeighborAlgorithm.cpp
-				 src/algorithms/DecisionTreeAlgorithm.cpp)
-target_link_libraries(rs_mindPalaceAnnotator iai_rs_core mlpack armadillo)
-
-uima_add_library(rs_mpGTAnnotator
-				 src/mpGTAnnotator.cpp)
-target_link_libraries(rs_mpGTAnnotator iai_rs_core ${GTKMM_LIBRARIES})
+################################################################################
+## Update analysis engines, typesystem and include all relevant files         ##
+################################################################################
+##Update xml list of annotators inside analysis engines
+update_analysis_engines(robosherlock)
+## generate classes from the typesystem xml files
+generate_type_system(robosherlock)
+#find all relevant files
+find_additional_files()
+################################################################################
 
 
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
 
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## To declare and build messages, services or actions from within this
-## package, follow these steps:
-## * Let MSG_DEP_SET be the set of packages whose message types you use in
-##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
-## * In the file package.xml:
-##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependencies might have been
-##     pulled in transitively but can be declared for certainty nonetheless:
-##     * add a build_depend tag for "message_generation"
-##     * add a run_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
-##   * add "message_generation" and every package in MSG_DEP_SET to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * add "message_runtime" and every package in MSG_DEP_SET to
-##     catkin_package(CATKIN_DEPENDS ...)
-##   * uncomment the add_*_files sections below as needed
-##     and list every .msg/.srv/.action file to be processed
-##   * uncomment the generate_messages entry below
-##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
-
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
-## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  ImageGTAnnotation.srv
-)
-
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
-   sensor_msgs
-)
-
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if you package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-   INCLUDE_DIRS ${RS_INCLUDE_DIRS_LIST} include
-#  LIBRARIES rs_log_learn
-  CATKIN_DEPENDS message_runtime
-#  DEPENDS system_lib
-)
-
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
   include
   ${RS_INCLUDE_DIRS_LIST}
   ${catkin_INCLUDE_DIRS}
 )
 
-##Update xml list of annotators inside analysis engines
-update_analysis_engines(descriptors/analysis_engines descriptors/annotators)
+add_service_files(
+  FILES
+  ImageGTAnnotation.srv
+)
 
-## Declare a cpp library
-# add_library(rs_log_learn
-#   src/${PROJECT_NAME}/rs_log_learn.cpp
-# )
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+   DEPENDENCIES
+   std_msgs 
+   sensor_msgs
+)
 
-## Declare a cpp executable
-# add_executable(rs_log_learn_node src/rs_log_learn_node.cpp)
+catkin_package(
+  INCLUDE_DIRS ${RS_INCLUDE_DIRS_LIST} include
+  CATKIN_DEPENDS message_runtime
+)
 
-add_executable(mpGTui
-			   src/mpGTui.cpp
-			   src/roiDrawingArea.cpp)
+rs_add_library(rs_mindPalaceAnnotator 
+		src/MPCore.cpp 
+		src/MindPalaceAnnotator.cpp 
+		src/LearnAnnotationStorage.cpp
+		src/MPIdentifiable.cpp 
+		src/containers/Geometry.cpp
+		src/containers/GroundTruth.cpp
+		src/containers/LearningAnnotation.cpp
+		src/containers/SemanticColor.cpp
+		src/algorithms/mpAlgorithm.cpp
+		src/algorithms/NearestNeighborAlgorithm.cpp
+		src/algorithms/DecisionTreeAlgorithm.cpp)
+target_link_libraries(rs_mindPalaceAnnotator rs_core mlpack armadillo ${catkin_LIBRARIES})
+
+rs_add_library(rs_mpGTAnnotator src/mpGTAnnotator.cpp)
+target_link_libraries(rs_mpGTAnnotator rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})
+
+add_executable(mpGTui src/mpGTui.cpp src/roiDrawingArea.cpp)
 add_dependencies(mpGTui rs_log_learn_generate_messages_cpp sensor_msgs)
-target_link_libraries(mpGTui iai_rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})
-
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(rs_log_learn_node rs_log_learn_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rs_log_learn_node
-#   ${catkin_LIBRARIES}
-# )
-
-#############
-## Install ##
-#############
-
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS rs_log_learn rs_log_learn_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
-
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rs_log_learn.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+target_link_libraries(mpGTui rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})
