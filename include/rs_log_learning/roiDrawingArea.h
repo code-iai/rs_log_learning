@@ -10,7 +10,7 @@
 
 #include <gtkmm/drawingarea.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 class roiDrawingArea: public Gtk::DrawingArea
@@ -24,6 +24,6 @@ protected:
     bool on_expose_event(GdkEventExpose* event);
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_ROIDRAWINGAREA_H_ */

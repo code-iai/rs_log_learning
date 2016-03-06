@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "mpGTui.h"
+#include <rs_log_learning/mpGTui.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 mpGTui::mpGTui() :
@@ -102,8 +102,8 @@ mpGTui::~mpGTui()
 {
 }
 
-bool mpGTui::receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
-        rs_log_learn::ImageGTAnnotation::Response& res)
+bool mpGTui::receive_image(rs_log_learning::ImageGTAnnotation::Request& req,
+        rs_log_learning::ImageGTAnnotation::Response& res)
 {
     imageReceiveMutex_.lock();
 
@@ -198,9 +198,9 @@ bool mpGTui::onExit(GdkEventAny* event)
     return true;
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 int main(int argc, char **argv)
 {

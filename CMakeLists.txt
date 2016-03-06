@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rs_log_learn)
+project(rs_log_learning)
 find_package(catkin REQUIRED COMPONENTS robosherlock roscpp cv_bridge
   std_msgs message_generation
 )
@@ -93,5 +93,5 @@ rs_add_library(rs_mpGTAnnotator src/mpGTAnnotator.cpp)
 target_link_libraries(rs_mpGTAnnotator rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})
 
 add_executable(mpGTui src/mpGTui.cpp src/roiDrawingArea.cpp)
-add_dependencies(mpGTui rs_log_learn_generate_messages_cpp sensor_msgs)
+add_dependencies(mpGTui rs_log_learning_generate_messages_cpp sensor_msgs)
 target_link_libraries(mpGTui rs_core ${GTKMM_LIBRARIES} ${catkin_LIBRARIES})

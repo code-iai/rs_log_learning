@@ -12,11 +12,11 @@
 #include <rs/utils/time.h>
 #include <rs/DrawingAnnotator.h>
 
-// MP includes
-#include "rs_log_learn/ImageGTAnnotation.h"
+// MP service includes
+#include "rs_log_learning/ImageGTAnnotation.h"
 
 using namespace uima;
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 class mpGTAnnotator: public Annotator
 {
@@ -93,8 +93,8 @@ public:
 
         ros::init(argc, argv, "gt_annotation_client");
         ros::NodeHandle n;
-        ros::ServiceClient client = n.serviceClient<rs_log_learn::ImageGTAnnotation>("image_gt_annotation");
-        rs_log_learn::ImageGTAnnotation srv;
+        ros::ServiceClient client = n.serviceClient<rs_log_learning::ImageGTAnnotation>("image_gt_annotation");
+        rs_log_learning::ImageGTAnnotation srv;
 
         // grab cluster images
         rs::SceneCas cas(tcas);

@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "containers/GroundTruth.h"
+#include <rs_log_learning/containers/GroundTruth.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 GroundTruth::GroundTruth(std::string globalGt)
@@ -19,4 +19,4 @@ GroundTruth::~GroundTruth()
 {
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */

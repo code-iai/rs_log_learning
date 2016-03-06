@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "algorithms/NearestNeighborAlgorithm.h"
+#include <rs_log_learning/algorithms/NearestNeighborAlgorithm.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 NearestNeighborAlgorithm::NearestNeighborAlgorithm()
@@ -147,4 +147,4 @@ float NearestNeighborAlgorithm::computeVectorLength(arma::mat matrix, size_t i)
     return sqrt(referencePow);
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */

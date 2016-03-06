@@ -12,7 +12,7 @@
 
 using namespace uima;
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 /*

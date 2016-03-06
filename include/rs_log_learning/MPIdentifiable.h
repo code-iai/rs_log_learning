@@ -9,12 +9,12 @@
 #define RS_LOG_LEARN_SRC_MPIDENTIFIABLE_H_
 
 // MP includes
-#include <containers/Geometry.h>
-#include <containers/LearningAnnotation.h>
-#include <containers/SemanticColor.h>
-#include <containers/GroundTruth.h>
+#include <rs_log_learning/containers/Geometry.h>
+#include <rs_log_learning/containers/LearningAnnotation.h>
+#include <rs_log_learning/containers/SemanticColor.h>
+#include <rs_log_learning/containers/GroundTruth.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 /*
@@ -79,6 +79,6 @@ private:
     GroundTruth groundTruth_;
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_MPIDENTIFIABLE_H_ */

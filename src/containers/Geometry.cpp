@@ -1,7 +1,7 @@
-#include <containers/Geometry.h>
+#include <rs_log_learning/containers/Geometry.h>
 
 using namespace uima;
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 Geometry::Geometry(rs::Geometry geo)
 {

@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 class GroundTruth
@@ -31,6 +31,6 @@ private:
     std::string shape_;
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_GROUNDTRUTH_H_ */

@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "MPCore.h"
+#include <rs_log_learning/MPCore.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 MPCore::MPCore(ConfigParams params)

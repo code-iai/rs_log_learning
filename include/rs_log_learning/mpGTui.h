@@ -17,12 +17,13 @@
 #include <mutex>
 #include "ros/ros.h"
 
-#include <roiDrawingArea.h>
-#include "rs_log_learn/ImageGTAnnotation.h"
+#include <rs_log_learning/roiDrawingArea.h>
+//service
+#include <rs_log_learning/ImageGTAnnotation.h>
 
 #define TIMEOUT_VALUE 100 // timer for ros spin
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 Glib::Dispatcher imageDrawDispatcher_;
@@ -45,8 +46,8 @@ public:
     mpGTui();
     virtual ~mpGTui();
 
-    bool receive_image(rs_log_learn::ImageGTAnnotation::Request& req,
-            rs_log_learn::ImageGTAnnotation::Response& res);
+    bool receive_image(rs_log_learning::ImageGTAnnotation::Request& req,
+            rs_log_learning::ImageGTAnnotation::Response& res);
 
     bool exiting_ = false; // TODO: get windowmanager exit callback to set this to properly quit
 
@@ -98,6 +99,6 @@ private:
     bool onTimeout();
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_MPGTUI_H_ */

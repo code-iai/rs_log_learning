@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 class LearningAnnotation
@@ -34,6 +34,6 @@ private:
     float confidence_;
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_LEARNINGANNOTATION_H_ */

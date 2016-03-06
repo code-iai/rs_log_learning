@@ -8,11 +8,11 @@
 #ifndef RS_LOG_LEARN_SRC_ALGORITHMS_DECISIONTREEALGORITHM_H_
 #define RS_LOG_LEARN_SRC_ALGORITHMS_DECISIONTREEALGORITHM_H_
 
-#include <algorithms/mpAlgorithm.h>
+#include <rs_log_learning/algorithms/mpAlgorithm.h>
 #include "cv.h"
 #include "ml.h"
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 class DecisionTreeAlgorithm: public mpAlgorithm
@@ -40,6 +40,6 @@ private:
 
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_ALGORITHMS_DECISIONTREEALGORITHM_H_ */

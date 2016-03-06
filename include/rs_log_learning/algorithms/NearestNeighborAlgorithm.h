@@ -8,13 +8,13 @@
 #ifndef RS_LOG_LEARN_SRC_ALGORITHMS_NEARESTNEIGHBORALGORITHM_H_
 #define RS_LOG_LEARN_SRC_ALGORITHMS_NEARESTNEIGHBORALGORITHM_H_
 
-#include <algorithms/mpAlgorithm.h>
+#include <rs_log_learning/algorithms/mpAlgorithm.h>
 #include <rs/utils/time.h>
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/neighbor_search/neighbor_search.hpp>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 using namespace mlpack;
@@ -31,6 +31,6 @@ private:
     float computeVectorLength(arma::mat matrix, size_t i);
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_ALGORITHMS_NEARESTNEIGHBORALGORITHM_H_ */

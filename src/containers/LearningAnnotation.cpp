@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include <containers/LearningAnnotation.h>
+#include <rs_log_learning/containers/LearningAnnotation.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 LearningAnnotation::LearningAnnotation(std::string learnedObject)
@@ -19,4 +19,4 @@ LearningAnnotation::~LearningAnnotation()
 {
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */

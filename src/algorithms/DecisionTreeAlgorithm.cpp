@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "algorithms/DecisionTreeAlgorithm.h"
+#include <rs_log_learning/algorithms/DecisionTreeAlgorithm.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 DecisionTreeAlgorithm::DecisionTreeAlgorithm()

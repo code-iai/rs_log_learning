@@ -5,13 +5,13 @@
  *      Author: andre
  */
 
-#include "algorithms/mpAlgorithm.h"
+#include <rs_log_learning/algorithms/mpAlgorithm.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 mpAlgorithm::~mpAlgorithm()
 {
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */

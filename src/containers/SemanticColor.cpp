@@ -1,7 +1,7 @@
-#include <containers/SemanticColor.h>
+#include <rs_log_learning/containers/SemanticColor.h>
 
 using namespace uima;
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 SemanticColor::SemanticColor(rs::SemanticColor sColor)
 {

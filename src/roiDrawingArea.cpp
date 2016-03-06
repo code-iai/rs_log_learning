@@ -5,14 +5,15 @@
  *      Author: andre
  */
 
-#include "roiDrawingArea.h"
 #include <cairomm/context.h>
 #include <uima/api.hpp>
 #include <rs/scene_cas.h>
 #include <rs/utils/time.h>
 #include <rs/DrawingAnnotator.h>
 
-namespace rs_log_learn
+#include <rs_log_learning/roiDrawingArea.h>
+
+namespace rs_log_learning
 {
 
 roiDrawingArea::roiDrawingArea()

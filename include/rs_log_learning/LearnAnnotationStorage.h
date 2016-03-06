@@ -12,15 +12,15 @@
 #include <rs/utils/time.h>
 
 // MP includes
-#include <containers/Geometry.h>
-#include <containers/GroundTruth.h>
-#include <containers/SemanticColor.h>
-#include <containers/LearningAnnotation.h>
-#include <MPIdentifiable.h>
+#include <rs_log_learning/containers/Geometry.h>
+#include <rs_log_learning/containers/GroundTruth.h>
+#include <rs_log_learning/containers/SemanticColor.h>
+#include <rs_log_learning/containers/LearningAnnotation.h>
+#include <rs_log_learning/MPIdentifiable.h>
 
 using namespace uima;
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 /*

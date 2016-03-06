@@ -19,12 +19,12 @@
 #include <rs/DrawingAnnotator.h>
 
 // MP includes
-#include <LearnAnnotationStorage.h>
-#include <MPIdentifiable.h>
-#include <algorithms/NearestNeighborAlgorithm.h>
-#include <algorithms/DecisionTreeAlgorithm.h>
+#include <rs_log_learning/LearnAnnotationStorage.h>
+#include <rs_log_learning/MPIdentifiable.h>
+#include <rs_log_learning/algorithms/NearestNeighborAlgorithm.h>
+#include <rs_log_learning/algorithms/DecisionTreeAlgorithm.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 #define CONFIDENCE_THRESHOLD 0.5
@@ -83,6 +83,6 @@ private:
 
 };
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
 
 #endif /* RS_LOG_LEARN_SRC_MPCORE_H_ */

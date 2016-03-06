@@ -1,10 +1,10 @@
-#include <LearnAnnotationStorage.h>
+#include <rs_log_learning/LearnAnnotationStorage.h>
 
 #define DB_HOST "localhost"
 #define DB_NAME "Scenes"
 
 using namespace uima;
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 LearnAnnotationStorage::LearnAnnotationStorage(const std::string host,
         const std::string db) :

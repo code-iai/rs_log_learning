@@ -2,18 +2,18 @@
 
 #include <pcl/point_types.h>
 #include <rs/types/all_types.h>
-#include <rs_log_learning/types/all_types.h>
 // IAI includes
 #include <rs/scene_cas.h>
 #include <rs/utils/time.h>
 #include <rs/DrawingAnnotator.h>
 
 // MP includes
-#include <LearnAnnotationStorage.h>
-#include <MPCore.h>
+#include <rs_log_learning/types/all_types.h>
+#include <rs_log_learning/LearnAnnotationStorage.h>
+#include <rs_log_learning/MPCore.h>
 
 using namespace uima;
-using namespace rs_log_learn;
+using namespace rs_log_learning;
 
 class MindPalaceAnnotator: public Annotator
 {

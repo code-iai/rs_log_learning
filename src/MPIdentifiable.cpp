@@ -5,9 +5,9 @@
  *      Author: andre
  */
 
-#include "MPIdentifiable.h"
+#include <rs_log_learning/MPIdentifiable.h>
 
-namespace rs_log_learn
+namespace rs_log_learning
 {
 
 MPIdentifiable::MPIdentifiable(uint64_t frame_timestamp)
@@ -19,4 +19,4 @@ MPIdentifiable::~MPIdentifiable()
 {
 }
 
-} /* namespace rs_log_learn */
+} /* namespace rs_log_learning */
