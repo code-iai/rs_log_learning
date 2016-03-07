@@ -33,10 +33,10 @@ namespace rs_log_learning
  */
 struct ConfigParams
 {
-    std::string learningHost;
-    std::string learningDB;
-    std::string mode; // switch to an enum
-    std::string algorithm;
+  std::string learningHost;
+  std::string learningDB;
+  std::string mode; // switch to an enum
+  std::string algorithm;
 };
 
 /*
@@ -45,41 +45,41 @@ struct ConfigParams
 class MPCore
 {
 public:
-    MPCore(ConfigParams params);
-    MPCore() {};
-    virtual ~MPCore();
+  MPCore(ConfigParams params);
+  MPCore() {};
+  virtual ~MPCore();
 
-    const ConfigParams& getConfigParams() const
-    {
-        return configParams_;
-    }
-    void setConfigParams(const ConfigParams& configParams)
-    {
-        configParams_ = configParams;
-    }
+  const ConfigParams &getConfigParams() const
+  {
+    return configParams_;
+  }
+  void setConfigParams(const ConfigParams &configParams)
+  {
+    configParams_ = configParams;
+  }
 
-    void process(uima::CAS &tcas);
+  void process(uima::CAS &tcas);
 
-    void learn(uima::CAS &tcas);    // write leaning data to db and mem
-    void train(uima::CAS &tcas); // annotate cas with learning data
+  void learn(uima::CAS &tcas);    // write leaning data to db and mem
+  void train(uima::CAS &tcas); // annotate cas with learning data
 
 private:
-    ConfigParams configParams_;
-    LearnAnnotationStorage learnAS_;
-    std::vector<MPIdentifiable> learnIdentifiables_;
-    std::vector<MPIdentifiable> additionalDTIdentifiables_;
+  ConfigParams configParams_;
+  LearnAnnotationStorage learnAS_;
+  std::vector<MPIdentifiable> learnIdentifiables_;
+  std::vector<MPIdentifiable> additionalDTIdentifiables_;
 
-    MPIdentifiable extractIdentifiableFromCluster(rs::Cluster cluster);
+  MPIdentifiable extractIdentifiableFromCluster(rs::Cluster cluster);
 
-    int sceneNo = 0;
-    bool learnDBloaded = false;
+  int sceneNo = 0;
+  bool learnDBloaded = false;
 
-    void initialize();
-    void loadDB(uima::CAS &tcas);
+  void initialize();
+  void loadDB(uima::CAS &tcas);
 
-    int pushed_back_idents = 0;
-    int delete_next_turn = 0;
-    bool additionalsAvailable = false;
+  int pushed_back_idents = 0;
+  int delete_next_turn = 0;
+  bool additionalsAvailable = false;
 
 };
 

@@ -16,8 +16,8 @@ namespace rs_log_learning
 class mpAlgorithm
 {
 public:
-    virtual ~mpAlgorithm();
-    virtual MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query) = 0;
+  virtual ~mpAlgorithm();
+  virtual MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query) = 0;
 };
 
 } /* namespace rs_log_learning */

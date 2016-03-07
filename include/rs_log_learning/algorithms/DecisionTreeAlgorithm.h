@@ -18,25 +18,25 @@ namespace rs_log_learning
 class DecisionTreeAlgorithm: public mpAlgorithm
 {
 public:
-    DecisionTreeAlgorithm();
-    virtual ~DecisionTreeAlgorithm();
+  DecisionTreeAlgorithm();
+  virtual ~DecisionTreeAlgorithm();
 
-    MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
-    cv::Mat labelData(std::vector<MPIdentifiable> &referenceSet);
+  MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
+  cv::Mat labelData(std::vector<MPIdentifiable> &referenceSet);
 
-    float decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses, cv::Mat& testData, cv::Mat& testClasses);
-    int f(float x, float y, int equation);
-    float evaluate(cv::Mat& predicted, cv::Mat& actual);
+  float decisiontree(cv::Mat &trainingData, cv::Mat &trainingClasses, cv::Mat &testData, cv::Mat &testClasses);
+  int f(float x, float y, int equation);
+  float evaluate(cv::Mat &predicted, cv::Mat &actual);
 
 private:
-    struct NameShape
-    {
-        std::string name;
-        std::string shape;
-    };
-    std::map<int, NameShape> indexToAnnotationData;
-    int mm;
-    bool mixedLearn = false;
+  struct NameShape
+  {
+    std::string name;
+    std::string shape;
+  };
+  std::map<int, NameShape> indexToAnnotationData;
+  int mm;
+  bool mixedLearn = false;
 
 };
 

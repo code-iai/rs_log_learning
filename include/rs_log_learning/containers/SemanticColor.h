@@ -21,14 +21,14 @@ namespace rs_log_learning
 class SemanticColor
 {
 private:
-    std::map<std::string, float> sColorMapping;
+  std::map<std::string, float> sColorMapping;
 
 public:
-    SemanticColor(rs::SemanticColor sColor);
-    SemanticColor() {};
-    ~SemanticColor();
+  SemanticColor(rs::SemanticColor sColor);
+  SemanticColor() {};
+  ~SemanticColor();
 
-    std::map<std::string, float> getColorMapping();
+  std::map<std::string, float> getColorMapping();
 };
 
 }

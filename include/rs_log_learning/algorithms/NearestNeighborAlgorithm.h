@@ -23,12 +23,12 @@ using namespace mlpack::neighbor; // NeighborSearch and NearestNeighborSort
 class NearestNeighborAlgorithm: public mpAlgorithm
 {
 public:
-    NearestNeighborAlgorithm();
-    virtual ~NearestNeighborAlgorithm();
-    MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
+  NearestNeighborAlgorithm();
+  virtual ~NearestNeighborAlgorithm();
+  MPIdentifiable process(std::vector<MPIdentifiable> referenceSet, MPIdentifiable query);
 
 private:
-    float computeVectorLength(arma::mat matrix, size_t i);
+  float computeVectorLength(arma::mat matrix, size_t i);
 };
 
 } /* namespace rs_log_learning */

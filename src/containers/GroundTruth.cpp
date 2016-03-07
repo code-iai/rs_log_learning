@@ -12,7 +12,7 @@ namespace rs_log_learning
 
 GroundTruth::GroundTruth(std::string globalGt)
 {
-    globaltGt_ = globalGt;
+  globaltGt_ = globalGt;
 }
 
 GroundTruth::~GroundTruth()
