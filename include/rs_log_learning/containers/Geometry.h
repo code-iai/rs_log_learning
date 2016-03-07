@@ -21,46 +21,46 @@ namespace rs_log_learning
 class Geometry
 {
 private:
-    std::string size;
+  std::string size;
 
-    struct BoundingBox
-    {
-        double width;
-        double depth;
-        double height;
-        double volume;
-    };
+  struct BoundingBox
+  {
+    double width;
+    double depth;
+    double height;
+    double volume;
+  };
 
-    BoundingBox boundingBox;
+  BoundingBox boundingBox;
 
 public:
-    Geometry(rs::Geometry geo);
-    Geometry()
-    {
-    }
-    ;
-    ~Geometry();
+  Geometry(rs::Geometry geo);
+  Geometry()
+  {
+  }
+  ;
+  ~Geometry();
 
-    std::string getSize()
-    {
-        return size;
-    }
-    double getBoundingBoxWidth()
-    {
-        return boundingBox.width;
-    }
-    double getBoundingBoxHeight()
-    {
-        return boundingBox.height;
-    }
-    double getBoundingBoxDepth()
-    {
-        return boundingBox.depth;
-    }
-    double getBoundingBoxVolume()
-    {
-        return boundingBox.volume;
-    }
+  std::string getSize()
+  {
+    return size;
+  }
+  double getBoundingBoxWidth()
+  {
+    return boundingBox.width;
+  }
+  double getBoundingBoxHeight()
+  {
+    return boundingBox.height;
+  }
+  double getBoundingBoxDepth()
+  {
+    return boundingBox.depth;
+  }
+  double getBoundingBoxVolume()
+  {
+    return boundingBox.volume;
+  }
 };
 
 }
