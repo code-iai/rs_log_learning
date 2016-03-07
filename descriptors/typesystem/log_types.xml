@@ -33,5 +33,24 @@
       </features>
     </typeDescription>
 
+    <typeDescription>
+
+      <name>rs_log_learning.log.GroundTruthAnnotation</name>
+      <description/>
+      <supertypeName>rs.core.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>global_gt</name>
+          <description>The ground truth as an instance name of the cluster</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>shape</name>
+          <description>shape GT</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+
   </types>
 </typeSystemDescription>

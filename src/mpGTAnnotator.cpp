@@ -166,7 +166,7 @@ public:
             }
 
             // set strings returned from service
-            rs::GroundTruth gt = rs::create<rs::GroundTruth>(tcas);
+            rs_log_learning::GroundTruthAnnotation gt = rs::create<rs_log_learning::GroundTruthAnnotation>(tcas);
             gt.global_gt.set(srv.response.gt_name);
             gt.shape.set(srv.response.gt_shape);
 
